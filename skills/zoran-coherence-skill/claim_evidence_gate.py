@@ -159,10 +159,22 @@ def segment_output(text: str) -> tuple[str, ...]:
         return ()
     units = []
     for paragraph in text.splitlines():
-        for match in re.finditer(r"[^.!?]+(?:[.!?]+|$)", paragraph):
-            value = match.group(0).strip()
+        numbered = re.match(r"^([1-9][0-9]*\.\s+)(.*)$", paragraph)
+        prefix = "" if numbered is None else numbered.group(1)
+        body = paragraph if numbered is None else numbered.group(2)
+        sentence_units = [
+            match.group(0).strip()
+            for match in re.finditer(r"[^.!?]+(?:[.!?]+|$)", body)
+            if match.group(0).strip()
+        ]
+        if prefix and sentence_units:
+            sentence_units[0] = prefix + sentence_units[0]
+        for value in sentence_units:
             if value:
-                clauses = re.split(r"(?i)(?=\b(?:mais|but|however|cependant|pourtant|toutefois)\b)", value)
+                clauses = re.split(
+                    r"(?i)(?=\b(?:mais|however|cependant|pourtant|toutefois)\b)|(?<=,)(?=\s*but\b)",
+                    value,
+                )
                 units.extend(clause.strip() for clause in clauses if clause.strip())
     return tuple(units)
 

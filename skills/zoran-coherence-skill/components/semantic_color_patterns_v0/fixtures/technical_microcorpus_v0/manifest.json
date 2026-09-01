@@ -1,0 +1,130 @@
+{
+  "schema": "zoran.semantic-roundtrip.microcorpus-manifest.v0",
+  "version": "0.1.0",
+  "status": "EXPERIMENTAL_BUILD",
+  "certified": false,
+  "integrated": false,
+  "repository_fixture": true,
+  "promotion_allowed": false,
+  "created_at": "2026-09-01T00:00:00Z",
+  "mission_hash": "65e0de741974abc53c8537b076bd97e65c0c2050c29bb4b294f3c69478b43120",
+  "objective": "Exercer un trajet compréhension, formulation candidate silencieuse, recompréhension, reprise automatique si insuffisante, puis parole, sur cinq thèmes techniques courts et variés.",
+  "language": "fr",
+  "provenance": {
+    "kind": "SELF_AUTHORED_CLOSED_WORLD_EXPERIMENT",
+    "external_sources_used": false,
+    "gma4_live_used": false,
+    "zmos_consulted": false,
+    "git_repository_accessed": false,
+    "claim_scope": "Supports pédagogiques prudents ; aucune validation ouverte ou scientifique revendiquée."
+  },
+  "corpus": {
+    "record_count": 30,
+    "semantic_target_count": 30,
+    "total_text_words": 6164,
+    "page_word_reference": 250,
+    "approximate_total_pages": 24.66,
+    "themes": [
+      {
+        "id": "réseaux_et_systèmes_distribués",
+        "records": 6,
+        "text_words": 1264,
+        "approximate_pages": 5.06
+      },
+      {
+        "id": "énergie_et_thermique",
+        "records": 6,
+        "text_words": 1269,
+        "approximate_pages": 5.08
+      },
+      {
+        "id": "structures_et_matériaux",
+        "records": 6,
+        "text_words": 1234,
+        "approximate_pages": 4.94
+      },
+      {
+        "id": "écologie_et_cycles",
+        "records": 6,
+        "text_words": 1208,
+        "approximate_pages": 4.83
+      },
+      {
+        "id": "acoustique_et_signal",
+        "records": 6,
+        "text_words": 1189,
+        "approximate_pages": 4.76
+      }
+    ],
+    "word_count_method": "Séparation Python par espaces sur le champ text ; valeur indicative pour le français.",
+    "usage_partition": {
+      "development": "pages 1 à 4 de chaque thème",
+      "near_validation": "page 5 de chaque thème",
+      "cross_synthesis": "page 6 de chaque thème",
+      "blind_holdout": false,
+      "warning": "Les cibles sémantiques restent visibles ; ce découpage ne prouve pas la généralisation."
+    }
+  },
+  "roundtrip_contract": {
+    "stages": [
+      "UNDERSTANDING",
+      "SILENT_CANDIDATE",
+      "REUNDERSTANDING",
+      "ALIGNMENT_CHECK",
+      "MISSION_RESTART_OR_SPEECH_READY"
+    ],
+    "critical_fields": [
+      "actors",
+      "objects",
+      "relations",
+      "polarity",
+      "modality",
+      "conditions",
+      "temporal_order",
+      "references",
+      "numbers",
+      "units"
+    ],
+    "low_alignment_action": "MISSION_RESTART",
+    "terminal_silence_is_not_success": true,
+    "automatic_retry_required": true,
+    "speech_requires_semantic_concordance": true
+  },
+  "test_matrix": {
+    "case_count": 16,
+    "positive_cases": 8,
+    "falsifier_cases": 8,
+    "families": [
+      "negation",
+      "temporalité",
+      "causalité",
+      "condition",
+      "restriction",
+      "correction",
+      "références",
+      "unités"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "corpus.jsonl",
+      "sha256": "18a9242961079cc6d6b7c3307f55dc9b64eae0819de2755a8d98159bed5fb127"
+    },
+    {
+      "path": "README.md",
+      "sha256": "18c68b22c8dac85d2961ba93acede54432a5810582f4779a41d568d504e5380d"
+    },
+    {
+      "path": "test_matrix.json",
+      "sha256": "19eb739480ccdfb85cf6c0b5eecc278b09db2444fa42b791665e8b2e68c596d8"
+    }
+  ],
+  "known_limits": [
+    "Aucun test du moteur sémantique réel n'a été exécuté dans ce lot.",
+    "Aucune cible n'a été validée par un oracle indépendant.",
+    "Aucune qualité de parole, prosodie ou synthèse audio n'est mesurée.",
+    "Aucune modification de poids ou acquisition durable n'est réalisée.",
+    "Aucun effet causal supérieur, temporel long ou planétaire n'est démontré.",
+    "L'intégration et la promotion nécessitent une mission distincte et des preuves externes."
+  ]
+}

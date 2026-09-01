@@ -47,7 +47,7 @@ def build(output: Path, *, write_manifest: bool):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=ROOT / "dist" / "ZORAN_COHERENCE_SKILL_v22.3.0_CANDIDATE.zip")
+    parser.add_argument("--output", type=Path, default=ROOT / "dist" / "ZORAN_COHERENCE_SKILL_v23.0.1_CANDIDATE.zip")
     parser.add_argument("--write-manifest", action="store_true")
     args = parser.parse_args()
     print(json.dumps(build(args.output.resolve(), write_manifest=args.write_manifest), sort_keys=True))
