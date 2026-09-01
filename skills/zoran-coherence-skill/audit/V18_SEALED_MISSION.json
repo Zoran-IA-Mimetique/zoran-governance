@@ -1,0 +1,81 @@
+{
+  "schema": "zoran.v18.sealed-mission.v1",
+  "mission_contract": {
+    "schema": "zoran.mission-contract.v1",
+    "source_text": "Pour moi, David Guetta, pour moi c'est forcément une vérification sur internet et un contrôle des cadres. À un moment donné, si la phrase... enfin, en fait on demande à une IA de comprendre mieux qu'un humain une phrase, une phrase mal formulée en fait. Enfin, je sais pas. Bon en tout cas, on applique tout ce que tu as dit plus ce que je viens de te donner, c'est parti.\n\nEn fait, moi je pense que la reformulation, c'est aussi une arme très importante.\n\nDésormais, dès qu'on calcule une incohérence multicadre, dès qu'il y a un doute, zéro reformulation, systématiquement. Je préfère avoir deux reformulations plutôt que vingt minutes de perdues à attendre qu'une IA te réponde sur un sujet à la con, juste parce qu'elle s'est trompée.",
+    "source_sha256": "99e05bfc7a24d54ab689e908df0d226613f493d15cacbdfa1ae2bdacab966e08",
+    "objective": {
+      "id": "objective",
+      "value": "Construire le skill suivant avec reformulation prioritaire, contrôle multicadre et vérification Internet des personnes publiques.",
+      "source_quote": "on applique tout ce que tu as dit plus ce que je viens de te donner, c'est parti",
+      "sha256": "4833b27845f130f2c1bcbf32131ed1bcde02296f94cdceb46d5d1c108e29c114"
+    },
+    "requirements": [
+      {
+        "id": "internet_public_person",
+        "value": "Les affirmations sur une personne publique déclenchent une vérification Internet et un contrôle des cadres.",
+        "source_quote": "c'est forcément une vérification sur internet et un contrôle des cadres",
+        "sha256": "845de4aae8d9262ff8ad9ce4e4ceb99314b3bc46444a6c41add35309b731c4e1"
+      },
+      {
+        "id": "reformulation_gate",
+        "value": "Au moindre doute ou incohérence multicadre, effectuer jusqu'à deux reformulations sémantiquement équivalentes avant la recherche externe.",
+        "source_quote": "Je préfère avoir deux reformulations plutôt que vingt minutes de perdues",
+        "sha256": "3aaa489f7afeace8e7e16301e3c83fffb90803cff4873fa16bd118ff765e9279"
+      },
+      {
+        "id": "apply_full_design",
+        "value": "Intégrer également le contrat de question, le graphe de propositions, les preuves locales, nombres/dates/négations et l'apprentissage lexical précédemment proposés.",
+        "source_quote": "on applique tout ce que tu as dit plus ce que je viens de te donner",
+        "sha256": "7f774884f8d7c54ef59de41709a9c908803670803767db5df7738a7d7a262c33"
+      }
+    ],
+    "contract_sha256": "ee9d9653e5634bfe8aa1a8eb7fe6bf95fecc0f8832e745f9de9f311539d4a3b4",
+    "execution_plan": {
+      "objective": "Construire le skill suivant avec reformulation prioritaire, contrôle multicadre et vérification Internet des personnes publiques.",
+      "requirements": [
+        {
+          "id": "internet_public_person",
+          "value": "Les affirmations sur une personne publique déclenchent une vérification Internet et un contrôle des cadres."
+        },
+        {
+          "id": "reformulation_gate",
+          "value": "Au moindre doute ou incohérence multicadre, effectuer jusqu'à deux reformulations sémantiquement équivalentes avant la recherche externe."
+        },
+        {
+          "id": "apply_full_design",
+          "value": "Intégrer également le contrat de question, le graphe de propositions, les preuves locales, nombres/dates/négations et l'apprentissage lexical précédemment proposés."
+        }
+      ]
+    }
+  },
+  "mode": "BUILD",
+  "baseline_commit": "d94e932145ac47f81404e62f6a999453006a6360",
+  "allowed_paths": [
+    "SKILL.md",
+    "README.md",
+    "PROVENANCE.json",
+    "SBOM.cdx.json",
+    "MANIFEST.sha256",
+    "question_reformulation_gate.py",
+    "proposition_coherence_gate.py",
+    "batch_learning_runtime.py",
+    "test_question_reformulation_gate.py",
+    "test_proposition_coherence_gate.py",
+    "test_batch_learning_runtime_contract.py",
+    "scripts/build_release.py",
+    "audit/RELEASE_NOTES_V18_0_0.md",
+    "audit/V18_BUILD_RECEIPT.json"
+  ],
+  "rollback": "git revert du commit v18 ou réinstallation du ZIP v17 scellé",
+  "pre_registered_success": [
+    "480 tests v17 préservés",
+    "reformulation au doute avant recherche",
+    "deux reformulations maximum",
+    "équivalence protège acteurs, relations, nombres, dates et négations",
+    "personne publique exige preuve Internet",
+    "graphe propositionnel bloque recombinaisons",
+    "apprentissage lexical conserve les routes à froid",
+    "deux ZIP byte-identiques"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "zoran.phenomenal-resource-capture.v1",
+  "attestation_id": "phenomenal-resource-test-round2-v17",
+  "mission_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "search_evidence_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "round": {
+    "round_index": 2,
+    "resource_ids": ["alternative"],
+    "frame_receipts": {
+      "local": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lower": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "peer": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "upper": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "temporal": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "planetary": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "proxy_resources": [
+      {"proxy_id": "beta", "value": 10.0, "unit": "score", "source_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "observed_at": "2026-09-01T00:00:00Z"},
+      {"proxy_id": "dphi", "value": 10.0, "unit": "score", "source_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "observed_at": "2026-09-01T00:00:00Z"},
+      {"proxy_id": "T", "value": 0.0, "unit": "score", "source_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "observed_at": "2026-09-01T00:00:00Z"},
+      {"proxy_id": "sigma", "value": 0.0, "unit": "score", "source_receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "observed_at": "2026-09-01T00:00:00Z"}
+    ],
+    "completed_at": "2026-09-01T00:01:00Z"
+  }
+}

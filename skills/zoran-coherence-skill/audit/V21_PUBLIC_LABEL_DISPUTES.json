@@ -1,0 +1,20 @@
+{
+  "schema": "zoran.v21-public-label-disputes.v1",
+  "status": "PRESERVED_NOT_SCORE_ADJUSTED",
+  "dataset_commit": "dfda2ca8bf02125e81a27cb5dcc28588e7d15fe1",
+  "cases": [
+    {"id": "12469", "source": "RAGTruth", "dataset_label": "PASS", "engine_decision": "VETO", "trace": "The answer ends with iPhone-to-iTunes transfer while every supplied route is computer/iTunes-to-device."},
+    {"id": "financebench_id_04248", "source": "FinanceBench", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "6572 USD millions converts and rounds to 6.57 USD billions."},
+    {"id": "financebench_id_03058", "source": "FinanceBench", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "75598 USD thousands converts and rounds to 75.60 USD millions."},
+    {"id": "financebench_id_08801", "source": "FinanceBench", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The traced three-year average is 3.219... percent and rounds to 3.2 percent."},
+    {"id": "d65ebdb3-39ce-4deb-9cd4-de9d3809d0b4", "source": "DROP", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "A 3-1 series result yields two more wins."},
+    {"id": "77bb12b9-7197-4833-804a-88560e68eca6", "source": "DROP", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The listed passing touchdowns are 16, 5 and 3 yards; the longest is 16."},
+    {"id": "a3913ea2-6092-4768-989c-a3d4c2a81c60", "source": "DROP", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The source explicitly calls a value exceeding 2500 the highest estimate."},
+    {"id": "40020cae-57f6-4a0d-95ff-1f61f65d6678", "source": "DROP", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The source explicitly states Mehmed V visited Skopje and Albanians boycotted the event."}
+    ,{"id": "3fc35d66-fe98-42a2-9139-ed5b147d542e", "source": "DROP", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The latter named team is San Francisco; the source states that its final rally put it ahead 25-19."}
+    ,{"id": "1324d9c2-d84d-4666-9a3c-55db9b2dd15b", "source": "DROP", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The source explicitly states McAllister caught a 4-yard touchdown pass; duplicated answer fragments collapse to the same value."}
+    ,{"id": "financebench_id_10242", "source": "FinanceBench", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The balance-sheet PPNE row binds FY2017 directly to 16246 USD millions."}
+    ,{"id": "financebench_id_08233", "source": "FinanceBench", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The balance-sheet total-current-liabilities row binds FY2022 directly to 155393 USD millions."}
+    ,{"id": "financebench_id_04483", "source": "FinanceBench", "dataset_label": "FAIL", "engine_decision": "PASS", "trace": "The statement-of-financial-position total-assets row binds FY2016 directly to 68598 USD millions."}
+  ]
+}

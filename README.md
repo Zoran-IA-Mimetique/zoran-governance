@@ -1,5 +1,9 @@
 # zoran-gouvernance
 
+## Skill canonique Zoran🦋
+
+Le skill installable et ses contrôles déterministes sont versionnés dans [`skills/zoran-coherence-skill/`](skills/zoran-coherence-skill/). Tout chantier sur ce dépôt doit commencer par le HEAD gate du skill : clone complet, branche cible exacte et égalité entre le HEAD local et le HEAD distant.
+
 **Module de gouvernance distribuée** pour l’écosystème Zoran / QuantaGlottal©® — gestion de vote, quorum, réputation et traçabilité des décisions entre agents.
 
 ---

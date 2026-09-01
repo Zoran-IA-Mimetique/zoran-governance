@@ -1,0 +1,71 @@
+{
+  "component": "MULTICRITERIA_TOLERANCE_SKILL",
+  "version": "2.0.0",
+  "decision": "PASS",
+  "reasons": [
+    "ALL_INTERSECTED_TOLERANCES_ADMISSIBLE"
+  ],
+  "ledger": [
+    {
+      "stage_id": "measurement-1",
+      "dimension": "measurement",
+      "metier_id": "construction",
+      "frame_id": "piece",
+      "signed_delta": "3/100",
+      "charged_cost": "3/100",
+      "dimension_cost": "3/100",
+      "dimension_remaining": "11/50",
+      "metier_cost": "3/100",
+      "metier_remaining": "97/100",
+      "frame_cost": "3/100",
+      "frame_remaining": "57/100",
+      "global_cost": "3/100",
+      "global_remaining": "117/100"
+    },
+    {
+      "stage_id": "safety-check",
+      "dimension": "safety",
+      "metier_id": "construction",
+      "frame_id": "ouvrage",
+      "signed_delta": "0/1",
+      "charged_cost": "0/1",
+      "dimension_cost": "0/1",
+      "dimension_remaining": "0/1",
+      "metier_cost": "3/100",
+      "metier_remaining": "97/100",
+      "frame_cost": "0/1",
+      "frame_remaining": "3/5",
+      "global_cost": "3/100",
+      "global_remaining": "117/100"
+    }
+  ],
+  "dimension_costs": {
+    "ambiguity": "0/1",
+    "causal": "0/1",
+    "coherence": "0/1",
+    "epistemic": "0/1",
+    "factual": "0/1",
+    "integration": "0/1",
+    "intentional": "0/1",
+    "measurement": "3/100",
+    "metier": "0/1",
+    "numeric": "0/1",
+    "regulatory": "0/1",
+    "repeatability": "0/1",
+    "resource": "0/1",
+    "safety": "0/1",
+    "semantic": "0/1",
+    "source": "0/1",
+    "temporal": "0/1"
+  },
+  "metier_costs": {
+    "construction": "3/100"
+  },
+  "frame_costs": {
+    "global": "0/1",
+    "ouvrage": "0/1",
+    "piece": "3/100"
+  },
+  "global_cost": "3/100",
+  "receipt_sha256": "86c7d02b5e6ce94d64322902c614620bfed87998389fc8135bcf0b69403679ee"
+}

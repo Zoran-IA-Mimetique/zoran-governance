@@ -1,0 +1,16 @@
+{
+  "schema": "zoran.user-rule.three-state-measurement.v1",
+  "effective_date": "2026-09-01",
+  "precedence": "latest_explicit_user_rule",
+  "decision_alphabet": ["PASS", "RETRY", "VETO"],
+  "rules": [
+    "Every traceable proposition must be measured.",
+    "PASS requires an exact authenticated trace and every applicable non-compensatory gate.",
+    "RETRY is temporary and requires the missing trace, owner, next distinct action, remaining budget, and exit condition.",
+    "Phenomenal-resource recovery permits exactly two distinct search rounds; only round one may return RETRY.",
+    "An incomplete second round returns VETO, GYROPHARE_TRACE_ABSENTE_APRES_DEUX_RECHERCHES, HALLUCINATION_BLOQUANTE_OU_PHENOMENE_INEXISTANT, and RETOUR_ENVOYEUR.",
+    "Contradiction, tampering, fabricated evidence, unsigned claimed measurement, and forbidden execution are VETO.",
+    "A missing trace never produces a numeric placeholder or pseudo-result.",
+    "No fourth decision state, alias, synonym, enum value, or display label is allowed."
+  ]
+}

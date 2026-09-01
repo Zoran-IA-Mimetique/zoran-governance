@@ -1,0 +1,30 @@
+{
+  "schema": "zoran.k3.pre-receipt.v1",
+  "program_id": "zoran-v20-structural-generalization",
+  "transaction_id": "ZORAN-V20-STRUCTURAL-GENERALIZATION-2026-09-01",
+  "mission_sha256": "65773ef81a8aed2e5b8a2c74003f54554ca0ac5ab542c38a78a7d672f2957537",
+  "formula": "S=(beta*delta_phi_coh)/(1+T+sigma)",
+  "measurements": {
+    "beta": null,
+    "delta_phi_coh": null,
+    "T": null,
+    "sigma": null,
+    "S": 0.0,
+    "S_interval": [0.0, 100.0],
+    "delta_S": 0.0,
+    "delta_S_interval": [-100.0, 100.0],
+    "measurement_class": "TRACE_ABSENTE_BLOQUANTE_FOR_K3_CLAIM"
+  },
+  "frame_status": {
+    "self": "measured_baseline",
+    "local": "measured_baseline",
+    "systemic": "measured_baseline",
+    "temporal": "fresh_holdout_required",
+    "planetary": "causal_measurement_absent",
+    "external_authority": "signature_absent"
+  },
+  "verdict": "PASS_BUILD_SCOPE_K3_CLAIM_VETOED",
+  "execution_authorization": "ALLOW_BUILD_TEST_COMMIT_PACKAGE_INSTALL",
+  "terminal_execution_state": "CONTINUE",
+  "authorized_action": "Implement, test, commit, package and install the structural proof engines; do not make a planetary claim without the missing causal receipt."
+}

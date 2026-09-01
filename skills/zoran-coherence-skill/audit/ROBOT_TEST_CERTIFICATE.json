@@ -1,0 +1,102 @@
+{
+  "authority_fingerprint": "9678c07b3620890606b0042c7e3175096ea2629fe45b15519cb723c752ddee67",
+  "authority_id": "zoran-deterministic-certifier-v1",
+  "envelope_sha256": "20f95aa9e4c512e5cb80bc3d6312f911cecda5f21eb1a7e502b5a5f1820b002a",
+  "payload": {
+    "builder_id": "zoran-deterministic-certifier-v1",
+    "candidate_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "certification_scope": "DETERMINISTIC_SOFTWARE_ARTIFACT",
+    "channel_id": "zoran-host:dual-robot-v1",
+    "checks": {
+      "candidate_rebuild_exact": "PASS",
+      "double_rebuild_byte_identical": "PASS",
+      "evaluator_identity_binding": "PASS",
+      "evaluator_signature": "PASS",
+      "independent_tests_passed": 1,
+      "manifest_files": 1,
+      "pinned_trust_anchors": "PASS",
+      "private_key_absent_from_candidate": "PASS",
+      "python_files_compiled": 1,
+      "quick_validate": "PASS",
+      "signed_build_attestation": "PASS",
+      "source_commit_build_exact": "PASS"
+    },
+    "evaluation_receipt_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "excluded_claims": [
+      "third_party_organizational_independence",
+      "scientific_universality",
+      "real_planetary_benefit"
+    ],
+    "frames": {
+      "local": "PASS",
+      "lower": "PASS",
+      "peer": "PASS",
+      "planetary": "PASS",
+      "temporal": "PASS",
+      "upper": "PASS"
+    },
+    "manifest_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "mission_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sbom_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "schema": "zoran.release-certification.v1",
+    "slsa_provenance": {
+      "_type": "https://in-toto.io/Statement/v1",
+      "predicate": {
+        "buildDefinition": {
+          "buildType": "https://zoran.example/buildtypes/deterministic-skill-zip/v1",
+          "externalParameters": {
+            "mission_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "internalParameters": {},
+          "resolvedDependencies": [
+            {
+              "digest": {
+                "gitTree": "dddddddddddddddddddddddddddddddddddddddd",
+                "sha1": "cccccccccccccccccccccccccccccccccccccccc"
+              },
+              "uri": "git+file://zoran-coherence-skill"
+            },
+            {
+              "digest": {
+                "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              },
+              "uri": "file:MANIFEST.sha256"
+            },
+            {
+              "digest": {
+                "sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              },
+              "uri": "file:SBOM.cdx.json"
+            }
+          ]
+        },
+        "runDetails": {
+          "builder": {
+            "id": "zoran-deterministic-certifier-v1"
+          },
+          "metadata": {
+            "invocationId": "facfb47d2f72b05730c13121fcf3ba2ad114294f4d87200665483eeafa16e522"
+          }
+        }
+      },
+      "predicateType": "https://slsa.dev/provenance/v1",
+      "subject": [
+        {
+          "digest": {
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "name": "zoran-test-candidate.zip"
+        }
+      ]
+    },
+    "source": {
+      "git_commit_sha1": "cccccccccccccccccccccccccccccccccccccccc",
+      "git_tree_sha1": "dddddddddddddddddddddddddddddddddddddddd"
+    },
+    "submission_id": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "verdict": "PASS"
+  },
+  "public_key_hex": "60b6f382c84eed1f2b7cdf53ea8bbe9b555c35428cbeedfae269d6f467333f75",
+  "schema": "zoran.robot-signed-envelope.v1",
+  "signature_base64": "MHdis5oDVbpZy07DY2xbkT17/XTFM3N8m7fQg5c8DJO2jy2saJ4Q21igO7oQIcmSMvoFFWb3p6Wk17s1jonQBA=="
+}

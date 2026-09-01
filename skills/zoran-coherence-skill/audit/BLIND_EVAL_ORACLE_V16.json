@@ -1,0 +1,17 @@
+{
+  "schema": "zoran.blind-hidden-oracle.v1",
+  "cases": [
+    {"case_id": "BE-001", "expected_decision": "PASS"},
+    {"case_id": "BE-002", "expected_decision": "RETRY"},
+    {"case_id": "BE-003", "expected_decision": "VETO"},
+    {"case_id": "BE-004", "expected_decision": "RETRY"},
+    {"case_id": "BE-005", "expected_decision": "VETO"},
+    {"case_id": "BE-006", "expected_decision": "VETO"},
+    {"case_id": "BE-007", "expected_decision": "VETO"},
+    {"case_id": "BE-008", "expected_decision": "VETO"},
+    {"case_id": "BE-009", "expected_decision": "VETO"},
+    {"case_id": "BE-010", "expected_decision": "PASS"},
+    {"case_id": "BE-011", "expected_decision": "PASS"},
+    {"case_id": "BE-012", "expected_decision": "VETO"}
+  ]
+}

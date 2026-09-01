@@ -1,0 +1,18 @@
+{
+  "baseline": "ZORAN_COHERENCE_SKILL_v13.3.0_FINAL.zip",
+  "baseline_sha256": "a96efde722cbada89817746825e0ee3b2f9336b15176820a5e9e2a9a40fcc9e5",
+  "probe_families": 10,
+  "observed": {
+    "contradiction_omitted_by_budget": {"decision": "PASS", "selected": 0},
+    "mirror_ignores_post_install_verification": "PASS",
+    "nan_sensor_dimensions": {"measurement": {"delta": 0.0, "measured": true}, "numeric": {"delta": 0.0, "measured": true}, "resource": {"delta": 0.0, "measured": true}, "safety": {"delta": 0.0, "measured": true}},
+    "negative_defect_compensation": "PASS",
+    "policy_post_validation_mutation": "PASS",
+    "string_false_and_duplicate_content_independence": "BOUNDED_TRUTH_STRONGLY_SUPPORTED",
+    "string_false_source_quality": "PASS",
+    "terminal_duplicate_last_wins": "PASS",
+    "terminal_required_surface_optional_bypass": "PASS",
+    "zmos_metadata_tamper_detected": false
+  },
+  "interpretation": "Reproduction locale avant correction. Un PASS de campagne v13.3 ne couvrait pas ces chemins adversariaux."
+}

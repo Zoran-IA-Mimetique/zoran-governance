@@ -1,0 +1,101 @@
+{
+  "schema": "zoran.skill-release-provenance.v4",
+  "package": "zoran-coherence-skill",
+  "version": "21.0.0",
+  "release_status": "public-diagnostic-structural-zmos-writer-coordination-candidate",
+  "baseline": {
+    "artifact": "ZORAN_COHERENCE_SKILL_v20.0.0_CANDIDATE.zip",
+    "sha256": "02d1378dd77ac7754699f0be26e022e2e1fa688e173050fb2c2a4eb40feb0f9d",
+    "git_commit": "54598d5306766e1b544725309135fc3725f85062",
+    "git_tree": "039217a661d6d2a575d3061a79181d2b552e4969"
+  },
+  "repository_head_gate": {
+    "component": "zoran.repository-head-gate",
+    "required_before_repository_read_or_write": true,
+    "full_clone_required": true,
+    "target_branch_checkout_required": true,
+    "local_remote_head_equality_required": true,
+    "maximum_full_reclones": 1,
+    "non_compensatory": true
+  },
+  "structural_reasoning": {
+    "component": "zoran.structural-reasoning-gate",
+    "version": "21.0.0",
+    "input_fields": ["context", "question", "answer"],
+    "memory_and_trace_layer": "ZMOS",
+    "statistical_override_authority": false
+  },
+  "zmos_writer_coordination": {
+    "component": "zoran.zmos-writer-coordination",
+    "version": "21.0.0",
+    "github_authority": "CANONICAL",
+    "zmos_role": "COORDINATION_BUFFER",
+    "single_writer_required": true,
+    "helper_actions": ["ENQUEUE_CANDIDATE"],
+    "writer_only_actions": ["INTEGRATE", "PUSH", "SYNC_FINAL_GITHUB_SHA"],
+    "required_bindings": ["canonical_github_head", "base_head", "candidate_sha", "test_receipts_sha256"]
+  },
+  "raw_text_model": {
+    "schema": "zoran.raw-text-coherence-model.v2",
+    "model_sha256": "d5739a96295b09f0f38965a0fa90ea29c6b002360278cfe5007134722501487a",
+    "training_split_sha256": "13a79334f6055f0a1425bbc012bddf0171dc9090c5592c7d80648ac3e2db7d97",
+    "training_cases": 48000,
+    "held_out_validation_cases": 12000,
+    "halubench_labels_used": 0,
+    "runtime_dependency": "python-standard-library-only",
+    "training_dependency": "scikit-learn==1.8.0"
+  },
+  "execution_governor": {
+    "schema": "zoran.execution-journal.v1",
+    "evaluation_decisions": ["PASS", "RETRY", "VETO"],
+    "execution_states": ["DONE", "CONTINUE", "WAIT_EXTERNAL", "STOP"],
+    "cross_session_budget": true,
+    "journal_integrity": "LOCAL_APPEND_ONLY_SHA256_CHAIN_WITH_FILE_LOCK",
+    "journal_mode": "0600",
+    "host_wide_non_bypassability": "REQUIRES_AUTHENTICATED_HOST_INTEGRATION"
+  },
+  "learning_inputs": {
+    "user_supplied_runtime_sha256": "f8ee39dd847fa8af74f03e63425d9e470a6699936370a32d949927ea9ff0bc80",
+    "user_supplied_cumulative_receipt_sha256": "649fd99024b6304d801211afb0e5e05123f2845ab853ce32544fdd502470179c",
+    "bundled_runtime_sha256": "d6324a0be8f1556a38669007950a5e689d2ed2a618c779a879674abbb0f4d03c",
+    "authority": "EXPERIMENTAL_LEXICAL_EVIDENCE_ONLY"
+  },
+  "audit_preregistration": {
+    "path": "audit/V21_PUBLIC_DIAGNOSTIC_PREREG.json",
+    "sha256": "BOUND_BY_MANIFEST_AT_BUILD",
+    "three_state_user_rule_path": "audit/USER_RULE_THREE_STATE_MEASUREMENT_V17.json",
+    "three_state_user_rule_sha256": "c1cf3e7ce2e7fa98b9d8cd87cbb04bd7d69a2c435636cf77a4e49037914f6e9a"
+  },
+  "build": {
+    "method": "deterministic local ZIP builder with normalized root, timestamps and modes",
+    "script": "scripts/build_release.py",
+    "script_sha256": "BOUND_BY_MANIFEST_AT_BUILD",
+    "source_commit_and_tree_binding": "SIGNED_BY_HOST_CERTIFIER_AT_RELEASE"
+  },
+  "verification": {
+    "script": "scripts/verify_release.py",
+    "script_sha256": "BOUND_BY_MANIFEST_AT_BUILD",
+    "source_only_test_runner": "scripts/test_runner.py",
+    "source_only_test_runner_sha256": "9c10abf6af3ebe3e0fb4fc0dd04c8f42823c7b338d3215d3a4075c362f07a7a9",
+    "pytest_required": false,
+    "sota_mutation_campaign_script_sha256": "06204f81040fce2eadb5868bbaf90fd625595f09e548c6bc738133bf7992616b",
+    "hallucination_closure_campaign_script_sha256": "3b6f6bb4f0ccf364696a25bf5beb5e186ed280b66e998b46ca233680a3202f15",
+    "blind_eval_scope": "SYNTHETIC_SELF_AUTHORED_INTEGRITY_HARNESS_NOT_OPEN_WORLD",
+    "internal_rubric_scope": "FROZEN_INTERNAL_ARCHITECTURE_RUBRIC_NOT_UNIVERSAL_SOTA",
+    "external_identity_attestation": "PINNED_ED25519_EVALUATOR_CERTIFIER_SESSION_SOURCE_TRUTH_AND_PHENOMENAL_RESOURCE_AUTHORITIES",
+    "host_session_authority": "OPAQUE_SIGNED_18_STAGE_CHAIN",
+    "robot_promotion_authority": "EXTERNAL_SIGNED_CERTIFICATE_REQUIRED"
+    ,"public_diagnostic_scope": "PINNED_PUBLIC_DATASET_DIAGNOSTIC_NOT_FRESH_HOLDOUT_OR_UNIVERSAL_SOTA"
+  },
+  "supply_chain": {
+    "sbom": "SBOM.cdx.json",
+    "runtime_dependency_observation": "audit/RUNTIME_DEPENDENCIES_OBSERVED.json",
+    "dependency_versions_observed_exactly": true,
+    "dependency_hashes_pinned": false,
+    "source_commit_tree_in_signed_certificate": "REQUIRED",
+    "slsa_v1_compatible_predicate_in_signed_certificate": "REQUIRED",
+    "signed_git_commit_present": false,
+    "public_sigstore_rekor_inclusion_present": false,
+    "network_isolated_fresh_dependency_install_executed": false
+  }
+}

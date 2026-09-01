@@ -1,0 +1,22 @@
+{
+  "schema": "zoran.v19.sealed-mission.v1",
+  "transaction_id": "ZORAN-V19-RAW-COHERENCE-2026-09-01",
+  "mission_sha256": "8ccf9f04159ac5a0828679f5f664564f5e588b22746adeaadb4d911d99fbc7a2",
+  "plan_sha256": "247ccef2ad96b041e6072bffdbbe9edc32422bb469590cec4c21ce5bf7d49831",
+  "mode": "BUILD",
+  "objective": "Construire, intégrer, falsifier, empaqueter et rebenchmarker immédiatement le chemin brut de cohérence multicadre.",
+  "baseline": {
+    "version": "18.0.0",
+    "git_commit": "bb840af06b4c80c82e474c698f5e1e64f68a0f18",
+    "zip_sha256": "04622eb85da6da9edf02fdfaa74b3ae57d29ce157ffe6d976a921a1114cd912e"
+  },
+  "constraints": [
+    "No HaluBench label may enter training or threshold selection before the frozen replay.",
+    "No caller-built proposition may replace the candidate-owned raw gate.",
+    "No unmeasured SOTA or planetary claim may be promoted.",
+    "The v18 rollback artifact must remain unchanged."
+  ],
+  "pre_verdict": "VETO_TRACE_ABSENTE",
+  "authorization": "ALLOW_BUILD_WITH_DEBT",
+  "open_debts": ["planetary effect", "external authority signature"]
+}

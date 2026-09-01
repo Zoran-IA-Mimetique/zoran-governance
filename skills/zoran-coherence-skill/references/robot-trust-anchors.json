@@ -1,0 +1,18 @@
+{
+  "certifier": {
+    "authority_id": "zoran-deterministic-certifier-v1",
+    "fingerprint_sha256": "9678c07b3620890606b0042c7e3175096ea2629fe45b15519cb723c752ddee67",
+    "public_key_hex": "60b6f382c84eed1f2b7cdf53ea8bbe9b555c35428cbeedfae269d6f467333f75"
+  },
+  "evaluator": {
+    "authority_id": "zoran-deterministic-evaluator-v1",
+    "fingerprint_sha256": "ac92fac4c3a255c9019dbb80d79dc9c54c246cdee7b078e8882163cb814392dd",
+    "public_key_hex": "7e1732810c53d9bd5e13654b6942344ca381c364c2afff745a2d79a08a85d9c2"
+  },
+  "session": {
+    "authority_id": "zoran-deterministic-session-v1",
+    "fingerprint_sha256": "f1b96ccebcbf2dc851dffd5e84f75cd82e8b275e532d524ff6b952a019fb65b8",
+    "public_key_hex": "6a8af5aa7112c00a5e255407a9b7e79ead5a3ef4b4e880b43acab6c423d474d3"
+  },
+  "schema": "zoran.robot-trust-anchors.v1"
+}

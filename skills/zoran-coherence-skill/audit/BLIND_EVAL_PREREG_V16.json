@@ -1,0 +1,14 @@
+{
+  "schema": "zoran.blind-eval-preregistration.v1",
+  "governing_preregistration": "audit/AUDIT_PREREG_V16_SOTA_CLOSURE.json",
+  "governing_preregistration_sha256": "d3dadf02d54ac4fa0cf2d17cd2df8e8b922152c5b6a0b8d593f66e5d692e74da",
+  "public_dataset": "audit/BLIND_EVAL_PUBLIC_V16.json",
+  "public_dataset_canonical_sha256": "43e9539a05b31900973bc3c8542d7939df16ade0f6dd0c0e1dc12698f0281462",
+  "hidden_oracle": "audit/BLIND_EVAL_ORACLE_V16.json",
+  "hidden_oracle_commitment_sha256": "356897f5b4109d9c4c60b6c5f74798f5fb3553afece36cc4f050a66207b54104",
+  "case_count": 12,
+  "prediction_fields": ["case_id", "decision", "output_sha256", "trace_sha256"],
+  "success": "exact case set, zero false PASS, zero false block, zero other mismatch, deterministic receipt",
+  "scope": "synthetic self-authored registered behavior; not public open-world evaluation",
+  "frozen_before_predictions": true
+}

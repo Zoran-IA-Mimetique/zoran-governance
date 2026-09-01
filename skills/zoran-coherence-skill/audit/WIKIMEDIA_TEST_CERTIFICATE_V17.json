@@ -1,0 +1,25 @@
+{
+  "authority_fingerprint": "ac92fac4c3a255c9019dbb80d79dc9c54c246cdee7b078e8882163cb814392dd",
+  "authority_id": "zoran-deterministic-evaluator-v1",
+  "envelope_sha256": "51c73402dc0e9e1014d7b5e69114c63f9c7a14db708fd164870dcc1b34b9203f",
+  "payload": {
+    "api_endpoint": "https://fr.wikipedia.org/w/api.php",
+    "claim_sha256": "2b5f27e96329281175f7eb9eb524e56ea6df3e4849d8ed083388f3c5343af1ca",
+    "language": "fr",
+    "lookup_id": "wikipedia-fr-paris-test-v17",
+    "page_id": 68135,
+    "page_title": "Paris",
+    "project": "wikipedia",
+    "query": "Paris capitale France",
+    "quote_sha256": "b00dfde7d72d2a35a3ebb3c50d0f156c928a91a23831a66b211e754d60024d76",
+    "relation": "SUPPORTS",
+    "response_sha256": "be3948e4a3d6abb86257e13564df8dedda392982f39a75524d640f7fa6c9f675",
+    "retrieved_at": "2026-08-31T20:00:00Z",
+    "revision_id": 190000001,
+    "schema": "zoran.wikimedia-evidence.v1",
+    "source_sha256": "b00dfde7d72d2a35a3ebb3c50d0f156c928a91a23831a66b211e754d60024d76"
+  },
+  "public_key_hex": "7e1732810c53d9bd5e13654b6942344ca381c364c2afff745a2d79a08a85d9c2",
+  "schema": "zoran.robot-signed-envelope.v1",
+  "signature_base64": "ckeeJ0wL2CbVrlYCAMAm+uA0MlUtQA2ElINSZ08f83vSLez3zWJGxYAyPn5PNvKVtticQ1bFVmTgDxVQMtnQCA=="
+}

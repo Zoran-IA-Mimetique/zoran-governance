@@ -1,0 +1,16 @@
+{
+  "schema": "zoran.blind-eval-certificate.v1",
+  "decision": "PASS",
+  "reasons": ["BLIND_EVAL_INTEGRITY_AND_PREDICTIONS_PASS"],
+  "total": 12,
+  "correct": 12,
+  "false_pass": 0,
+  "false_block": 0,
+  "other_mismatch": 0,
+  "score_basis_points": 10000,
+  "dataset_sha256": "43e9539a05b31900973bc3c8542d7939df16ade0f6dd0c0e1dc12698f0281462",
+  "oracle_commitment_sha256": "356897f5b4109d9c4c60b6c5f74798f5fb3553afece36cc4f050a66207b54104",
+  "predictions_sha256": "53e8634d8dd09aaae5e5e3b1a76acb7c6e22514f2c450b7df20c0d12d37ce5f9",
+  "receipt_sha256": "ea333f9c3a24a315b9b866d45d59bf98e061376c830594622f86677d5e40055f",
+  "scope": "synthetic self-authored registered behavior; not public open-world evaluation"
+}

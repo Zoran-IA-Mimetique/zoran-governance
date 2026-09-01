@@ -1,0 +1,31 @@
+{
+  "schema": "zoran.wikimedia-retrieval-capture.v1",
+  "http_status": 200,
+  "request_url": "https://fr.wikipedia.org/w/api.php?action=query&prop=revisions&titles=Paris&format=json",
+  "query": "Paris capitale France",
+  "project": "wikipedia",
+  "language": "fr",
+  "retrieved_at": "2026-08-31T20:00:00Z",
+  "response": {
+    "batchcomplete": true,
+    "query": {
+      "pages": [
+        {
+          "pageid": 68135,
+          "ns": 0,
+          "title": "Paris",
+          "revisions": [
+            {
+              "revid": 190000001,
+              "slots": {
+                "main": {
+                  "content": "La capitale de la France est Paris."
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
