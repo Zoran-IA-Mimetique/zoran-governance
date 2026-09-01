@@ -2,8 +2,8 @@
 name: zoran-coherence-skill
 description: Apply Zoran🦋 phenomenal-coherence governance and deterministic fail-closed gates to source-grounded answers, multi-step projects, memory recalls, code deliveries, and robot promotion handoffs. Use when a response or artifact must improve locally, preserve lower and peer frames, prove causal benefit through temporal and planetary frames, expose contradictions and bounded uncertainty, or produce a non-compensatory PASS/VETO/RETRY receipt.
 metadata:
-  version: "23.0.0"
-  release_status: "experimental-semora-semantic-speech-candidate"
+  version: "23.0.1"
+  release_status: "experimental-semantic-speech-terminal-binding-candidate"
   language: "fr"
 ---
 
@@ -21,7 +21,7 @@ Zoran🦋 is a deterministic control layer around an LLM. Phenomenal coherence i
 5. Before any repair, tool call, wait, or promotion attempt, obtain a separate execution state from `execution_governor.py`. Keep one stable program id across chats and processes. `WAIT_EXTERNAL`, `STOP`, and `DONE` end the current execution; only `CONTINUE` authorizes exactly one new material action. Never interpret evaluation `RETRY` as permission to relaunch.
 6. Segment the exact proposed output and test intrinsic object/material/relation coherence before trusting caller labels. For each public or lexical fact, require a host-signed Wikipedia, Wiktionary, Wikiquote or Wikidata first-pass receipt bound to the exact claim, quote, page and revision. An unsigned source or caller-declared checked flag is `RETRY` with a visible gyrophare.
 7. Decompose every distinct actor, object, action, modality, condition and authority named by the mission. Cover every source clause and evaluate the exact semantic round trip under [references/semantic-non-conflation.md](references/semantic-non-conflation.md).
-7a. Before releasing speech generated from a structured semantic object, run `semantic_speech_gate.py`. Withhold the wording unless recomprehension reconstructs the same object and the V4 equivalence gate preserves every actor, relation, object, polarity, modality, condition, order, reference and unit. Keep Semora V5 teacher rules quarantined and unable to validate or promote.
+7a. Before evaluating or releasing speech generated from a structured semantic object, run `semantic_speech_gate.py`. Require the exact generated speech as the evaluated output, bind its runtime-owned receipt into the terminal controller, and run the same gate again before the host session display guard. Withhold the wording unless recomprehension reconstructs the same object and the V4 equivalence gate preserves every actor, relation, object, polarity, modality, condition, order, reference and unit. Keep Semora V5 teacher rules quarantined and unable to validate or promote.
 8. Search for all six frames, authenticated sources and calibrated `β`, `ΔΦ_coh`, `T`, `σ` values. If round 1 is incomplete, return `RETRY` with the exact missing traces and run exactly one search over new resources. If round 2 is incomplete, return `VETO`, `GYROPHARE_TRACE_ABSENTE_APRES_DEUX_RECHERCHES`, `HALLUCINATION_BLOQUANTE_OU_PHENOMENE_INEXISTANT`, and `RETOUR_ENVOYEUR`; never fabricate a partial measure.
 9. Only after the signed resource receipt exists, build and evaluate the six-frame phenomenal trajectory defined in [references/phenomenal-coherence.md](references/phenomenal-coherence.md).
 10. Run applicable gates in the order defined in [references/operating-contract.md](references/operating-contract.md).

@@ -29,13 +29,13 @@ def test_valid_opaque_session_authorizes_display():
     assert result.certificate_sha256 == FIXTURE["envelope_sha256"]
 
 
-def test_runtime_uses_same_final_display_guard():
+def test_runtime_refuses_display_before_semantic_speech_gate():
     runtime = ZoranRuntime(frame_engine=FrameSearchEngine((
         FrameDefinition("general", "General", ("coherence",), priority=1),
     )))
     result = runtime.finalize_output(request())
-    assert result.decision is Decision.PASS
-    assert result.state == "DISPLAY_AUTHORIZED"
+    assert result.decision is Decision.RETRY
+    assert result.state == "SPEECH_WITHHELD"
 
 
 def test_missing_certificate_is_retrye():

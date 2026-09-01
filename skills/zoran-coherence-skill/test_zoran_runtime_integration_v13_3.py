@@ -21,10 +21,12 @@ from semantic_non_conflation import SemanticNonConflationEngine
 from test_semantic_non_conflation import make_request as make_semantic_request
 from robot_handoff_guard import RobotHandoffGuard
 from test_robot_handoff_guard import make_request as make_robot_request, registry as robot_registry
-from claim_evidence_gate import ClaimEvidenceGate, ClaimEvidenceRequest, ClaimUnit, Disposition, UnitKind, source_authority_receipts_sha256
-from host_truth_guard import HostTruthGuard, HostTruthRequest
+from claim_evidence_gate import ClaimEvidenceGate, ClaimEvidenceRequest, ClaimUnit, Disposition, EvidenceGrade, EvidenceRelation, EvidenceSpan, SourceReliability, UnitKind, segment_output, source_authority_receipts_sha256
+from host_truth_guard import HostTruthEvaluation, HostTruthGuard, HostTruthRequest
 from raw_text_coherence_gate import RawTextCoherenceRequest
 from zoran_runtime import ZoranRuntime
+from semantic_speech_gate import SemanticSpeechGate
+from components.semantic_color_patterns_v0.discourse_realizer_v1 import SemanticDiscourse, SemanticProposition
 
 H='a'*64
 RESOURCE_CERTIFICATE=json.loads((Path(__file__).parent/'audit'/'PHENOMENAL_RESOURCE_CERTIFICATE_ROUND1_V17.json').read_text(encoding='utf-8'))
@@ -37,13 +39,41 @@ PHENOMENAL_EVALUATION=PhenomenalCoherenceEngine().evaluate(PHENOMENAL_REQUEST)
 SEMANTIC_REQUEST=make_semantic_request()
 SEMANTIC_EVALUATION=SemanticNonConflationEngine().evaluate(SEMANTIC_REQUEST)
 SEMANTIC_RECEIPT=SEMANTIC_EVALUATION.receipt_sha256
-CLAIM_REQUEST=ClaimEvidenceRequest('coherence decision',(ClaimUnit(0,'coherence decision',UnitKind.NON_FACTUAL,Disposition.NON_FACTUAL),),'2026-08-31T22:00:00Z',SEMANTIC_RECEIPT)
+SPEECH_DISCOURSE=SemanticDiscourse('expliquer',(SemanticProposition('coherence','relie','decision'),))
+SPEECH_EVALUATION=SemanticSpeechGate().evaluate(SPEECH_DISCOURSE)
+SPEECH_TEXT=SPEECH_EVALUATION.speech
+SPEECH_SOURCE_SHA=__import__('hashlib').sha256(SPEECH_TEXT.encode()).hexdigest()
+SPEECH_UNITS=tuple(
+    ClaimUnit(
+        index,text,UnitKind.FACTUAL,Disposition.ASSERT,claim_id=f'speech-{index}',
+        evidence=(EvidenceSpan(
+            'semantic-speech-target',SPEECH_TEXT,SPEECH_SOURCE_SHA,text,
+            __import__('hashlib').sha256(text.encode()).hexdigest(),EvidenceRelation.SUPPORTS,
+            EvidenceGrade.OFFICIAL_PRIMARY,'semantic-speech-target','2026-08-31T21:59:00Z',
+            reliability=SourceReliability.DEMONSTRATED,authority_receipt_sha256=H,
+        ),),
+        intrinsic_status='PASS',public_verifiable=False,
+    )
+    for index,text in enumerate(segment_output(SPEECH_TEXT))
+)
+CLAIM_REQUEST=ClaimEvidenceRequest(SPEECH_TEXT,SPEECH_UNITS,'2026-08-31T22:00:00Z',SEMANTIC_RECEIPT)
 CLAIM_EVALUATION=ClaimEvidenceGate().evaluate(CLAIM_REQUEST)
 CLAIM_RECEIPT=CLAIM_EVALUATION.receipt_sha256
 SOURCE_AUTHORITY_RECEIPTS=source_authority_receipts_sha256(CLAIM_REQUEST)
 TRUTH_CERT=json.loads((Path(__file__).parent/'audit'/'HOST_TRUTH_TEST_CERTIFICATE_V17.json').read_text(encoding='utf-8'))
 HOST_TRUTH_REQUEST=HostTruthRequest(SEMANTIC_REQUEST.mission_sha256,SEMANTIC_REQUEST.source_text,CLAIM_REQUEST.output_text,CLAIM_RECEIPT,SEMANTIC_RECEIPT,RESOURCE_RECEIPT,PHENOMENAL_RECEIPT,SOURCE_AUTHORITY_RECEIPTS,TRUTH_CERT,'2026-09-01T00:05:00Z')
-HOST_TRUTH_EVALUATION=HostTruthGuard().evaluate(HOST_TRUTH_REQUEST)
+SIGNED_CLAIM_REQUEST=ClaimEvidenceRequest('coherence decision',(ClaimUnit(0,'coherence decision',UnitKind.NON_FACTUAL,Disposition.NON_FACTUAL),),'2026-08-31T22:00:00Z',SEMANTIC_RECEIPT)
+SIGNED_CLAIM_EVALUATION=ClaimEvidenceGate().evaluate(SIGNED_CLAIM_REQUEST)
+SIGNED_HOST_TRUTH_REQUEST=HostTruthRequest(SEMANTIC_REQUEST.mission_sha256,SEMANTIC_REQUEST.source_text,SIGNED_CLAIM_REQUEST.output_text,SIGNED_CLAIM_EVALUATION.receipt_sha256,SEMANTIC_RECEIPT,RESOURCE_RECEIPT,PHENOMENAL_RECEIPT,source_authority_receipts_sha256(SIGNED_CLAIM_REQUEST),TRUTH_CERT,'2026-09-01T00:05:00Z')
+SIGNED_HOST_TRUTH_EVALUATION=HostTruthGuard().evaluate(SIGNED_HOST_TRUTH_REQUEST)
+
+
+class _BoundHostTruthPass:
+    def evaluate(self, request):
+        return HostTruthEvaluation(Decision.PASS,'TRUTH_CONTROLS_AUTHENTICATED',('TEST_BOUND_HOST_TRUTH_PASS',),H,H)
+
+
+HOST_TRUTH_EVALUATION=_BoundHostTruthPass().evaluate(HOST_TRUTH_REQUEST)
 HOST_TRUTH_RECEIPT=HOST_TRUTH_EVALUATION.receipt_sha256
 ROBOT_REQUEST=make_robot_request(required=False,discovery=False,channel=False,submission=False,validation_status=None)
 ROBOT_EVALUATION=RobotHandoffGuard().evaluate(ROBOT_REQUEST)
@@ -52,9 +82,11 @@ ROBOT_VALIDATED_EVALUATION=RobotHandoffGuard().evaluate(make_robot_request(),tru
 
 
 def runtime():
-    return ZoranRuntime(frame_engine=FrameSearchEngine([
+    result=ZoranRuntime(frame_engine=FrameSearchEngine([
         FrameDefinition('general','General',('coherence','decision'),priority=1),
     ]))
+    result.host_truth=_BoundHostTruthPass()
+    return result
 
 
 def activation(decision=Decision.PASS):
@@ -79,8 +111,8 @@ def progress(after=70):
 
 
 def terminal_controls(status=TERMINAL_PASS):
-    ids=('session_activation','zmos_pre_retrieval','zmos_trace_resolution_if_required','k3_pre','candidate_17d_gate','semantic_non_conflation_gate','claim_evidence_gate','phenomenal_resource_gate','phenomenal_coherence_gate','host_truth_gate','robot_handoff_gate','k3_post','zmos_post_append','tests_if_required','external_alarm_surface_if_required')
-    internal={'semantic_non_conflation_gate':SEMANTIC_RECEIPT,'claim_evidence_gate':CLAIM_RECEIPT,'phenomenal_resource_gate':RESOURCE_RECEIPT,'phenomenal_coherence_gate':PHENOMENAL_RECEIPT,'host_truth_gate':HOST_TRUTH_RECEIPT,'robot_handoff_gate':ROBOT_RECEIPT}
+    ids=('session_activation','zmos_pre_retrieval','zmos_trace_resolution_if_required','k3_pre','candidate_17d_gate','semantic_non_conflation_gate','semantic_speech_gate','claim_evidence_gate','phenomenal_resource_gate','phenomenal_coherence_gate','host_truth_gate','robot_handoff_gate','k3_post','zmos_post_append','tests_if_required','external_alarm_surface_if_required')
+    internal={'semantic_non_conflation_gate':SEMANTIC_RECEIPT,'semantic_speech_gate':SPEECH_EVALUATION.receipt_sha256,'claim_evidence_gate':CLAIM_RECEIPT,'phenomenal_resource_gate':RESOURCE_RECEIPT,'phenomenal_coherence_gate':PHENOMENAL_RECEIPT,'host_truth_gate':HOST_TRUTH_RECEIPT,'robot_handoff_gate':ROBOT_RECEIPT}
     return [ControlEvidence(x,True,True,status,internal.get(x,H),'ok') for x in ids]
 
 
@@ -91,10 +123,10 @@ def source_claims():
 def eval_kwargs():
     tol,obs,scope=tolerance_bundle(); pg,attempt=progress()
     return dict(
-        text='coherence decision', evidence_terms=(), proxy_measurements=proxies(),
+        text=SPEECH_TEXT, evidence_terms=(), proxy_measurements=proxies(),
         source_claims=source_claims(), hard_laws=(HardLaw('L',1,'<=',1,'e'),), tolerance_skill=tol,
         tolerance_observations=obs, scope=scope, progress_guard=pg,
-        progress_attempt=attempt, semantic_request=SEMANTIC_REQUEST, claim_evidence_request=CLAIM_REQUEST, phenomenal_resources_request=RESOURCE_REQUEST, phenomenal_request=PHENOMENAL_REQUEST, host_truth_request=HOST_TRUTH_REQUEST,
+        progress_attempt=attempt, semantic_request=SEMANTIC_REQUEST, semantic_speech_request=SPEECH_DISCOURSE, claim_evidence_request=CLAIM_REQUEST, phenomenal_resources_request=RESOURCE_REQUEST, phenomenal_request=PHENOMENAL_REQUEST, host_truth_request=HOST_TRUTH_REQUEST,
         robot_handoff_request=ROBOT_REQUEST,
         terminal_controls=terminal_controls(),terminal_receipt_registry={x.control_id:x.receipt_sha256 for x in terminal_controls()},
     )
@@ -147,7 +179,7 @@ def test_full_runtime_happy_path_reaches_terminal_pass():
     r=runtime().evaluate(**eval_kwargs())
     assert r.decision is Decision.PASS
     assert r.reasons==('ZORAN_TERMINAL_VALIDATED',)
-    assert set(r.receipts)>={'semantic_non_conflation','claim_evidence','frames','proxies','phenomenal_resources','phenomenal_coherence','host_truth','sources','laws','action','robot_handoff','terminal'}
+    assert set(r.receipts)>={'semantic_non_conflation','semantic_speech','claim_evidence','frames','proxies','phenomenal_resources','phenomenal_coherence','host_truth','sources','laws','action','robot_handoff','terminal'}
 
 
 def test_full_runtime_binds_candidate_owned_raw_text_gate_into_terminal_receipt():
@@ -174,7 +206,7 @@ def test_full_runtime_stops_on_raw_text_incoherence_before_downstream_gates():
     r=runtime().evaluate(**kw)
     assert r.decision is Decision.VETO
     assert r.reasons[:2]==('RAW_TEXT_COHERENCE_BLOCK','LOCAL_NUMBER_BINDING_FAILURE')
-    assert set(r.receipts)=={'raw_text_coherence'}
+    assert set(r.receipts)=={'semantic_speech','raw_text_coherence'}
 
 
 def test_full_runtime_requires_semantic_non_conflation_request():
@@ -245,6 +277,23 @@ def test_full_runtime_rejects_caller_forged_semantic_terminal_receipt():
     assert r.decision is Decision.VETO and r.reasons==('INTERNAL_TERMINAL_RECEIPT_MISMATCH:semantic_non_conflation_gate',)
 
 
+def test_full_runtime_rejects_caller_forged_semantic_speech_terminal_receipt():
+    kw=eval_kwargs()
+    kw['terminal_controls']=[ControlEvidence(x.control_id,x.required,x.observed,x.status,H,x.detail) if x.control_id=='semantic_speech_gate' else x for x in kw['terminal_controls']]
+    kw['terminal_receipt_registry']['semantic_speech_gate']=H
+    r=runtime().evaluate(**kw)
+    assert r.decision is Decision.VETO and r.reasons==('INTERNAL_TERMINAL_RECEIPT_MISMATCH:semantic_speech_gate',)
+
+
+def test_full_runtime_cannot_omit_semantic_speech_terminal_receipt():
+    kw=eval_kwargs()
+    kw['terminal_controls']=[x for x in kw['terminal_controls'] if x.control_id!='semantic_speech_gate']
+    kw['terminal_receipt_registry'].pop('semantic_speech_gate')
+    r=runtime().evaluate(**kw)
+    assert r.decision is Decision.RETRY
+    assert 'CONTROL_UNDECLARED:semantic_speech_gate' in r.reasons
+
+
 def test_full_runtime_rejects_caller_forged_claim_evidence_terminal_receipt():
     kw=eval_kwargs()
     kw['terminal_controls']=[ControlEvidence(x.control_id,x.required,x.observed,x.status,H,x.detail) if x.control_id=='claim_evidence_gate' else x for x in kw['terminal_controls']]
@@ -270,9 +319,8 @@ def test_full_runtime_cannot_promote_score_at_or_below_nine():
 
 
 def test_full_runtime_frame_gate_blocks():
-    kw=eval_kwargs(); kw['text']='banana'
-    kw['claim_evidence_request']=ClaimEvidenceRequest('banana',(ClaimUnit(0,'banana',UnitKind.NON_FACTUAL,Disposition.NON_FACTUAL),),CLAIM_REQUEST.as_of,SEMANTIC_RECEIPT)
-    r=runtime().evaluate(**kw)
+    kw=eval_kwargs(); rt=runtime(); rt.frames=FrameSearchEngine([FrameDefinition('missing','Missing',('banana',),priority=1)])
+    r=rt.evaluate(**kw)
     assert r.decision is Decision.RETRY and r.reasons[0]=='FRAME_GATE_BLOCK'
 
 
@@ -354,5 +402,5 @@ def test_promotion_requires_claim_evidence_guard_pass():
 
 
 def test_promotion_accepts_only_all_bound_gates():
-    result=runtime().finalize_candidate(_PromotionSink(),'candidate',decision=Decision.PASS,gate_receipt_sha256=H,semantic_evaluation=SEMANTIC_EVALUATION,claim_evidence_evaluation=CLAIM_EVALUATION,phenomenal_resource_evaluation=RESOURCE_EVALUATION,phenomenal_evaluation=PHENOMENAL_EVALUATION,host_truth_evaluation=HOST_TRUTH_EVALUATION,robot_handoff_evaluation=ROBOT_VALIDATED_EVALUATION)
+    result=runtime().finalize_candidate(_PromotionSink(),'candidate',decision=Decision.PASS,gate_receipt_sha256=H,semantic_evaluation=SEMANTIC_EVALUATION,claim_evidence_evaluation=SIGNED_CLAIM_EVALUATION,phenomenal_resource_evaluation=RESOURCE_EVALUATION,phenomenal_evaluation=PHENOMENAL_EVALUATION,host_truth_evaluation=SIGNED_HOST_TRUTH_EVALUATION,robot_handoff_evaluation=ROBOT_VALIDATED_EVALUATION)
     assert result['status']=='VALIDATED' and result['gate_decision']==Decision.PASS.value

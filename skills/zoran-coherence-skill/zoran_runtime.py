@@ -51,7 +51,7 @@ from execution_governor import ExecutionGovernor, ExecutionPolicy, ExecutionRequ
 from semantic_speech_gate import SemanticSpeechEvaluation, SemanticSpeechGate
 from components.semantic_color_patterns_v0.discourse_realizer_v1 import SemanticDiscourse
 
-COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.0.0'
+COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.0.1'
 PROMOTION_SCORE_THRESHOLD=Fraction(9)
 
 @dataclass(frozen=True)
@@ -61,6 +61,10 @@ class PreChatResult:
 @dataclass(frozen=True)
 class FullEvaluation:
     decision:Decision; reasons:tuple[str,...]; score_s:str|None; receipts:dict[str,str]; receipt_sha256:str
+
+@dataclass(frozen=True)
+class FinalOutputEvaluation:
+    decision:Decision; state:str; speech:str|None; semantic_speech_receipt_sha256:str|None; host_session_receipt_sha256:str|None; reasons:tuple[str,...]; receipt_sha256:str
 
 class ZoranRuntime:
     def __init__(self, *, frame_engine:FrameSearchEngine, proxy_engine:ProxyEngine|None=None, source_engine:SourceCoherenceEngine|None=None, law_engine:LawEngine|None=None, decomposition_engine:DecompositionCalibrationEngine|None=None, execution_state_root:str|Path|None=None, execution_policy:ExecutionPolicy|None=None, execution_clock=None):
@@ -95,8 +99,15 @@ class ZoranRuntime:
             if mir.decision is not Decision.PASS:return finish(mir.decision,slide,recall,mir,None if pq is None else pq.receipt_sha256,('MIRROR_BLOCK',)+mir.reasons)
         return finish(Decision.PASS,slide,recall,mir,None if pq is None else pq.receipt_sha256,('PRE_CHAT_READY',))
 
-    def evaluate(self, *, text:str, evidence_terms:Sequence[str], proxy_measurements:dict[str,ProxyMeasurement], source_claims:Sequence[SourceClaim], hard_laws:Sequence[HardLaw], tolerance_skill:MulticriteriaToleranceSkill, tolerance_observations:Sequence[Observation], scope:EvaluationScope, progress_guard:ProgressGuard, progress_attempt:ProgressAttempt, raw_text_coherence_request:RawTextCoherenceRequest|None=None, semantic_request:SemanticNonConflationRequest|None=None, question_reformulation_request:QuestionReformulationRequest|None=None, proposition_coherence_request:PropositionCoherenceRequest|None=None, claim_evidence_request:ClaimEvidenceRequest|None=None, phenomenal_resources_request:PhenomenalResourceRequest|None=None, phenomenal_request:PhenomenalCoherenceRequest|None=None, host_truth_request:HostTruthRequest|None=None, robot_handoff_request:RobotHandoffRequest|None=None, robot_trust_registry:RobotTrustRegistry|None=None, progress_history:Sequence[ProgressHistoryEntry]=(), dynamics_history:Sequence[CoherencePoint]=(), dynamics_required:bool=False, previous_s:float|None=None,current_s:float|None=None, previous_frames:tuple[str,...]=(),current_frames:tuple[str,...]=(),previous_proxies:tuple[str,...]=(),current_proxies:tuple[str,...]=(), amygdala_ping:AmygdalaPing|None=None, decomposition_required:bool=False, domain_id:str|None=None, observed_parts:Sequence[str]=(), terminal_controls:Sequence[ControlEvidence]=(), terminal_required:bool=True, terminal_receipt_registry:Mapping[str,str]|None=None, bounded_truth_claim:str|None=None, bounded_truth_evidence:Sequence[BoundedSourceEvidence]=(), bounded_truth_required:bool=False, bounded_truth_time_sensitive:bool=False)->FullEvaluation:
+    def evaluate(self, *, text:str, evidence_terms:Sequence[str], proxy_measurements:dict[str,ProxyMeasurement], source_claims:Sequence[SourceClaim], hard_laws:Sequence[HardLaw], tolerance_skill:MulticriteriaToleranceSkill, tolerance_observations:Sequence[Observation], scope:EvaluationScope, progress_guard:ProgressGuard, progress_attempt:ProgressAttempt, raw_text_coherence_request:RawTextCoherenceRequest|None=None, semantic_request:SemanticNonConflationRequest|None=None, semantic_speech_request:SemanticDiscourse|None=None, question_reformulation_request:QuestionReformulationRequest|None=None, proposition_coherence_request:PropositionCoherenceRequest|None=None, claim_evidence_request:ClaimEvidenceRequest|None=None, phenomenal_resources_request:PhenomenalResourceRequest|None=None, phenomenal_request:PhenomenalCoherenceRequest|None=None, host_truth_request:HostTruthRequest|None=None, robot_handoff_request:RobotHandoffRequest|None=None, robot_trust_registry:RobotTrustRegistry|None=None, progress_history:Sequence[ProgressHistoryEntry]=(), dynamics_history:Sequence[CoherencePoint]=(), dynamics_required:bool=False, previous_s:float|None=None,current_s:float|None=None, previous_frames:tuple[str,...]=(),current_frames:tuple[str,...]=(),previous_proxies:tuple[str,...]=(),current_proxies:tuple[str,...]=(), amygdala_ping:AmygdalaPing|None=None, decomposition_required:bool=False, domain_id:str|None=None, observed_parts:Sequence[str]=(), terminal_controls:Sequence[ControlEvidence]=(), terminal_required:bool=True, terminal_receipt_registry:Mapping[str,str]|None=None, bounded_truth_claim:str|None=None, bounded_truth_evidence:Sequence[BoundedSourceEvidence]=(), bounded_truth_required:bool=False, bounded_truth_time_sensitive:bool=False)->FullEvaluation:
         receipts={}
+        if not isinstance(semantic_speech_request,SemanticDiscourse):
+            return self._full(Decision.RETRY,('SEMANTIC_SPEECH_REQUEST_MISSING',),None,receipts)
+        speech=self.semantic_speech.evaluate(semantic_speech_request); receipts['semantic_speech']=speech.receipt_sha256
+        if speech.decision is not Decision.PASS:
+            return self._full(speech.decision,('SEMANTIC_SPEECH_BLOCK',)+speech.reasons,None,receipts)
+        if speech.speech!=text:
+            return self._full(Decision.VETO,('SEMANTIC_SPEECH_OUTPUT_IDENTITY_MISMATCH',),None,receipts)
         raw_evaluation=None
         if raw_text_coherence_request is not None:
             raw_evaluation=self.raw_text_coherence.evaluate(raw_text_coherence_request); receipts['raw_text_coherence']=raw_evaluation.receipt_sha256
@@ -190,6 +201,7 @@ class ZoranRuntime:
             controls=tuple(terminal_controls)
             internal_controls={
                 'semantic_non_conflation_gate':snc.receipt_sha256,
+                'semantic_speech_gate':speech.receipt_sha256,
                 'claim_evidence_gate':ce.receipt_sha256,
                 'phenomenal_resource_gate':pr.receipt_sha256,
                 'phenomenal_coherence_gate':ph.receipt_sha256,
@@ -292,9 +304,20 @@ class ZoranRuntime:
     def evaluate_robot_handoff(self, request:RobotHandoffRequest|None, *, trust_registry:RobotTrustRegistry|None=None):
         return self.robot_handoff.evaluate(request,trust_registry=trust_registry)
 
-    def finalize_output(self, request:HostSessionRequest|None, *, trust_registry:object|None=None):
-        """Authorize display only from the pinned host session certificate."""
-        return self.host_session.evaluate(request,trust_registry=trust_registry)
+    def finalize_output(self, request:HostSessionRequest|None, *, semantic_speech_request:SemanticDiscourse|None=None, trust_registry:object|None=None)->FinalOutputEvaluation:
+        """Authorize only speech produced by the semantic round trip and host guard."""
+        if not isinstance(semantic_speech_request,SemanticDiscourse):
+            return self._final_output(Decision.RETRY,'SPEECH_WITHHELD',None,None,None,('SEMANTIC_SPEECH_REQUEST_MISSING',))
+        speech=self.semantic_speech.evaluate(semantic_speech_request)
+        if speech.decision is not Decision.PASS:
+            return self._final_output(speech.decision,'SPEECH_WITHHELD',None,speech.receipt_sha256,None,('SEMANTIC_SPEECH_BLOCK',)+speech.reasons)
+        if not isinstance(request,HostSessionRequest):
+            return self._final_output(Decision.RETRY,'SPEECH_WITHHELD',None,speech.receipt_sha256,None,('HOST_SESSION_REQUEST_MISSING',))
+        if request.output_text!=speech.speech:
+            return self._final_output(Decision.VETO,'SPEECH_WITHHELD',None,speech.receipt_sha256,None,('SEMANTIC_SPEECH_OUTPUT_IDENTITY_MISMATCH',))
+        host=self.host_session.evaluate(request,trust_registry=trust_registry)
+        released=speech.speech if host.decision is Decision.PASS else None
+        return self._final_output(host.decision,host.state,released,speech.receipt_sha256,host.receipt_sha256,host.reasons)
 
     def check_parallel_context(self, *, doubt:bool, question:str, candidate:str, fragments:Sequence[MemoryFragment], active_project_id:str|None=None):
         return self.parallel_context.evaluate(doubt=doubt,question=question,candidate=candidate,fragments=fragments,active_project_id=active_project_id)
@@ -324,3 +347,5 @@ class ZoranRuntime:
         p={'component':COMPONENT_ID,'version':VERSION,'request_sha256':request_sha,'decision':d.value,'slide':list(slide),'zmos_digest':None if z is None else z.context_digest,'mirror':None if m is None else m.manifest_sha256,'prompt_quality':pq,'reasons':list(r)}; h=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(',',':')).encode()).hexdigest(); return PreChatResult(d,tuple(slide),z,m,pq,tuple(r),h)
     def _full(self,d,r,s,receipts):
         p={'component':COMPONENT_ID,'version':VERSION,'decision':d.value,'reasons':list(r),'score_s':s,'receipts':dict(sorted(receipts.items()))}; h=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(',',':')).encode()).hexdigest(); return FullEvaluation(d,tuple(r),s,dict(receipts),h)
+    def _final_output(self,d,state,speech,semantic_receipt,host_receipt,reasons):
+        p={'component':'ZORAN_FINAL_OUTPUT','version':VERSION,'decision':d.value,'state':state,'speech_sha256':None if speech is None else hashlib.sha256(speech.encode('utf-8')).hexdigest(),'semantic_speech_receipt_sha256':semantic_receipt,'host_session_receipt_sha256':host_receipt,'reasons':list(reasons)}; h=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(',',':')).encode()).hexdigest(); return FinalOutputEvaluation(d,state,speech,semantic_receipt,host_receipt,tuple(reasons),h)

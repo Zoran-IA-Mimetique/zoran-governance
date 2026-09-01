@@ -8,6 +8,24 @@ from claim_evidence_gate import (
     ClaimEvidenceGate, ClaimEvidenceRequest, ClaimUnit, Disposition, EvidenceGrade,
     EvidenceRelation, EvidenceSpan, SourceReliability, UnitKind, segment_output,
 )
+
+
+def test_segmentation_preserves_french_but_and_numbered_sentence():
+    from claim_evidence_gate import segment_output
+
+    assert segment_output("Le but est d'expliquer.") == ("Le but est d'expliquer.",)
+    assert segment_output("1. Entre A et B, la relation est stable.") == (
+        "1. Entre A et B, la relation est stable.",
+    )
+
+
+def test_segmentation_keeps_english_contrast_after_comma():
+    from claim_evidence_gate import segment_output
+
+    assert segment_output("The frame is stable, but the claim changes.") == (
+        "The frame is stable,",
+        "but the claim changes.",
+    )
 from tolerance_skill import Decision
 
 

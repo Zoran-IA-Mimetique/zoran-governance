@@ -9,6 +9,17 @@ La chaîne est :
 
 `objet sémantique → parole → recompréhension → équivalence → libération`
 
+Cette chaîne est obligatoire dans les trois passages qui peuvent libérer une
+sortie : `ZoranRuntime.evaluate()`, le `TerminalController` et
+`ZoranRuntime.finalize_output()`. Le texte évalué doit être exactement celui
+produit par le garde. Le contrôleur terminal exige le reçu calculé par le runtime,
+et la sortie finale rejoue le garde avant le certificat de session. Une requête,
+un reçu ou une identité de texte absent ou substitué retient la parole.
+
+La segmentation des preuves conserve « Le but… » comme une phrase française et
+garde le numéro d'une proposition avec sa phrase. Le contraste anglais `, but`
+reste séparé. Cela empêche le passage naturel de se casser sur sa propre forme.
+
 - `PASS` libère la parole exacte.
 - `RETRY` retient une formulation qui n'a pas encore retrouvé le même objet.
 - `VETO` bloque une entrée invalide, une contradiction ou une reconstruction

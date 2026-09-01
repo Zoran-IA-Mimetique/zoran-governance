@@ -6,7 +6,7 @@ from typing import Any, Mapping, Sequence
 PASS='PASS'; FAIL='FAIL'; RETRY='RETRY'
 REQUIRED_CONTROL_IDS=(
     'session_activation','zmos_pre_retrieval','zmos_trace_resolution_if_required','k3_pre',
-    'candidate_17d_gate','semantic_non_conflation_gate','claim_evidence_gate','phenomenal_coherence_gate','robot_handoff_gate',
+    'candidate_17d_gate','semantic_non_conflation_gate','semantic_speech_gate','claim_evidence_gate','phenomenal_coherence_gate','robot_handoff_gate',
     'k3_post','zmos_post_append','tests_if_required',
     'external_alarm_surface_if_required',
 )

@@ -65,3 +65,111 @@ def test_runtime_exposes_the_same_gate():
         )
     )
     assert runtime.evaluate_semantic_speech(_discourse()).decision is Decision.PASS
+
+
+def test_terminal_controller_requires_semantic_speech_receipt():
+    from terminal_controller import (
+        ControlEvidence,
+        PASS,
+        REQUIRED_CONTROL_IDS,
+        RETRY,
+        TerminalController,
+    )
+
+    receipt = "a" * 64
+    controls = tuple(
+        ControlEvidence(control_id, True, True, PASS, receipt, "ok")
+        for control_id in REQUIRED_CONTROL_IDS
+        if control_id != "semantic_speech_gate"
+    )
+    trusted = {control.control_id: receipt for control in controls}
+
+    result = TerminalController().evaluate(controls, trusted_receipts=trusted)
+
+    assert result.status == RETRY
+    assert "CONTROL_UNDECLARED:semantic_speech_gate" in result.reasons
+
+
+def test_runtime_final_display_requires_semantic_discourse():
+    from frame_search import FrameDefinition, FrameSearchEngine
+    from test_host_session_guard import request
+    from zoran_runtime import ZoranRuntime
+
+    runtime = ZoranRuntime(
+        frame_engine=FrameSearchEngine(
+            (FrameDefinition("local", "Cadre local", ("cadre",)),)
+        )
+    )
+
+    result = runtime.finalize_output(request())
+
+    assert result.decision is Decision.RETRY
+    assert result.reasons == ("SEMANTIC_SPEECH_REQUEST_MISSING",)
+
+
+def test_runtime_final_display_rejects_output_not_generated_by_semantic_gate():
+    from frame_search import FrameDefinition, FrameSearchEngine
+    from test_host_session_guard import request
+    from zoran_runtime import ZoranRuntime
+
+    runtime = ZoranRuntime(
+        frame_engine=FrameSearchEngine(
+            (FrameDefinition("local", "Cadre local", ("cadre",)),)
+        )
+    )
+
+    result = runtime.finalize_output(request(), semantic_speech_request=_discourse())
+
+    assert result.decision is Decision.VETO
+    assert result.reasons == ("SEMANTIC_SPEECH_OUTPUT_IDENTITY_MISMATCH",)
+
+
+def test_runtime_keeps_matching_semantic_speech_withheld_without_host_certificate():
+    from frame_search import FrameDefinition, FrameSearchEngine
+    from host_session_guard import HostSessionRequest
+    from zoran_runtime import ZoranRuntime
+
+    speech = SemanticSpeechGate().evaluate(_discourse())
+    request = HostSessionRequest(
+        "a" * 64,
+        "b" * 64,
+        speech.speech,
+        None,
+        "2026-09-01T00:00:00Z",
+    )
+    runtime = ZoranRuntime(
+        frame_engine=FrameSearchEngine(
+            (FrameDefinition("local", "Cadre local", ("cadre",)),)
+        )
+    )
+
+    result = runtime.finalize_output(request, semantic_speech_request=_discourse())
+
+    assert result.decision is Decision.RETRY
+    assert result.speech is None
+    assert result.semantic_speech_receipt_sha256 == speech.receipt_sha256
+    assert result.reasons == ("HOST_SESSION_CERTIFICATE_MISSING",)
+
+
+def test_full_runtime_requires_semantic_speech_request():
+    from test_zoran_runtime_integration_v13_3 import eval_kwargs, runtime
+
+    kwargs = eval_kwargs()
+    kwargs["semantic_speech_request"] = None
+
+    result = runtime().evaluate(**kwargs)
+
+    assert result.decision is Decision.RETRY
+    assert result.reasons == ("SEMANTIC_SPEECH_REQUEST_MISSING",)
+
+
+def test_full_runtime_rejects_text_outside_semantic_speech_gate():
+    from test_zoran_runtime_integration_v13_3 import eval_kwargs, runtime
+
+    kwargs = eval_kwargs()
+    kwargs["semantic_speech_request"] = _discourse()
+
+    result = runtime().evaluate(**kwargs)
+
+    assert result.decision is Decision.VETO
+    assert result.reasons == ("SEMANTIC_SPEECH_OUTPUT_IDENTITY_MISMATCH",)

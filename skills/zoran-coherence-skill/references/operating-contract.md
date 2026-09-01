@@ -4,7 +4,7 @@
 
 Run only the surfaces applicable to the sealed mission, but never silently omit a required surface:
 
-`activation → prompt/content trust boundary → pre-chat → ZMOS recall and trace resolution → bounded external source lookup when required → intrinsic claim/evidence/Wikimedia gate → semantic decomposition/non-conflation → frames → proxies → sources → signed phenomenal-resource search → phenomenal trajectory/causal benefit → signed host-truth gate → hard laws → polymorphic families/17-family tolerances/Progress Guard → robot handoff → K3 POST → Terminal Controller → signed session display or signed robot promotion`
+`activation → prompt/content trust boundary → pre-chat → ZMOS recall and trace resolution → bounded external source lookup when required → semantic speech round trip and exact output identity → intrinsic claim/evidence/Wikimedia gate → semantic decomposition/non-conflation → frames → proxies → sources → signed phenomenal-resource search → phenomenal trajectory/causal benefit → signed host-truth gate → hard laws → polymorphic families/17-family tolerances/Progress Guard → robot handoff → K3 POST → Terminal Controller → semantic speech replay → signed session display or signed robot promotion`
 
 An upstream failure cannot be compensated by a downstream score.
 
@@ -54,11 +54,11 @@ For finite addressable objects (pages, chunks, files, rows, or equivalent units)
 
 ## Terminal controller
 
-The LLM cannot self-declare completion or promotion. The controller expects declarations and receipts for activation, ZMOS pre-retrieval, ZMOS trace-resolution applicability, K3 PRE, candidate 17-family gate, the exact runtime-generated claim-evidence, semantic-non-conflation, phenomenal-resource, phenomenal-coherence, host-truth and robot-handoff gates, K3 POST, ZMOS post-append, required tests, and required external alarm surfaces.
+The LLM cannot self-declare completion or promotion. The controller expects declarations and receipts for activation, ZMOS pre-retrieval, ZMOS trace-resolution applicability, K3 PRE, candidate 17-family gate, the exact runtime-generated semantic-speech, claim-evidence, semantic-non-conflation, phenomenal-resource, phenomenal-coherence, host-truth and robot-handoff gates, K3 POST, ZMOS post-append, required tests, and required external alarm surfaces.
 
 Even a surface marked not applicable must be observed and carry a valid receipt explaining that determination. Missing, duplicate, invalid, or unobserved controls cannot pass. Extra required controls receive the same status validation as core controls. Silence of an alarm is not evidence of PASS.
 
-`trusted_receipts` is a host trust root, not evidence merely because the caller supplied a second matching string. A secure integration must populate it from receipts emitted by executed components or verified signatures. The runtime owns the semantic, claim, phenomenal and robot-handoff bindings. Final display additionally requires the pinned session certificate; release promotion requires the pinned dual-robot certificate.
+`trusted_receipts` is a host trust root, not evidence merely because the caller supplied a second matching string. A secure integration must populate it from receipts emitted by executed components or verified signatures. The runtime owns the semantic-speech, semantic-non-conflation, claim, phenomenal and robot-handoff bindings. Final display reruns the semantic-speech gate, requires byte-identical output, then requires the pinned session certificate; release promotion requires the pinned dual-robot certificate.
 
 ## Delivery review
 
