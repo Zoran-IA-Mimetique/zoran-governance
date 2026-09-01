@@ -1,10 +1,14 @@
-# Zoran🦋 Coherence Skill v21.0.0
+# Zoran🦋 Coherence Skill v22.3.0
 
-Statut source : **candidat expérimental v21**. Cette édition étend le moteur structurel aux relations factuelles locales, chronologies, rôles, directions, périodes, comparaisons et compositions multi-passages. Elle ajoute aussi la coordination ZMOS à Writer unique. Ce statut ne constitue ni une certification tierce ni une preuve d’absence universelle d’hallucinations.
+Statut source : **candidat expérimental v22.3**. Cette édition ajoute les cadres colorés à motifs, un moteur mathématique exact et un profil chimie sécurisé au moteur structurel v21. Elle conserve la coordination ZMOS à Writer unique. Ce statut ne constitue ni une promotion, ni une certification tierce, ni une preuve d’absence universelle d’hallucinations.
 
 Le HEAD gate exige un clone complet, non superficiel et non partiel, le checkout de la branche cible, l’intégrité des objets Git et l’égalité exacte entre `git rev-parse HEAD` et le SHA distant. Son premier échec autorise un seul re-clonage complet; le second produit `VETO`. Aucun score ni contenu ne compense son absence.
 
 Le moteur structurel traite directement les sommes, cellules et unités financières, comptes explicites, compléments de pourcentage, polarités oui/non, comparaisons, chronologies, rôles, directions, événements classés, relations factuelles locales et réponses multi-affirmations. Son contrat d’entrée reste strictement `contexte + question + réponse`; ZMOS est l’unique couche de mémoire et de résolution de traces du système.
+
+Le chemin mathématique exact passe avant les heuristiques : opération reconnue, liaison des nombres aux objets nommés, contrôle d’unités, calcul rationnel, puis vérification inverse. Il couvre les différences, sommes, moyennes, produits, quotients, pourcentages, fractions, conversions simples et équations linéaires à une inconnue. Une liaison incomplète produit `RETRY`, pas une hallucination déclarée.
+
+Le profil chimie calcule les masses molaires et équilibre les réactions neutres dans un périmètre fermé. Les demandes sensibles exigent toutes les valeurs et unités avec un avertissement ciblé. Une demande procédurale dangereuse est bloquée sans produire de protocole exploitable. Le cœur scientifique reste limité à la bibliothèque standard Python afin de ne pas ajouter de dette de dépendances à cette expérimentation.
 
 ZMOS peut recevoir les missions, états, verrous, candidats `BASE_HEAD`/SHA et reçus des sessions auxiliaires. Un seul Writer peut intégrer, pousser et synchroniser le SHA GitHub final. GitHub reste canonique; ZMOS n’est ni un dépôt de vérité ni une autorité de promotion.
 
@@ -27,7 +31,7 @@ Le vérificateur reconstruit deux ZIP identiques, réalise deux extractions sûr
 ## Construction reproductible
 
 ```bash
-python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v21.0.0_CANDIDATE.zip
+python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v22.3.0_CANDIDATE.zip
 ```
 
 Deux constructions consécutives sur les mêmes octets source doivent produire le même SHA-256.
@@ -37,6 +41,9 @@ Deux constructions consécutives sur les mêmes octets source doivent produire l
 - `SKILL.md` et `references/` : contrat agent progressif ;
 - `repository_head_gate.py` : ancrage clone complet, branche cible et HEAD distant exact ;
 - `structural_reasoning_gate.py` : preuves structurelles déterministes avant classification ;
+- `exact_math_engine.py` : calcul rationnel exact, unités, équations linéaires et vérification inverse ;
+- `chemistry_profile.py` : masses molaires, équilibrage et niveaux de sécurité ciblés ;
+- `colored_frame_gate.py` : comparaison booléenne des rôles, motifs, intentions et directions ;
 - `zmos_writer_coordination.py` : file ZMOS ancrée au HEAD canonique et actions d’intégration/push réservées au Writer ;
 - `zoran_runtime.py` : orchestration ;
 - `execution_governor.py` : budget global persistant, préflight des capacités et états terminaux d’exécution ;

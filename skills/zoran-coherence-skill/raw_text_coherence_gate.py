@@ -9,12 +9,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Mapping
 
+from chemistry_profile import ChemistryDecision, ChemistryProfile, ChemistryRequest
+from colored_frame_gate import ColoredFrameGate, ColoredFrameRequest
+from exact_math_engine import ExactMathEngine, ExactMathRequest
 from structural_reasoning_gate import ProofStatus, StructuralProof, StructuralProofRequest, StructuralReasoningGate
 from tolerance_skill import Decision
 
 
 COMPONENT_ID = "zoran.raw-text-coherence-gate"
-VERSION = "21.0.0"
+VERSION = "22.3.0"
 MODEL_ID = "halueval-context-faithfulness-multiframe-logit-v2"
 MODEL_PATH = Path(__file__).with_name("raw_text_coherence_model.json")
 MODEL_TRAINING_CORPUS_SHA256 = ""
@@ -433,6 +436,9 @@ class RawTextCoherenceGate:
     """Candidate-owned deterministic path from raw text to a bounded decision."""
 
     def __init__(self) -> None:
+        self.chemistry = ChemistryProfile()
+        self.exact_math = ExactMathEngine()
+        self.colored_frames = ColoredFrameGate()
         self.structural = StructuralReasoningGate()
 
     def evaluate(self, request: RawTextCoherenceRequest | None) -> RawTextCoherenceEvaluation:
@@ -455,12 +461,179 @@ class RawTextCoherenceGate:
         features = extract_features(request.context, request.question, analysis_answer)
         frame = _model_frame(features)
         probability, threshold = _probability(features, frame)
+        scope_omission = _question_scope_omitted(request.question, analysis_answer)
+        if scope_omission:
+            return self._finish(
+                Decision.VETO,
+                audited(("QUESTION_SCOPE_OMISSION",)),
+                probability,
+                (),
+                (
+                    f"Verify from the supplied context: {request.question.strip()}",
+                    f"Determine the exact context-grounded answer to: {request.question.strip()}",
+                ),
+                features,
+                threshold=threshold,
+                frame=frame,
+            )
+        chemistry = self.chemistry.evaluate(
+            ChemistryRequest(request.question, analysis_answer, request.context)
+        )
+        chemistry_calculation = chemistry.reason in {
+            "MOLAR_MASS_CALCULATED", "MOLAR_MASS_CONTRADICTION",
+            "REACTION_BALANCED", "REACTION_BALANCE_CONTRADICTION",
+        }
+        chemistry_block = chemistry.reason == "DANGEROUS_PROCEDURE_BLOCKED"
+        chemistry_retry = chemistry.reason in {
+            "FORMULA_SYNTAX_UNSUPPORTED", "ELEMENT_UNSUPPORTED",
+            "FORMULA_PARENTHESIS_UNCLOSED", "REACTION_ARROW_MISSING",
+            "REACTION_SCOPE_UNSUPPORTED", "STOICHIOMETRY_NOT_UNIQUE",
+            "STOICHIOMETRY_NONPOSITIVE",
+        }
+        if chemistry_calculation or chemistry_block or chemistry_retry:
+            chemistry_status = (
+                ProofStatus.PROVED if chemistry.decision is ChemistryDecision.PASS
+                else ProofStatus.DISPROVED if chemistry.decision is ChemistryDecision.VETO
+                else ProofStatus.UNRESOLVED
+            )
+            chemistry_structural = StructuralProof(
+                chemistry_status,
+                "chemistry",
+                chemistry.reason,
+                (request.context,) if request.context else (),
+                chemistry.calculation_trace,
+                chemistry.receipt_sha256,
+            )
+            decision = (
+                Decision.PASS if chemistry_status is ProofStatus.PROVED
+                else Decision.VETO if chemistry_status is ProofStatus.DISPROVED
+                else Decision.RETRY
+            )
+            reason_prefix = {
+                Decision.PASS: "CHEMISTRY_PROOF_FAITHFUL",
+                Decision.VETO: "CHEMISTRY_PROOF_CONTRADICTION",
+                Decision.RETRY: "CHEMISTRY_PROOF_INCOMPLETE",
+            }[decision]
+            reformulations = () if decision is not Decision.RETRY else (
+                f"Provide the exact formula or equation required by: {request.question.strip()}",
+                f"Check every chemical species before recalculating: {request.question.strip()}",
+            )
+            return self._finish(
+                decision,
+                audited((f"{reason_prefix}:{chemistry.reason}",)),
+                probability,
+                chemistry_structural.evidence_quotes,
+                reformulations,
+                features,
+                threshold=threshold,
+                frame=frame,
+                structural=chemistry_structural,
+            )
+        exact_math = self.exact_math.evaluate(
+            ExactMathRequest(request.context, request.question, analysis_answer)
+        )
+        if exact_math.applicable:
+            exact_structural = StructuralProof(
+                exact_math.status,
+                "exact_math",
+                exact_math.reason,
+                exact_math.evidence_quotes,
+                exact_math.inverse_trace,
+                exact_math.receipt_sha256,
+            )
+            if exact_math.status is ProofStatus.PROVED:
+                return self._finish(
+                    Decision.PASS,
+                    audited((f"EXACT_MATH_PROOF_FAITHFUL:{exact_math.reason}",)),
+                    probability,
+                    exact_math.evidence_quotes,
+                    (),
+                    features,
+                    threshold=threshold,
+                    frame=frame,
+                    structural=exact_structural,
+                )
+            if exact_math.status is ProofStatus.DISPROVED:
+                return self._finish(
+                    Decision.VETO,
+                    audited((f"EXACT_MATH_PROOF_CONTRADICTION:{exact_math.reason}",)),
+                    probability,
+                    exact_math.evidence_quotes,
+                    (),
+                    features,
+                    threshold=threshold,
+                    frame=frame,
+                    structural=exact_structural,
+                )
+            return self._finish(
+                Decision.RETRY,
+                audited((f"EXACT_MATH_BINDING_INCOMPLETE:{exact_math.reason}",)),
+                probability,
+                exact_math.evidence_quotes,
+                (
+                    f"Name the exact operands and units required by: {request.question.strip()}",
+                    f"Recalculate only after binding every operand in: {request.question.strip()}",
+                ),
+                features,
+                threshold=threshold,
+                frame=frame,
+                structural=exact_structural,
+            )
+        colored = self.colored_frames.evaluate(
+            ColoredFrameRequest(request.context, request.question, analysis_answer)
+        )
+        if colored.applicable:
+            colored_structural = StructuralProof(
+                colored.status,
+                "colored_frame",
+                colored.reason,
+                colored.evidence_quotes,
+                colored.calculation_trace,
+                colored.receipt_sha256,
+            )
+            if colored.status is ProofStatus.PROVED:
+                return self._finish(
+                    Decision.PASS,
+                    audited((f"COLORED_FRAME_PROOF_FAITHFUL:{colored.reason}",)),
+                    probability,
+                    colored.evidence_quotes,
+                    (),
+                    features,
+                    threshold=threshold,
+                    frame=frame,
+                    structural=colored_structural,
+                )
+            if colored.status is ProofStatus.DISPROVED:
+                return self._finish(
+                    Decision.VETO,
+                    audited((f"COLORED_FRAME_PROOF_CONTRADICTION:{colored.reason}",)),
+                    probability,
+                    colored.evidence_quotes,
+                    (),
+                    features,
+                    threshold=threshold,
+                    frame=frame,
+                    structural=colored_structural,
+                )
+            return self._finish(
+                Decision.VETO,
+                audited((f"COLORED_FRAME_PROOF_REQUIRED:{colored.reason}",)),
+                probability,
+                colored.evidence_quotes,
+                (
+                    f"Verify every semantic role from the supplied context: {request.question.strip()}",
+                    f"State only source-contained or explicitly derived frames for: {request.question.strip()}",
+                ),
+                features,
+                threshold=threshold,
+                frame=frame,
+                structural=colored_structural,
+            )
         structural = self.structural.evaluate(StructuralProofRequest(request.context, request.question, analysis_answer))
         answer_sentences = _sentences(analysis_answer) or (analysis_answer,)
         context_sentences = _sentences(request.context) or (request.context,)
         lexical_evidence = tuple(_best_evidence(sentence, request.question, context_sentences)[0] for sentence in answer_sentences)
         evidence = tuple(dict.fromkeys(structural.evidence_quotes + lexical_evidence))
-        scope_omission = _question_scope_omitted(request.question, analysis_answer)
         numeric_binding_failure = (
             frame == "qa"
             and bool(_numbers(analysis_answer))

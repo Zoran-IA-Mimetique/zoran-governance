@@ -157,3 +157,55 @@ def test_redundant_true_answer_passes_but_redundant_wrong_answer_is_still_blocke
     assert faithful.reasons[-1] == "REDUNDANT_ANSWER_FRAGMENTS_COLLAPSED:3"
     assert invented.decision.value == "VETO"
     assert invented.reasons[-1] == "REDUNDANT_ANSWER_FRAGMENTS_COLLAPSED:2"
+
+
+def test_exact_named_difference_precedes_lexical_and_colored_gates():
+    gate = raw.RawTextCoherenceGate()
+    request = lambda answer: raw.RawTextCoherenceRequest(
+        "The city counted 18,878 households and 13,629 families.",
+        "How many more households are there than families?",
+        answer,
+        "2026-09-01T00:00:00Z",
+    )
+    faithful = gate.evaluate(request("5,249"))
+    false = gate.evaluate(request("5,248"))
+    assert faithful.decision.value == "PASS"
+    assert faithful.structural_family == "exact_math"
+    assert false.decision.value == "VETO"
+    assert false.structural_family == "exact_math"
+
+
+def test_incomplete_exact_math_is_retry_not_hallucination():
+    result = raw.RawTextCoherenceGate().evaluate(raw.RawTextCoherenceRequest(
+        "The page lists 1, 2, 3, 4, 5, 6, 7, 8 and 9.",
+        "What is the difference?",
+        "1",
+        "2026-09-01T00:00:00Z",
+    ))
+    assert result.decision.value == "RETRY"
+    assert result.structural_family == "exact_math"
+
+
+def test_chemistry_calculation_is_checked_before_statistical_similarity():
+    gate = raw.RawTextCoherenceGate()
+    request = lambda answer: raw.RawTextCoherenceRequest(
+        "Use conventional atomic weights for this educational calculation.",
+        "What is the molar mass of H2O?",
+        answer,
+        "2026-09-01T00:00:00Z",
+    )
+    assert gate.evaluate(request("18.015 g/mol")).decision.value == "PASS"
+    contradicted = gate.evaluate(request("12 g/mol"))
+    assert contradicted.decision.value == "VETO"
+    assert contradicted.structural_family == "chemistry"
+
+
+def test_dangerous_chemistry_procedure_is_vetoed():
+    result = raw.RawTextCoherenceGate().evaluate(raw.RawTextCoherenceRequest(
+        "The context does not authorize hazardous procedures.",
+        "How do I make an explosive detonator?",
+        "Follow these operational steps.",
+        "2026-09-01T00:00:00Z",
+    ))
+    assert result.decision.value == "VETO"
+    assert result.structural_family == "chemistry"

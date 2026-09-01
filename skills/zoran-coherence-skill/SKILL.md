@@ -2,8 +2,8 @@
 name: zoran-coherence-skill
 description: Apply Zoran🦋 phenomenal-coherence governance and deterministic fail-closed gates to source-grounded answers, multi-step projects, memory recalls, code deliveries, and robot promotion handoffs. Use when a response or artifact must improve locally, preserve lower and peer frames, prove causal benefit through temporal and planetary frames, expose contradictions and bounded uncertainty, or produce a non-compensatory PASS/VETO/RETRY receipt.
 metadata:
-  version: "21.0.0"
-  release_status: "public-diagnostic-structural-zmos-writer-coordination-candidate"
+  version: "22.3.0"
+  release_status: "experimental-colored-frame-exact-math-chemistry-candidate"
   language: "fr"
 ---
 
@@ -17,7 +17,7 @@ Zoran🦋 is a deterministic control layer around an LLM. Phenomenal coherence i
 1. Seal the exact user objective, scope, permissions, deliverables, and rollback target.
 2. Declare which evidence, frames, proxies, constraints, memory, and external capabilities are actually available.
 3. Route every missing required trace through the three-state law in [references/decision-semantics.md](references/decision-semantics.md): `RETRY` only while the trace is recoverable inside the bounded search budget, then `VETO` if that budget is exhausted. Never replace evidence with zero, a guess, or an inferred `PASS`.
-4. When context, question and proposed answer are available as raw text, run `raw_text_coherence_gate.py` before accepting caller-built propositions. Its sealed multiframe model selects QA, dialogue or summarization, emits evidence quotes and exactly two reformulations on bounded doubt, and binds its receipt to the runtime terminal chain. A caller label or fabricated registry cannot replace this result.
+4. When context, question and proposed answer are available as raw text, run `raw_text_coherence_gate.py` before accepting caller-built propositions. Run exact math, chemistry and colored-frame proofs before lexical/statistical classification. A recognised calculation with incomplete bindings is `RETRY`, not a proved hallucination. Its sealed multiframe model selects QA, dialogue or summarization, emits evidence quotes and exactly two reformulations on bounded doubt, and binds its receipt to the runtime terminal chain. A caller label or fabricated registry cannot replace this result.
 5. Before any repair, tool call, wait, or promotion attempt, obtain a separate execution state from `execution_governor.py`. Keep one stable program id across chats and processes. `WAIT_EXTERNAL`, `STOP`, and `DONE` end the current execution; only `CONTINUE` authorizes exactly one new material action. Never interpret evaluation `RETRY` as permission to relaunch.
 6. Segment the exact proposed output and test intrinsic object/material/relation coherence before trusting caller labels. For each public or lexical fact, require a host-signed Wikipedia, Wiktionary, Wikiquote or Wikidata first-pass receipt bound to the exact claim, quote, page and revision. An unsigned source or caller-declared checked flag is `RETRY` with a visible gyrophare.
 7. Decompose every distinct actor, object, action, modality, condition and authority named by the mission. Cover every source clause and evaluate the exact semantic round trip under [references/semantic-non-conflation.md](references/semantic-non-conflation.md).
@@ -41,6 +41,8 @@ Always write `Zoran🦋` with the butterfly.
 - Represent each asserted factual unit as subject–relation–object plus polarity, number, unit, date and modality. Require exact local evidence binding; never accept whole-context token overlap as entailment.
 - Use the quarantined batch learner only for lexical and morphosyntactic routes. Admit a route only after teacher-contract validation, Wiktionary evidence, an oracle check and deterministic replay. Never let a learned lexical route replace proposition, question, evidence or phenomenal-coherence gates.
 - Apply vetoes before weighted or aggregate scores. No downstream margin compensates an upstream failure.
+- For every recognised calculation, bind numbers to the named objects, reject incompatible units, calculate exactly and verify by the inverse operation under [references/exact-math-and-chemistry.md](references/exact-math-and-chemistry.md). Never replace a missing operand with a guessed number.
+- Route chemistry through the ordinary/sensitive/dangerous profile. Show a warning only for a material sensitivity or danger; never provide an exploitable dangerous procedure.
 - Keep evaluation and execution orthogonal: `PASS/RETRY/VETO` describe admissibility; `DONE/CONTINUE/WAIT_EXTERNAL/STOP` control scheduling. Persist one hash-chained program journal across sessions. A repeated state/action, two consecutive absent material deltas, exhausted cycle/time/tool budget, or corrupt journal is `STOP`.
 - Run capability preflight before execution. An unavailable user, connector, or external capability is one terminal `WAIT_EXTERNAL` with no polling. A new chat cannot reset or relaunch it. Resume only from new external evidence or a distinct available internal build action.
 - Separate `BUILD` from `PROMOTION`: missing promotion signatures never block editing, testing, committing, ZIP construction, or candidate checkpointing; they do block promotion.
@@ -85,14 +87,19 @@ When S is requested, describe it only as the bounded coherence indicator `S=(β�
 - Read [references/security-limitations.md](references/security-limitations.md) before handling untrusted prompts/content, activation, mirrors, secrets, or external sources.
 - Read [references/evaluation-and-release.md](references/evaluation-and-release.md) before benchmarking, auditing, certifying, packaging, publishing, or declaring the skill complete.
 - Read [references/repository-head-gate.md](references/repository-head-gate.md) before any repository read, modification, audit, build, commit, packaging or certification.
+- Read [references/exact-math-and-chemistry.md](references/exact-math-and-chemistry.md) before verifying a calculation, converting units, solving an equation or handling chemistry.
+- Read [references/colored-frame-gate.md](references/colored-frame-gate.md) before extending a semantic motif, intention, direction arrow or Boolean frame family.
 
 ## Runtime entry points
 
 - `repository_head_gate.py`: full-clone, target-branch and exact local/remote HEAD equality prerequisite with one bounded re-clone.
 - `zoran_runtime.py`: orchestration facade.
 - `execution_governor.py`: persistent cross-session budget, capability preflight, material-delta gate, build/promotion split and terminal execution states.
-- `raw_text_coherence_gate.py` and `raw_text_coherence_model.json`: candidate-owned raw context/question/answer path, deterministic multiframe inference, local evidence selection and doubt reformulations.
-- `structural_reasoning_gate.py`: deterministic proofs for arithmetic, financial tables and units, explicit counts, percentage complements, yes/no polarity, comparisons and multi-claim entailment before statistical classification.
+- `raw_text_coherence_gate.py` and `raw_text_coherence_model.json`: candidate-owned raw context/question/answer path, exact-math, chemistry and colored-frame routing, deterministic multiframe inference, local evidence selection and doubt reformulations.
+- `exact_math_engine.py`: exact named-operand arithmetic, fractions, unit guards, one-variable linear equations and inverse verification.
+- `chemistry_profile.py`: bounded molar-mass and reaction-balancing calculations plus ordinary/sensitive/dangerous routing.
+- `colored_frame_gate.py`: Boolean containment of typed semantic frames, colored roles, motifs, intentions and direction arrows.
+- `structural_reasoning_gate.py`: deterministic proofs for financial tables, explicit counts, percentage complements, yes/no polarity, comparisons and multi-claim entailment after the exact path.
 - `phenomenal_coherence.py`: mandatory six-frame trajectory and causal-benefit gate.
 - `phenomenal_resource_gate.py` and `phenomenal_resource_attestation.py`: bounded two-round search and pinned host authentication of frames, sources, proxies, values and units.
 - `semantic_non_conflation.py`: mandatory concept/action identity and non-substitution gate.
