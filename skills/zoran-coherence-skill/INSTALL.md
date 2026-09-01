@@ -1,4 +1,4 @@
-# Installation — Zoran🦋 v20.0.0
+# Installation — Zoran🦋 v21.0.0
 
 1. Pour toute installation issue d’un dépôt, exécuter d’abord `repository_head_gate.py` sur un clone Git complet de la branche cible et conserver son reçu `PASS`. Un premier échec autorise un seul re-clonage complet; un second échec interdit le livrable.
 2. Vérifier le SHA-256 du ZIP reçu par un canal de confiance.
@@ -21,6 +21,7 @@ Pour reproduire l’entraînement du modèle brut, installer séparément `requi
 7. Redémarrer ou recharger l’hôte de skills, puis vérifier que `Zoran🦋 Coherence` est découvert et que `test_execution_governor.py`, `test_repository_head_gate.py` et `test_structural_reasoning_gate.py` passent depuis la copie installée.
 8. Pour l’apprentissage lexical, conserver les états et le cache Wiktionnaire dans des répertoires hôte persistants distincts; ne jamais placer de clé GMA4 dans l’état appris.
 9. Ne déclarer ZMOS actif qu’après consentement utilisateur et test persistant écriture/lecture.
+   Pour la coordination multi-session, sceller un seul `writer_id`; les autres sessions déposent uniquement des candidats ancrés au `BASE_HEAD` GitHub canonique avec SHA et reçus de tests.
 10. Ne déclarer une mesure phénoménale disponible qu’après attestation hôte des six cadres, des sources et des quatre proxys avec valeurs et unités. La première recherche incomplète retourne `RETRY` et impose une nouvelle ressource; la seconde retourne le `VETO` de trace absente avec gyrophare et retour à l’envoyeur.
 11. Ne déclarer l’affichage final autorisé qu’après vérification du certificat de session liant mission, prompt, texte exact et 18 étapes.
 12. Ne déclarer la promotion robot active qu’après vérification des reçus exacts de non-conflation, claims, ressources phénoménales, cohérence phénoménale et vérité hôte, soumission du candidat, verdict `VALIDATED` et certificat signé liant ZIP, manifeste, SBOM et commit/tree source. Une preuve absente produit `WAIT_EXTERNAL` et termine le tour; elle ne relance jamais une recherche automatique.

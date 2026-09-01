@@ -36,10 +36,9 @@ class Mark:
         return decorate
 
 
-pytest = types.ModuleType("pytest")
-pytest.raises = Raises
-pytest.mark = Mark()
-sys.modules["pytest"] = pytest
+pytest_stub = types.ModuleType("pytest")
+pytest_stub.raises = Raises
+pytest_stub.mark = Mark()
 
 
 def cases(function):
@@ -69,28 +68,36 @@ def execute(root: Path, requested: tuple[str, ...] = ()) -> dict:
     sys.path.insert(0, str(root))
     passed = 0
     failures = []
-    for path in selected_test_files(root, requested):
-        module = importlib.import_module(path.stem)
-        for name, function in sorted(vars(module).items()):
-            if not name.startswith("test_") or not callable(function) or function.__module__ != module.__name__:
-                continue
-            for index, provided in enumerate(cases(function)):
-                with tempfile.TemporaryDirectory(prefix="zoran-source-test-") as tmp:
-                    arguments = dict(provided)
-                    unsupported = []
-                    for parameter in inspect.signature(function).parameters:
-                        if parameter == "tmp_path":
-                            arguments[parameter] = Path(tmp)
-                        elif parameter not in arguments:
-                            unsupported.append(parameter)
-                    if unsupported:
-                        failures.append([path.name, name, index, f"unsupported fixtures:{unsupported}"])
-                        continue
-                    try:
-                        function(**arguments)
-                        passed += 1
-                    except Exception as exc:
-                        failures.append([path.name, name, index, repr(exc)])
+    previous_pytest = sys.modules.get("pytest")
+    sys.modules["pytest"] = pytest_stub
+    try:
+        for path in selected_test_files(root, requested):
+            module = importlib.import_module(path.stem)
+            for name, function in sorted(vars(module).items()):
+                if not name.startswith("test_") or not callable(function) or function.__module__ != module.__name__:
+                    continue
+                for index, provided in enumerate(cases(function)):
+                    with tempfile.TemporaryDirectory(prefix="zoran-source-test-") as tmp:
+                        arguments = dict(provided)
+                        unsupported = []
+                        for parameter in inspect.signature(function).parameters:
+                            if parameter == "tmp_path":
+                                arguments[parameter] = Path(tmp)
+                            elif parameter not in arguments:
+                                unsupported.append(parameter)
+                        if unsupported:
+                            failures.append([path.name, name, index, f"unsupported fixtures:{unsupported}"])
+                            continue
+                        try:
+                            function(**arguments)
+                            passed += 1
+                        except Exception as exc:
+                            failures.append([path.name, name, index, repr(exc)])
+    finally:
+        if previous_pytest is None:
+            sys.modules.pop("pytest", None)
+        else:
+            sys.modules["pytest"] = previous_pytest
     return {"runner": "zoran-bundled-source-only-v1", "passed": passed, "failed": len(failures), "failures": failures}
 
 

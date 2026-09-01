@@ -2,6 +2,24 @@
 
 ZMOS is the sole Zoran project/chat trace-memory layer. It is not ground truth: factual assertions still require the applicable evidence gates.
 
+GitHub remains the canonical repository authority. ZMOS is the coordination buffer between sessions; it never replaces the verified remote HEAD, a Git object, a signed source receipt, or the final GitHub SHA.
+
+## Writer-unique coordination
+
+One sealed `program_id` has exactly one `writer_id`. Helper sessions may enqueue candidate patches or commits, but they may not integrate, push, merge, promote, or declare the final GitHub state.
+
+Every candidate envelope must bind:
+
+- mission, state and lock identity;
+- `canonical_github_head` and identical `base_head`;
+- candidate Git SHA;
+- distinct SHA-256 test/review receipts from the producing session;
+- immutable queue position and ZMOS event-chain receipt.
+
+Only the Writer may consume the integration queue, integrate a candidate, push a grouped change, and append the final GitHub SHA. The final synchronization event must bind the exact candidate SHA to the observed canonical GitHub SHA. A helper attempting a Writer-only action, a stale `BASE_HEAD`, missing tests, a duplicate receipt, or a final SHA that differs from the candidate is `VETO`.
+
+Use `zmos_writer_coordination.py` before appending or consuming any coordination envelope. This gate grants workflow authority only; it does not prove the candidate true, tested, mergeable, or promoted. No percentage of GitHub-call reduction may be asserted without an observed before/after trace.
+
 ## Consent and capacity
 
 Before first activation, ask:

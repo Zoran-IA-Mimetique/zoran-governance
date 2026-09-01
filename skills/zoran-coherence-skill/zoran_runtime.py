@@ -49,7 +49,7 @@ from contrastive_corpus_gate import ContrastiveCorpusGate, ContrastiveCorpusRequ
 from raw_text_coherence_gate import RawTextCoherenceEvaluation, RawTextCoherenceGate, RawTextCoherenceRequest
 from execution_governor import ExecutionGovernor, ExecutionPolicy, ExecutionRequest, ExecutionReceipt
 
-COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='20.0.0'
+COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='21.0.0'
 PROMOTION_SCORE_THRESHOLD=Fraction(9)
 
 @dataclass(frozen=True)

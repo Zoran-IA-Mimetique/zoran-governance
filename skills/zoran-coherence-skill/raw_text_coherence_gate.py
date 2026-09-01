@@ -14,7 +14,7 @@ from tolerance_skill import Decision
 
 
 COMPONENT_ID = "zoran.raw-text-coherence-gate"
-VERSION = "20.0.0"
+VERSION = "21.0.0"
 MODEL_ID = "halueval-context-faithfulness-multiframe-logit-v2"
 MODEL_PATH = Path(__file__).with_name("raw_text_coherence_model.json")
 MODEL_TRAINING_CORPUS_SHA256 = ""
@@ -154,6 +154,23 @@ def _question_scope_omitted(question: str, answer: str) -> bool:
             question_entities.add(" ".join(parts))
     normalized_answer = _norm(answer)
     return len(question_entities) >= 2 and not all(entity in normalized_answer for entity in question_entities)
+
+
+def _collapse_redundant_answer_fragments(answer: str) -> tuple[str, int]:
+    """Collapse only exact comma-separated repetitions of one answer.
+
+    Some multi-hop evaluators concatenate identical subanswers (``27, 27,
+    27``).  Repetition adds no proposition and must therefore be idempotent.
+    Distinct lists and thousands-formatted scalars remain byte-for-byte
+    unchanged.
+    """
+    fragments = tuple(fragment.strip() for fragment in answer.split(","))
+    if len(fragments) < 2 or any(not fragment for fragment in fragments):
+        return answer, 1
+    normalized = tuple(_norm(fragment) for fragment in fragments)
+    if normalized[0] and len(set(normalized)) == 1:
+        return fragments[0], len(fragments)
+    return answer, 1
 
 
 def _antonym_conflict(answer_tokens: set[str], evidence_tokens: set[str]) -> float:
@@ -425,22 +442,32 @@ class RawTextCoherenceGate:
             return self._finish(Decision.RETRY, ("RAW_TEXT_FIELD_MISSING",), None, (), (), {})
         if not MODEL_READY:
             return self._finish(Decision.RETRY, (f"RAW_TEXT_MODEL_NOT_READY:{MODEL_LOAD_ERROR}",), None, (), (), {})
-        features = extract_features(request.context, request.question, request.answer)
+        analysis_answer, repetition_count = _collapse_redundant_answer_fragments(request.answer)
+        normalization_reasons = (
+            (f"REDUNDANT_ANSWER_FRAGMENTS_COLLAPSED:{repetition_count}",)
+            if repetition_count > 1
+            else ()
+        )
+
+        def audited(reasons: tuple[str, ...]) -> tuple[str, ...]:
+            return reasons + normalization_reasons
+
+        features = extract_features(request.context, request.question, analysis_answer)
         frame = _model_frame(features)
         probability, threshold = _probability(features, frame)
-        structural = self.structural.evaluate(StructuralProofRequest(request.context, request.question, request.answer))
-        answer_sentences = _sentences(request.answer) or (request.answer,)
+        structural = self.structural.evaluate(StructuralProofRequest(request.context, request.question, analysis_answer))
+        answer_sentences = _sentences(analysis_answer) or (analysis_answer,)
         context_sentences = _sentences(request.context) or (request.context,)
         lexical_evidence = tuple(_best_evidence(sentence, request.question, context_sentences)[0] for sentence in answer_sentences)
         evidence = tuple(dict.fromkeys(structural.evidence_quotes + lexical_evidence))
-        scope_omission = _question_scope_omitted(request.question, request.answer)
+        scope_omission = _question_scope_omitted(request.question, analysis_answer)
         numeric_binding_failure = (
             frame == "qa"
-            and bool(_numbers(request.answer))
+            and bool(_numbers(analysis_answer))
             and features["local_number_coverage"] < 0.999999
         )
         strict_structural_family = structural.family in {
-            "yes_no_polarity", "percent_complement", "comparison", "relation", "multi_claim"
+            "yes_no_polarity", "percent_complement", "comparison", "ranked_event", "temporal_choice", "relation", "exclusive_relation", "local_scalar_relation", "multi_claim", "semantic_alignment", "finance_formula"
         } or (
             structural.family == "numeric_table"
             and any(term in _norm(request.question) for term in ("fy", "usd", "financial", "balance sheet", "income statement", "margin"))
@@ -454,18 +481,18 @@ class RawTextCoherenceGate:
             f"Determine the exact context-grounded answer to: {request.question.strip()}",
         ) if doubt else ()
         if scope_omission:
-            return self._finish(Decision.VETO, ("QUESTION_SCOPE_OMISSION",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+            return self._finish(Decision.VETO, audited(("QUESTION_SCOPE_OMISSION",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
         if structural.status is ProofStatus.DISPROVED:
-            return self._finish(Decision.VETO, (f"STRUCTURAL_PROOF_CONTRADICTION:{structural.family}:{structural.reason}",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+            return self._finish(Decision.VETO, audited((f"STRUCTURAL_PROOF_CONTRADICTION:{structural.family}:{structural.reason}",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
         if structural.status is ProofStatus.PROVED:
-            return self._finish(Decision.PASS, (f"STRUCTURAL_PROOF_FAITHFUL:{structural.family}:{structural.reason}",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+            return self._finish(Decision.PASS, audited((f"STRUCTURAL_PROOF_FAITHFUL:{structural.family}:{structural.reason}",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
         if strict_structural_family and structural.status is ProofStatus.UNRESOLVED:
-            return self._finish(Decision.VETO, (f"STRUCTURAL_PROOF_REQUIRED:{structural.family}:{structural.reason}",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+            return self._finish(Decision.VETO, audited((f"STRUCTURAL_PROOF_REQUIRED:{structural.family}:{structural.reason}",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
         if numeric_binding_failure:
-            return self._finish(Decision.VETO, ("LOCAL_NUMBER_BINDING_FAILURE",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+            return self._finish(Decision.VETO, audited(("LOCAL_NUMBER_BINDING_FAILURE",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
         if probability >= threshold:
-            return self._finish(Decision.PASS, ("RAW_CONTEXT_FAITHFUL",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
-        return self._finish(Decision.VETO, ("RAW_CONTEXT_INCOHERENCE",), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+            return self._finish(Decision.PASS, audited(("RAW_CONTEXT_FAITHFUL",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
+        return self._finish(Decision.VETO, audited(("RAW_CONTEXT_INCOHERENCE",)), probability, evidence, reformulations, features, threshold=threshold, frame=frame, structural=structural)
 
     @staticmethod
     def _finish(

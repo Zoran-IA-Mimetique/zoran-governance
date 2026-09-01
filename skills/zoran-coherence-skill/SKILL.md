@@ -2,8 +2,8 @@
 name: zoran-coherence-skill
 description: Apply Zoran🦋 phenomenal-coherence governance and deterministic fail-closed gates to source-grounded answers, multi-step projects, memory recalls, code deliveries, and robot promotion handoffs. Use when a response or artifact must improve locally, preserve lower and peer frames, prove causal benefit through temporal and planetary frames, expose contradictions and bounded uncertainty, or produce a non-compensatory PASS/VETO/RETRY receipt.
 metadata:
-  version: "20.0.0"
-  release_status: "structural-zmos-coherence-and-head-anchored-candidate"
+  version: "21.0.0"
+  release_status: "public-diagnostic-structural-zmos-writer-coordination-candidate"
   language: "fr"
 ---
 
@@ -109,13 +109,14 @@ When S is requested, describe it only as the bounded coherence indicator `S=(β�
 - `sensor_layer.py`: bounded sensor contract.
 - `terminal_controller.py`: finalization authority.
 - `delivery_reviewer.py`: evidence-bound delivery review.
-- `zmos_memory.py` and `zmos_coherence_selector.py`: persistent memory and contradiction-preserving recall.
+- `zmos_memory.py`, `zmos_coherence_selector.py` and `zmos_writer_coordination.py`: persistent memory, contradiction-preserving recall, canonical-HEAD candidate queue and Writer-only integration/push/final-SHA synchronization.
 - `bounded_truth_engine.py` and `source_coherence.py`: source evidence and provenance-root checks.
 - `scripts/test_runner.py` and `scripts/verify_release.py`: pytest-independent clean-extraction replay and release verification.
 - `scripts/run_v17_hallucination_campaign.py`: registered false-PASS families, exact expected outcomes and deterministic replay.
 - `scripts/run_v18_proposition_campaign.py`: faithful controls plus entity, relation, number/date and negation recombinations.
 - `scripts/run_v19_raw_text_campaign.py`: raw faithful controls plus number recombination, scope omission and matter opposition.
 - `scripts/run_v20_zmos_structural_campaign.py`: 16 balanced ZMOS structural families with faithful controls and paired falsifications.
+- `scripts/run_public_halubench_diagnostic.py`: label-blind replay over a pinned public HaluBench snapshot; diagnostic only, never a fresh holdout or universal SOTA proof.
 - `scripts/run_execution_governor_campaign.py`: resets intersessions, répétitions, stagnation, budgets, attente externe, séparation build/promotion et altération du journal.
 - `scripts/train_raw_text_coherence_model.py`: reproducible training on HaluEval only; HaluBench labels are contractually excluded.
 - `scripts/verify_robot_certificate.py`: offline verification of the signed external robot certificate.

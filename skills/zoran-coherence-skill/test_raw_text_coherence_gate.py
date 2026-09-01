@@ -138,3 +138,22 @@ def test_yes_no_both_scope_cannot_silently_drop_one_subject():
     ))
     assert result.decision.value == "VETO"
     assert result.reasons == ("QUESTION_SCOPE_OMISSION",)
+
+
+def test_redundant_answer_fragments_are_semantically_idempotent():
+    assert raw._collapse_redundant_answer_fragments("27, 27, 27") == ("27", 3)
+    assert raw._collapse_redundant_answer_fragments("Broncos, Broncos") == ("Broncos", 2)
+    assert raw._collapse_redundant_answer_fragments("$16,246") == ("$16,246", 1)
+    assert raw._collapse_redundant_answer_fragments("Paris, London") == ("Paris, London", 1)
+
+
+def test_redundant_true_answer_passes_but_redundant_wrong_answer_is_still_blocked():
+    gate = raw.RawTextCoherenceGate()
+    context = "The winning side scored 27 points."
+    question = "How many points did the winning side score?"
+    faithful = gate.evaluate(raw.RawTextCoherenceRequest(context, question, "27, 27, 27", "2026-09-01T00:00:00Z"))
+    invented = gate.evaluate(raw.RawTextCoherenceRequest(context, question, "21, 21", "2026-09-01T00:00:00Z"))
+    assert faithful.decision.value == "PASS"
+    assert faithful.reasons[-1] == "REDUNDANT_ANSWER_FRAGMENTS_COLLAPSED:3"
+    assert invented.decision.value == "VETO"
+    assert invented.reasons[-1] == "REDUNDANT_ANSWER_FRAGMENTS_COLLAPSED:2"

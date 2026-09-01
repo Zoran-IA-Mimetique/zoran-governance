@@ -1,0 +1,38 @@
+{
+  "schema": "zoran.v21-public-diagnostic-prereg.v1",
+  "status": "FROZEN_BEFORE_FIRST_V21_REPLAY",
+  "candidate_baseline": {
+    "repository": "Zoran-IA-Mimetique/zoran-governance",
+    "branch": "codex/zoran-coherence-skill-v20",
+    "commit": "54598d5306766e1b544725309135fc3725f85062",
+    "tree": "039217a661d6d2a575d3061a79181d2b552e4969"
+  },
+  "dataset": {
+    "repository": "liuzihe02/halu",
+    "branch": "main",
+    "commit": "dfda2ca8bf02125e81a27cb5dcc28588e7d15fe1",
+    "path": "data/halubench/raw_halubench.csv",
+    "sha256": "b3981e658f7097ae856c0cfb67466dc697fa9ec575084977a41becf7728b18b7",
+    "excluded_source_labels": ["halueval"],
+    "exclusion_reason": "The raw-text model was trained on HaluEval; those rows are excluded to avoid fit-corpus overlap.",
+    "expected_evaluated_cases": 4900
+  },
+  "candidate_input_fields": ["context", "question", "answer", "as_of"],
+  "forbidden_candidate_inputs": ["label", "source_ds", "dataset_name", "expected_decision"],
+  "metrics": [
+    "accuracy",
+    "balanced_accuracy",
+    "hallucination_block_recall",
+    "faithful_acceptance",
+    "block_precision",
+    "block_f1",
+    "false_pass",
+    "false_block"
+  ],
+  "reporting": {
+    "aggregate_and_external_source_slices": true,
+    "all_misclassified_cases": true,
+    "threshold_tuning_on_this_replay": false,
+    "public_sota_claim_authorized": false
+  }
+}

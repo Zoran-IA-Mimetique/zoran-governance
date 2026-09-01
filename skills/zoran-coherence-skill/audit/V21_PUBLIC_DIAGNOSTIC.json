@@ -1,0 +1,64 @@
+{
+  "schema": "zoran.v21-public-diagnostic-summary.v1",
+  "verdict": "DIAGNOSTIC_ONLY",
+  "public_sota_claim": false,
+  "fresh_holdout": false,
+  "reason_not_holdout": "The public errors were inspected while developing v21 structural rules.",
+  "candidate_label_channel": "ABSENT",
+  "dataset": {
+    "repository": "liuzihe02/halu",
+    "commit": "dfda2ca8bf02125e81a27cb5dcc28588e7d15fe1",
+    "path": "data/halubench/raw_halubench.csv",
+    "rows": 14900,
+    "sha256": "b3981e658f7097ae856c0cfb67466dc697fa9ec575084977a41becf7728b18b7",
+    "excluded_sources": ["halueval"],
+    "exclusion_reason": "The raw-text model was trained on HaluEval.",
+    "evaluated_cases": 4900,
+    "evaluated_case_set_sha256": "8f76478fedd8ccd1db254d83f54b1cce3dbcf488af8bbd54ef0a85e5ed62f82a"
+  },
+  "baseline_v20": {
+    "accuracy": 0.549795918367347,
+    "balanced_accuracy": 0.5910751200364348,
+    "hallucination_block_recall": 0.9398148148148148,
+    "faithful_acceptance": 0.24233576642335766,
+    "false_pass": 130,
+    "false_block": 2076,
+    "true_block": 2030,
+    "true_pass": 664
+  },
+  "candidate_v21": {
+    "accuracy": 0.6148979591836735,
+    "balanced_accuracy": 0.6550689375506894,
+    "hallucination_block_recall": 0.9944444444444445,
+    "faithful_acceptance": 0.3156934306569343,
+    "block_precision": 0.5339299030574198,
+    "block_f1": 0.6948083454633673,
+    "false_pass": 12,
+    "false_block": 1875,
+    "true_block": 2148,
+    "true_pass": 865,
+    "prediction_receipts_sha256": "31e996d9f88a7aa54c2d89c325c04fdecb61964696d4101f4dee16164a47d562",
+    "misclassification_file_sha256": "c1b059463d493cc46e6e11e24f33c5e342567a259fb2b3d7fb003205648e73f8"
+  },
+  "delta_v21_minus_v20": {
+    "accuracy_points": 6.510204081632649,
+    "balanced_accuracy_points": 6.399381751425461,
+    "hallucination_block_recall_points": 5.462962962962966,
+    "faithful_acceptance_points": 7.335766423357664,
+    "false_pass": -118,
+    "false_block": -201
+  },
+  "source_slices": {
+    "DROP": {"cases": 1000, "hallucination_block_recall": 0.988, "faithful_acceptance": 0.256, "false_pass": 6, "false_block": 372},
+    "FinanceBench": {"cases": 1000, "hallucination_block_recall": 0.988, "faithful_acceptance": 0.27, "false_pass": 6, "false_block": 365},
+    "RAGTruth": {"cases": 900, "hallucination_block_recall": 1.0, "faithful_acceptance": 0.1864864864864865, "false_pass": 0, "false_block": 602},
+    "covidQA": {"cases": 1000, "hallucination_block_recall": 1.0, "faithful_acceptance": 0.914, "false_pass": 0, "false_block": 43},
+    "pubmedQA": {"cases": 1000, "hallucination_block_recall": 1.0, "faithful_acceptance": 0.014, "false_pass": 0, "false_block": 493}
+  },
+  "limitations": [
+    "Results are diagnostic because the public error set was revealed during rule development.",
+    "Dataset-label disputes are preserved separately and are not used to compute an adjusted score.",
+    "Low faithful acceptance remains the principal public diagnostic weakness.",
+    "The external source label RAGTruth is retained only as the upstream dataset name; Zoran uses ZMOS, not RAG, as its memory and trace layer."
+  ]
+}

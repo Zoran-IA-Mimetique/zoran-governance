@@ -1,12 +1,14 @@
-# Zoran🦋 Coherence Skill v20.0.0
+# Zoran🦋 Coherence Skill v21.0.0
 
-Statut source : **candidat expérimental v20**. Cette édition ajoute deux contrôles non compensatoires : l’ancrage obligatoire d’un chantier Git sur le HEAD distant exact d’une branche, et un moteur de preuves structurelles appliqué avant le classifieur multicadre. Ce statut ne constitue ni une certification tierce ni une preuve d’absence universelle d’hallucinations.
+Statut source : **candidat expérimental v21**. Cette édition étend le moteur structurel aux relations factuelles locales, chronologies, rôles, directions, périodes, comparaisons et compositions multi-passages. Elle ajoute aussi la coordination ZMOS à Writer unique. Ce statut ne constitue ni une certification tierce ni une preuve d’absence universelle d’hallucinations.
 
 Le HEAD gate exige un clone complet, non superficiel et non partiel, le checkout de la branche cible, l’intégrité des objets Git et l’égalité exacte entre `git rev-parse HEAD` et le SHA distant. Son premier échec autorise un seul re-clonage complet; le second produit `VETO`. Aucun score ni contenu ne compense son absence.
 
-Le moteur structurel traite directement les sommes, cellules et unités financières, comptes explicites, compléments de pourcentage, polarités oui/non, comparaisons numériques et réponses à plusieurs affirmations. Son contrat d’entrée reste strictement `contexte + question + réponse`; ZMOS est l’unique couche de mémoire et de résolution de traces du système.
+Le moteur structurel traite directement les sommes, cellules et unités financières, comptes explicites, compléments de pourcentage, polarités oui/non, comparaisons, chronologies, rôles, directions, événements classés, relations factuelles locales et réponses multi-affirmations. Son contrat d’entrée reste strictement `contexte + question + réponse`; ZMOS est l’unique couche de mémoire et de résolution de traces du système.
 
-Le modèle multicadre est entraîné exclusivement sur HaluEval avec séparation groupée contexte/question : 48 000 cas d’entraînement et 12 000 cas de validation. Aucune étiquette HaluBench n’entre dans l’entraînement ou le choix des seuils. L’inférence n’exige que la bibliothèque standard; `scikit-learn` est cantonné à la reproduction de l’entraînement.
+ZMOS peut recevoir les missions, états, verrous, candidats `BASE_HEAD`/SHA et reçus des sessions auxiliaires. Un seul Writer peut intégrer, pousser et synchroniser le SHA GitHub final. GitHub reste canonique; ZMOS n’est ni un dépôt de vérité ni une autorité de promotion.
+
+Le modèle multicadre est entraîné exclusivement sur HaluEval avec séparation groupée contexte/question : 48 000 cas d’entraînement et 12 000 cas de validation. Aucune étiquette HaluBench n’entre dans l’entraînement ou le choix des seuils statistiques. Les règles v21 ont toutefois été développées après inspection des erreurs du diagnostic public épinglé; ce corpus n’est donc plus un holdout frais et ses résultats restent diagnostiques. L’inférence n’exige que la bibliothèque standard; `scikit-learn` est cantonné à la reproduction de l’entraînement.
 
 Au premier doute ou à la première incohérence multicadre, Zoran🦋 produit deux reformulations sémantiquement équivalentes avant toute recherche externe. Si elles ne conservent pas exactement acteurs, relations, objets, nombres, dates, négations et modalité, la recherche ne démarre pas. Les faits portant sur une personne publique sont ensuite vérifiés sur Internet et liés proposition par proposition à une preuve locale.
 
@@ -20,12 +22,12 @@ Le gouverneur sépare désormais la décision d’évaluation `PASS/RETRY/VETO` 
 python scripts/verify_release.py --full
 ```
 
-Le vérificateur reconstruit deux ZIP identiques, réalise deux extractions sûres, vérifie Ed25519 et les dépendances observées, exécute la suite via le runner source embarqué et rejoue les campagnes déterministes, dont la campagne v20 ZMOS structurelle. Pytest n’est pas requis.
+Le vérificateur reconstruit deux ZIP identiques, réalise deux extractions sûres, vérifie Ed25519 et les dépendances observées, exécute la suite via le runner source embarqué et rejoue les campagnes déterministes, dont la campagne ZMOS structurelle. Pytest n’est pas requis.
 
 ## Construction reproductible
 
 ```bash
-python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v20.0.0_CANDIDATE.zip
+python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v21.0.0_CANDIDATE.zip
 ```
 
 Deux constructions consécutives sur les mêmes octets source doivent produire le même SHA-256.
@@ -35,6 +37,7 @@ Deux constructions consécutives sur les mêmes octets source doivent produire l
 - `SKILL.md` et `references/` : contrat agent progressif ;
 - `repository_head_gate.py` : ancrage clone complet, branche cible et HEAD distant exact ;
 - `structural_reasoning_gate.py` : preuves structurelles déterministes avant classification ;
+- `zmos_writer_coordination.py` : file ZMOS ancrée au HEAD canonique et actions d’intégration/push réservées au Writer ;
 - `zoran_runtime.py` : orchestration ;
 - `execution_governor.py` : budget global persistant, préflight des capacités et états terminaux d’exécution ;
 - `raw_text_coherence_gate.py` et `raw_text_coherence_model.json` : analyse brute multicadre et modèle scellé ;
