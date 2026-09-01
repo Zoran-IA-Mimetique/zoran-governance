@@ -1,0 +1,51 @@
+{
+  "schema": "zoran.skill-audit-prereg.v1",
+  "artifact": "ZORAN_COHERENCE_SKILL_v13.3.0_FINAL.zip",
+  "artifact_sha256": "a96efde722cbada89817746825e0ee3b2f9336b15176820a5e9e2a9a40fcc9e5",
+  "frozen_before_code_execution": true,
+  "objective": "Measure and improve the skill without changing criteria after observing results.",
+  "weights": {
+    "package_installability": 10,
+    "skill_architecture_and_discovery": 10,
+    "semantic_and_zoran_contract_correctness": 15,
+    "deterministic_fail_closed_enforcement": 15,
+    "security_and_supply_chain": 10,
+    "test_quality_and_falsification": 15,
+    "memory_coordination_and_concurrency": 10,
+    "provenance_observability_and_replay": 10,
+    "portability_usability_and_efficiency": 5
+  },
+  "critical_caps": {
+    "unsafe_archive_or_uninstallable_package": 49,
+    "critical_false_pass": 59,
+    "missing_or_forgeable_integrity_binding": 69,
+    "tests_only_assert_text_or_self_claims": 69,
+    "no_real_clean_install_replay": 79
+  },
+  "score_definition": "Weighted capability coverage against a frozen public-practice reference set; not a market percentile and not scientific external validation.",
+  "measurement_states": ["PASS", "FAIL", "RETRY"],
+  "non_compensation": true,
+  "before_after_rule": "Apply identical weights, caps, scenarios, and environment to v13.3.0 and the improved candidate.",
+  "required_scenario_families": [
+    "clean_extract_and_install",
+    "manifest_and_byte_integrity",
+    "normal_decision",
+    "missing_evidence",
+    "contradictory_frames",
+    "nan_and_infinity",
+    "prompt_injection",
+    "path_and_import_poisoning",
+    "memory_tamper_and_staleness",
+    "writer_concurrency",
+    "repeated_state_action_loop",
+    "low_gain_iteration",
+    "terminal_progress",
+    "receipt_relabeling",
+    "deterministic_replay",
+    "cross_platform_source_only_execution"
+  ],
+  "promotion_rule": "No critical regression; all package tests pass from two clean extractions; added falsifiers pass; manifest is exact; before/after score does not decrease in any critical axis.",
+  "rollback": "Preserve the original ZIP byte-for-byte and build the candidate under a new version and filename.",
+  "impact_radius": ["extracted skill package", "audit report", "new ZIP only"],
+  "forbidden_mutations": ["overwrite original ZIP", "claim external certification", "install or publish without separate authorization"]
+}

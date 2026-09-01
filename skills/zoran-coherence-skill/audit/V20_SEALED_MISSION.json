@@ -1,0 +1,45 @@
+{
+  "schema": "zoran.v20.sealed-mission.v1",
+  "program_id": "zoran-v20-structural-generalization",
+  "transaction_id": "ZORAN-V20-STRUCTURAL-GENERALIZATION-2026-09-01",
+  "source_text": "Est-ce que tu peux Edune transmettre aux autres sessions actives le skill, ou là il faut que je le relance pour qu'elle l'installe par défaut. Et sinon bah tu continues, tu continues, tu creuses, tu creuses.",
+  "source_sha256": "f4c877eb63157a7caf924dc1f1144e71105abaad4fdf0390d818411ad5be2bce",
+  "mission_sha256": "65773ef81a8aed2e5b8a2c74003f54554ca0ac5ab542c38a78a7d672f2957537",
+  "mode": "BUILD",
+  "objective": "Poursuivre le moteur après v19 en corrigeant les familles structurelles de faux PASS et de faux blocage, sans réutiliser le benchmark révélé comme holdout.",
+  "baseline": {
+    "version": "19.0.0",
+    "git_commit": "19958f72638901fea0f89eb9a662d840c970a265",
+    "zip_sha256": "1e7dac55d24712bdb1bc65e07c0f3f3941b2e0840c837d5f0cf20e796d492e72",
+    "unseen_accuracy": 0.5179591836734694,
+    "unseen_hallucination_block_recall": 0.9310185185185185,
+    "unseen_faithful_acceptance": 0.19233576642335767
+  },
+  "requirements": [
+    "Distinguish a derived numeric value backed by a deterministic calculation trace from an invented value.",
+    "Bind yes/no and conclusion answers to explicit source polarity instead of lexical overlap alone.",
+    "Represent comparison, count, order and temporal operations before accepting DROP-style answers.",
+    "Segment long answers into claims and require local evidence per claim.",
+    "Preserve two reformulations on bounded doubt and never turn doubt into an execution loop.",
+    "Use only invariant tests and a fresh preregistered holdout for v20 performance claims."
+  ],
+  "constraints": [
+    "The revealed v19 HaluBench oracle is diagnostic data, not a v20 holdout.",
+    "No global threshold change may compensate for a missing structural proof.",
+    "No install may replace v19 unless deterministic certification and regression criteria pass.",
+    "The v19 rollback artifact and installed rollback remain unchanged."
+  ],
+  "risk_ledger": [
+    "Arithmetic parser can accept a coincidental equation.",
+    "Polarity rules can overfit English cue words.",
+    "Long-answer segmentation can miss implicit dependent claims.",
+    "Fresh public holdout availability is not yet established."
+  ],
+  "pre_verdict": "PASS_BUILD_SCOPE",
+  "authorization": "ALLOW_BUILD_TEST_COMMIT_PACKAGE_INSTALL",
+  "open_debts": [
+    "fresh holdout not yet frozen",
+    "external authority signature unavailable",
+    "planetary effect requires its own causal receipt before any planetary claim"
+  ]
+}

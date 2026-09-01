@@ -1,0 +1,8 @@
+interface:
+  display_name: "Zoran🦋 Coherence"
+  short_description: "Reformulation, preuves et cohérence phénoménale"
+  brand_color: "#2E7D6E"
+  default_prompt: "Use $zoran-coherence-skill to verify repository HEAD when applicable, reformulate twice on doubt, resolve traces through ZMOS, prove structural claims, and preserve phenomenal coherence across six frames."
+
+policy:
+  allow_implicit_invocation: true

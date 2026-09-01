@@ -1,0 +1,26 @@
+{
+  "authority_fingerprint": "ac92fac4c3a255c9019dbb80d79dc9c54c246cdee7b078e8882163cb814392dd",
+  "authority_id": "zoran-deterministic-evaluator-v1",
+  "envelope_sha256": "9e9b423f07e3472c9d023e02ec715ed1a6a7bbb8d6f8c79ebcee69f79be8ae38",
+  "payload": {
+    "attestation_id": "phenomenal-resource-test-round1-v17",
+    "completed_at": "2026-09-01T00:01:00Z",
+    "controls": {
+      "frames_found": "PASS",
+      "proxies_defined": "PASS",
+      "sources_authenticated": "PASS",
+      "units_present": "PASS",
+      "values_observed": "PASS"
+    },
+    "frame_receipts_sha256": "0730bd3f45d3cc0834bd3b30b2174185e2c97247d8274b466477f15f15f57ef3",
+    "mission_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "proxy_resources_sha256": "9645f8982d873695b9dcdee66b888ea29a3f030bc04da1f18558f27352284a79",
+    "resource_ids_sha256": "10961eaca76d7ebf26f446639703d0cc8b194f8da17b53e54d8e791a62dda918",
+    "round_index": 1,
+    "schema": "zoran.phenomenal-resource-attestation.v1",
+    "search_evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "public_key_hex": "7e1732810c53d9bd5e13654b6942344ca381c364c2afff745a2d79a08a85d9c2",
+  "schema": "zoran.robot-signed-envelope.v1",
+  "signature_base64": "CQwXSYKNU5dorAjJ08NCBcZhp5PLesoFsWyW7qkgPnbmMDUoyGgDN1Jb1czWiM86/XGi6nq70BEfG3grBl9hAw=="
+}

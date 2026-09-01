@@ -1,0 +1,11 @@
+{
+  "component": "MULTICRITERIA_ACTION_GATE",
+  "version": "2.0.0",
+  "decision": "PASS",
+  "reasons": [
+    "ACTION_ADMISSIBLE_AND_PRODUCTIVE"
+  ],
+  "tolerance_receipt_sha256": "dbf4cd828b753c2f56225c662ccf5c529e7e5b201265de994e58e687363a6d70",
+  "progress_receipt_sha256": "1453760dbd0418d3b0076bc8a4bc6d3b2d893a65fcc41c8cc33cab49f2f5d044",
+  "receipt_sha256": "973881e157f0f0586dd0ddc13e92fd74a15affa21e66d9433b700273568f47a0"
+}

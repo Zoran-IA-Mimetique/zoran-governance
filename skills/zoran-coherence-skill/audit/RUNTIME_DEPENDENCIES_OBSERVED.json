@@ -1,0 +1,13 @@
+{
+  "schema": "zoran.runtime-dependencies-observed.v1",
+  "observed_environment": "robot-certification-host-2026-09-01",
+  "python_packages": {
+    "cffi": "2.1.1",
+    "cryptography": "50.0.0",
+    "pycparser": "3.0"
+  },
+  "cryptography_accepted_range": ">=46.0.0,<51.0.0",
+  "ed25519_provider_self_test": "PASS",
+  "pytest_present": true,
+  "pytest_required_for_release_replay": false
+}

@@ -1,0 +1,210 @@
+{
+  "tolerance_policy": {
+    "preset": "conservative_default",
+    "metier_ids": [
+      "generic"
+    ],
+    "frame_ids": [
+      "general"
+    ],
+    "metier_budget": 100,
+    "frame_budget": 100,
+    "global_budget": 100
+  },
+  "observations": [
+    {
+      "stage_id": "sensor:metier",
+      "dimension": "metier",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:coherence",
+      "dimension": "coherence",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:semantic",
+      "dimension": "semantic",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:factual",
+      "dimension": "factual",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:numeric",
+      "dimension": "numeric",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:measurement",
+      "dimension": "measurement",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:temporal",
+      "dimension": "temporal",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:source",
+      "dimension": "source",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:ambiguity",
+      "dimension": "ambiguity",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:causal",
+      "dimension": "causal",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:safety",
+      "dimension": "safety",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:regulatory",
+      "dimension": "regulatory",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:resource",
+      "dimension": "resource",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:repeatability",
+      "dimension": "repeatability",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:integration",
+      "dimension": "integration",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:intentional",
+      "dimension": "intentional",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    },
+    {
+      "stage_id": "sensor:epistemic",
+      "dimension": "epistemic",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "generic",
+      "frame_id": "general",
+      "evidence_measured": true
+    }
+  ],
+  "scope": {
+    "applicable_dimensions": [
+      "metier",
+      "coherence",
+      "semantic",
+      "factual",
+      "numeric",
+      "measurement",
+      "temporal",
+      "source",
+      "ambiguity",
+      "causal",
+      "safety",
+      "regulatory",
+      "resource",
+      "repeatability",
+      "integration",
+      "intentional",
+      "epistemic"
+    ],
+    "excluded_dimensions": {}
+  },
+  "progress_policy": {
+    "objective_id": "finish_objective",
+    "direction": "maximize",
+    "target_value": 100.0,
+    "min_absolute_gain": 1.0,
+    "min_fraction_of_remaining": 0.05,
+    "min_gain_per_cost": 0.1,
+    "max_projected_steps": 20
+  },
+  "progress_attempt": {
+    "attempt_id": "EXAMPLE-A1",
+    "state_before_fingerprint": "STATE-65.79",
+    "action_fingerprint": "ACTION-CLOSE-BLOCKERS",
+    "context_fingerprint": "CTX-1",
+    "value_before": 65.79,
+    "value_after": 70.0,
+    "cost": 1.0,
+    "evidence_measured": true
+  }
+}

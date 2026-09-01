@@ -1,0 +1,39 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:3922c4a1-d38b-5634-a54a-16d3a19706c0",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "bom-ref": "pkg:generic/zoran-coherence-skill@20.0.0",
+      "name": "zoran-coherence-skill",
+      "version": "20.0.0",
+      "purl": "pkg:generic/zoran-coherence-skill@20.0.0"
+    },
+    "properties": [
+      {"name": "zoran:sbom-completeness", "value": "certification-host-observed-runtime-plus-declared-optional-tests"},
+      {"name": "zoran:runtime-observation", "value": "audit/RUNTIME_DEPENDENCIES_OBSERVED.json"},
+      {"name": "zoran:test-runner", "value": "bundled-source-only-no-pytest-required"},
+      {"name": "zoran:external-signature", "value": "PINNED_ED25519_DUAL_ROBOT"}
+    ]
+  },
+  "components": [
+    {"type": "library", "bom-ref": "pkg:pypi/cryptography@50.0.0", "name": "cryptography", "version": "50.0.0", "scope": "required", "purl": "pkg:pypi/cryptography@50.0.0", "properties": [{"name": "zoran:version-source", "value": "observed-certification-host"}]},
+    {"type": "library", "bom-ref": "pkg:pypi/cffi@2.1.1", "name": "cffi", "version": "2.1.1", "scope": "required", "purl": "pkg:pypi/cffi@2.1.1", "properties": [{"name": "zoran:version-source", "value": "observed-certification-host"}]},
+    {"type": "library", "bom-ref": "pkg:pypi/pycparser@3.0", "name": "pycparser", "version": "3.0", "scope": "required", "purl": "pkg:pypi/pycparser@3.0", "properties": [{"name": "zoran:version-source", "value": "observed-certification-host"}]},
+    {"type": "library", "bom-ref": "pkg:pypi/pytest@9.1.1", "name": "pytest", "version": "9.1.1", "scope": "optional", "purl": "pkg:pypi/pytest@9.1.1", "properties": [{"name": "zoran:version-source", "value": "declared-test-target-not-installed-or-required-for-certification"}]},
+    {"type": "library", "bom-ref": "pkg:pypi/scikit-learn@1.8.0", "name": "scikit-learn", "version": "1.8.0", "scope": "optional", "purl": "pkg:pypi/scikit-learn@1.8.0", "properties": [{"name": "zoran:usage", "value": "training-only-not-runtime-inference"}]},
+    {"type": "library", "bom-ref": "pkg:pypi/numpy@2.3.5", "name": "numpy", "version": "2.3.5", "scope": "optional", "purl": "pkg:pypi/numpy@2.3.5", "properties": [{"name": "zoran:usage", "value": "training-only-not-runtime-inference"}]},
+    {"type": "library", "bom-ref": "pkg:pypi/scipy@1.17.0", "name": "scipy", "version": "1.17.0", "scope": "optional", "purl": "pkg:pypi/scipy@1.17.0", "properties": [{"name": "zoran:usage", "value": "training-only-not-runtime-inference"}]}
+  ],
+  "dependencies": [
+    {"ref": "pkg:generic/zoran-coherence-skill@20.0.0", "dependsOn": ["pkg:pypi/cryptography@50.0.0"]},
+    {"ref": "pkg:pypi/cryptography@50.0.0", "dependsOn": ["pkg:pypi/cffi@2.1.1"]},
+    {"ref": "pkg:pypi/cffi@2.1.1", "dependsOn": ["pkg:pypi/pycparser@3.0"]},
+    {"ref": "pkg:pypi/pytest@9.1.1", "dependsOn": []},
+    {"ref": "pkg:pypi/scikit-learn@1.8.0", "dependsOn": ["pkg:pypi/numpy@2.3.5", "pkg:pypi/scipy@1.17.0"]},
+    {"ref": "pkg:pypi/numpy@2.3.5", "dependsOn": []},
+    {"ref": "pkg:pypi/scipy@1.17.0", "dependsOn": ["pkg:pypi/numpy@2.3.5"]}
+  ]
+}

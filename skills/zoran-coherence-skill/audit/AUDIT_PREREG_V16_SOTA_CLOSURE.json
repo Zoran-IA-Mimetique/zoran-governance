@@ -1,0 +1,88 @@
+{
+  "schema": "zoran.skill-audit-prereg.v2",
+  "frozen_before_engine_changes": true,
+  "mission_sha256": "495b43cd21def4cd4fa246da28ca7921121cbe736166d36da90ddb366cf4bc2f",
+  "baseline": {
+    "version": "15.1.0",
+    "git_commit": "2c1a89932b47a6f9e364b104aaae9b2a8986491e",
+    "git_tree": "68de213ea2bdb2654d4d5ab6f5e2c77550a465bd",
+    "artifact_sha256": "0fc7180e40b8209faab51dec42f1cf83122c062bdea6310a836d653f47f94187",
+    "robot_certificate_sha256": "214b5447b1640ea75dd90a33374ac62363abd03cc56221fb48d8c4465eed4ff8",
+    "tests": "397_PASS_0_FAIL"
+  },
+  "objective": "Close every internally realizable SOTA-practice and anti-hallucination architecture gap without changing the rubric after observing results.",
+  "ten_point_gap_contract": [
+    {
+      "id": "G01_OPAQUE_SESSION_CHAIN",
+      "point": 1,
+      "success": "A host-owned signed chain binds activation, prompt, pre-chat, memory/retrieval, evaluation, terminal decision and display authorization; missing, reordered or substituted stages fail closed."
+    },
+    {
+      "id": "G02_COMPLETE_CLAIM_COVERAGE",
+      "point": 1,
+      "success": "Every declared factual claim in the exact output has one unique evidence disposition; an omitted, duplicated or unknown claim blocks factual emission."
+    },
+    {
+      "id": "G03_EXACT_EVIDENCE_SPAN_BINDING",
+      "point": 1,
+      "success": "Each support or contradiction binds a retrieved source digest and an exact non-empty quote present in the trusted source text."
+    },
+    {
+      "id": "G04_ABSTENTION_AS_CONTROLLED_OUTPUT",
+      "point": 1,
+      "success": "Unsupported or stale factual claims can only produce an explicit claim-bound abstention, never PASS or silent deletion."
+    },
+    {
+      "id": "G05_CONTRADICTION_AND_FRESHNESS_PER_CLAIM",
+      "point": 1,
+      "success": "Strong contradictions, expired evidence and time-sensitive claims without current evidence are preserved and block factual assertion."
+    },
+    {
+      "id": "G06_UNTRUSTED_CONTENT_CANONICALIZATION",
+      "point": 1,
+      "success": "Unicode controls, confusables, spaced tokens, Base64/hex payloads and registered multilingual injection intents are decoded or rejected under bounded budgets."
+    },
+    {
+      "id": "G07_BLIND_EVAL_INTEGRITY",
+      "point": 1,
+      "success": "A preregistered dataset digest, hidden-label split, immutable oracle and output trace make score fabrication, label leakage and post-hoc case deletion detectable."
+    },
+    {
+      "id": "G08_MUTATION_AND_BYPASS_FALSIFICATION",
+      "point": 1,
+      "success": "Deterministic mutations of identities, receipts, stage order, claims, quotes, encodings and timestamps contain zero false PASS and replay identically."
+    },
+    {
+      "id": "G09_SIGNED_BUILD_ATTESTATION",
+      "point": 1,
+      "success": "The robot certificate binds the exact ZIP, manifest, SBOM, source commit/tree, builder identity and a SLSA-compatible provenance predicate."
+    },
+    {
+      "id": "G10_SOURCE_ONLY_INSTALL_AND_REPLAY",
+      "point": 1,
+      "success": "The release verifies from a clean extraction without pytest, records exact observed runtime dependencies, and fails closed when Ed25519 support is unavailable or incompatible."
+    }
+  ],
+  "non_compensation": true,
+  "promotion_rule": "All ten gaps PASS, no critical regression, two byte-identical builds, complete tests and campaigns PASS from clean extractions, exact dual-robot certificate PASS, K3 POST control PASS.",
+  "external_claims_not_convertible_by_this_run": [
+    "organizational_third_party_independence",
+    "blind_public_open_world_model_performance",
+    "real_multi_os_and_multi_host_execution",
+    "public_Sigstore_Rekor_inclusion",
+    "scientific_universality_or_real_planetary_benefit",
+    "distribution_license_choice_by_rightsholder"
+  ],
+  "forbidden_shortcuts": [
+    "count prose or an unexecuted interface as PASS",
+    "label synthetic or self-authored cases open-world",
+    "accept caller-supplied trust roots",
+    "average away a failed gap",
+    "reuse v14 or v15.0 as active code",
+    "claim external certification from internal robots"
+  ],
+  "rollback": {
+    "git_commit": "2c1a89932b47a6f9e364b104aaae9b2a8986491e",
+    "artifact_sha256": "0fc7180e40b8209faab51dec42f1cf83122c062bdea6310a836d653f47f94187"
+  }
+}

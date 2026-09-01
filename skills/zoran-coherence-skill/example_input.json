@@ -1,0 +1,54 @@
+{
+  "policy": {
+    "preset": "conservative_default",
+    "metier_ids": [
+      "construction"
+    ],
+    "frame_ids": [
+      "piece",
+      "ouvrage",
+      "global"
+    ],
+    "soft_local_cap": 0.1,
+    "soft_dimension_budget": 0.25,
+    "metier_budget": 1.0,
+    "frame_budget": 0.6,
+    "global_budget": 1.2
+  },
+  "hard_contract": {
+    "object_id": "EXAMPLE-001"
+  },
+  "observations": [
+    {
+      "stage_id": "measurement-1",
+      "dimension": "measurement",
+      "delta": 0.03,
+      "amplification": 1.0,
+      "metier_id": "construction",
+      "frame_id": "piece",
+      "evidence_measured": true,
+      "invariant_observed": {
+        "object_id": "EXAMPLE-001"
+      }
+    },
+    {
+      "stage_id": "safety-check",
+      "dimension": "safety",
+      "delta": 0.0,
+      "amplification": 1.0,
+      "metier_id": "construction",
+      "frame_id": "ouvrage",
+      "evidence_measured": true,
+      "invariant_observed": {
+        "object_id": "EXAMPLE-001"
+      }
+    }
+  ],
+  "scope": {
+    "applicable_dimensions": [
+      "measurement",
+      "safety"
+    ],
+    "exclude_remaining_reason": "NOT_APPLICABLE_TO_EXAMPLE"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "zoran.v19.mission-extension.v1",
+  "program_id": "zoran-v19-raw-coherence",
+  "transaction_id": "ZORAN-V19-RAW-COHERENCE-ANTI-LOOP-2026-09-01-R2",
+  "source_text": "OK, ben écoute, modifie le skill en conséquence. C'est parti.\n\nEt ensuite tu reprendras ta mission préalable, enfin celle que t'avais juste avant.\n\nEt installe le évidemment!!!",
+  "source_sha256": "992de491a9a08fb46fdf965fbd90e58980764ca24fdf2dca1f0c833a973c00d6",
+  "mission_contract_sha256": "edcb771dc92aec921e2e273055200231ac98b1661b9f1214954d413ad08d6174",
+  "k3_pre_request_sha256": "502514016dde3a145570025c3fd353532297ef2334ef46d4e69fe594bfd051c1",
+  "k3_pre_receipt_sha256": "fae07accf4347343fd8c3773615cf25cc9e3fa77aa732ddca0d2ad095851cc47",
+  "k3_plan_sha256": "16a5e03adcc7a8fd925a84955976210d0b8bbc0c08cee8d1360a50dcf6f2a686",
+  "k3_pre_verdict": "VETO_TRACE_ABSENTE",
+  "k3_execution_authorization": "ALLOW_BUILD_WITH_DEBT",
+  "k3_debt": "AUTHORITY_SIGNATURE_UNVERIFIED",
+  "requirements": [
+    "Persistent program budget survives new chats and processes",
+    "Evaluation decisions stay separate from execution states",
+    "External unavailability becomes terminal WAIT_EXTERNAL without polling",
+    "Build and candidate checkpointing remain separate from signed promotion",
+    "Resume v19 certification and public benchmark after the correction",
+    "Install only the deterministically certified candidate and verify the installed copy"
+  ],
+  "rollback": {
+    "version": "18.0.0",
+    "zip_sha256": "04622eb85da6da9edf02fdfaa74b3ae57d29ce157ffe6d976a921a1114cd912e",
+    "git_commit": "bb840af06b4c80c82e474c698f5e1e64f68a0f18"
+  }
+}

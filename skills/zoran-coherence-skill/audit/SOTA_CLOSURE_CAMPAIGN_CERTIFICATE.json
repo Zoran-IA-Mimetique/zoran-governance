@@ -1,0 +1,26 @@
+{
+  "cases_per_category": 1000,
+  "categories": [
+    "session_output_identity",
+    "session_mission_identity",
+    "session_stage_order",
+    "session_timestamp",
+    "claim_omission",
+    "claim_quote",
+    "claim_timestamp",
+    "claim_receipt",
+    "prompt_base64",
+    "prompt_hex",
+    "blind_case_deletion",
+    "blind_label_leakage"
+  ],
+  "false_pass": 0,
+  "open_world_claim": false,
+  "replay_count": 2,
+  "replay_divergences": 0,
+  "result_digest_sha256": "e0068929321d07963ba520c1656b71ab8944069abee7ab544271ff9f9a7c728f",
+  "schema": "zoran.sota-closure-mutation-campaign.v1",
+  "synthetic_self_authored": true,
+  "total_cases": 12000,
+  "verdict": "PASS"
+}

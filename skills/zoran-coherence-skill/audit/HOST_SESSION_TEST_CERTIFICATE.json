@@ -1,0 +1,166 @@
+{
+  "authority_fingerprint": "f1b96ccebcbf2dc851dffd5e84f75cd82e8b275e532d524ff6b952a019fb65b8",
+  "authority_id": "zoran-deterministic-session-v1",
+  "envelope_sha256": "880b4c2c78841165a051f1919b68a6d4352a00ad3b8adb0d3bb6f6b89a0eadbf",
+  "payload": {
+    "chain_head": "481415d8a0d96a6c5c2934ed9a0d05b66ddfc0d82d3984e630a89cce33a682c1",
+    "display_authorized": true,
+    "expires_at": "2026-08-31T22:10:00Z",
+    "issued_at": "2026-08-31T22:00:00Z",
+    "mission_sha256": "c751678b222023b7fa77164b6bd52e118046572ffe49df6cb9fe332c80995d83",
+    "output_sha256": "c437e5301bfcd7364e3847f260caf6852ca61b3931af0acd71ba8443ac840d90",
+    "prompt_sha256": "0f9e9e7fef37f61f3e6eba6036bd36258ddf02b8d37efebc4b88e7c9e342bbc7",
+    "schema": "zoran.opaque-session-certificate.v1",
+    "session_id": "test-session-v17",
+    "stages": [
+      {
+        "event_hash": "8c9b339351bcc0b9b0e3d60e765cac246a39d6c5fe08f19a9f42889d9db9b7fb",
+        "index": 0,
+        "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "receipt_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "stage_id": "activation",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "964218aaf5cd3a24bdc13b34b17cdf1cb8d058824139833c67b2ffb7c281d43d",
+        "index": 1,
+        "previous_event_hash": "8c9b339351bcc0b9b0e3d60e765cac246a39d6c5fe08f19a9f42889d9db9b7fb",
+        "receipt_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "stage_id": "prompt_security",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "e843f94534d1a4e796b7a2dcc25f3ad93be3f0443f67e0b28d4f9f6d64341164",
+        "index": 2,
+        "previous_event_hash": "964218aaf5cd3a24bdc13b34b17cdf1cb8d058824139833c67b2ffb7c281d43d",
+        "receipt_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "stage_id": "pre_chat",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "29657a6fc148ab5a670aac17a4e4f6b78a01d511e31d1a2cbc607953d4f7b309",
+        "index": 3,
+        "previous_event_hash": "e843f94534d1a4e796b7a2dcc25f3ad93be3f0443f67e0b28d4f9f6d64341164",
+        "receipt_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "stage_id": "zmos_recall",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "1489411f46d39597a35075112f4d0f3741d0e9c43226ceea10d9555e0d04825b",
+        "index": 4,
+        "previous_event_hash": "29657a6fc148ab5a670aac17a4e4f6b78a01d511e31d1a2cbc607953d4f7b309",
+        "receipt_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "stage_id": "retrieval",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "5ec8014c9a5710ec5be8b07b2640a1475643503e914ae8bb74bcdad3499e4da7",
+        "index": 5,
+        "previous_event_hash": "1489411f46d39597a35075112f4d0f3741d0e9c43226ceea10d9555e0d04825b",
+        "receipt_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "stage_id": "claim_evidence",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "73b171c5a56342cf10eca79ad6290258c27940d0395ec75823a5b8514e4a44ff",
+        "index": 6,
+        "previous_event_hash": "5ec8014c9a5710ec5be8b07b2640a1475643503e914ae8bb74bcdad3499e4da7",
+        "receipt_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "stage_id": "semantic_non_conflation",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "700d2f3fdc92caf9feebc4b0c37454528f5a70148c775dc327cd63d0547154dd",
+        "index": 7,
+        "previous_event_hash": "73b171c5a56342cf10eca79ad6290258c27940d0395ec75823a5b8514e4a44ff",
+        "receipt_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+        "stage_id": "frame_search",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "d3c58df7097cffda55aa53a9dc73c70373042c5bcafcc1ce02aa3c73420ec0c6",
+        "index": 8,
+        "previous_event_hash": "700d2f3fdc92caf9feebc4b0c37454528f5a70148c775dc327cd63d0547154dd",
+        "receipt_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+        "stage_id": "proxy",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "b8b6c1fda9f5fd5196a8150585fcd827a4d3cd288033633a97fe40b17a0aa1ba",
+        "index": 9,
+        "previous_event_hash": "d3c58df7097cffda55aa53a9dc73c70373042c5bcafcc1ce02aa3c73420ec0c6",
+        "receipt_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "stage_id": "sources",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "bb397d51beb03fc7bbcc842e776e74129b3747deb5fb012d5144037f0339d3db",
+        "index": 10,
+        "previous_event_hash": "b8b6c1fda9f5fd5196a8150585fcd827a4d3cd288033633a97fe40b17a0aa1ba",
+        "receipt_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "stage_id": "phenomenal_resources",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "b654a37f71e986ce72b232ff0ebd1ba268d5238fe87ef628872e9dd521671b68",
+        "index": 11,
+        "previous_event_hash": "bb397d51beb03fc7bbcc842e776e74129b3747deb5fb012d5144037f0339d3db",
+        "receipt_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "stage_id": "phenomenal_coherence",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "677495370c718d20f255d9278738cddce053f9f9c04b54ed771e761078b499bb",
+        "index": 12,
+        "previous_event_hash": "b654a37f71e986ce72b232ff0ebd1ba268d5238fe87ef628872e9dd521671b68",
+        "receipt_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "stage_id": "host_truth",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "4409858c8fbb118094efbfdcc62c7f8b9711dd4a0a833e56bb12b9976f0097d2",
+        "index": 13,
+        "previous_event_hash": "677495370c718d20f255d9278738cddce053f9f9c04b54ed771e761078b499bb",
+        "receipt_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "stage_id": "laws",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "7e5c2329923164953ff2529c2600979f1910081044584d4ab8c8905d8a873d6e",
+        "index": 14,
+        "previous_event_hash": "4409858c8fbb118094efbfdcc62c7f8b9711dd4a0a833e56bb12b9976f0097d2",
+        "receipt_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "stage_id": "action",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "6bd41e7f3063b582275f0f9e44845233f6abd24553d01b02e643367a2d4d7649",
+        "index": 15,
+        "previous_event_hash": "7e5c2329923164953ff2529c2600979f1910081044584d4ab8c8905d8a873d6e",
+        "receipt_sha256": "1010101010101010101010101010101010101010101010101010101010101010",
+        "stage_id": "robot_handoff",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "2195500a5abc838eb7ab3014c49d7c0b3c17f313c39b2db2fe6aef6aeb5e7a99",
+        "index": 16,
+        "previous_event_hash": "6bd41e7f3063b582275f0f9e44845233f6abd24553d01b02e643367a2d4d7649",
+        "receipt_sha256": "2020202020202020202020202020202020202020202020202020202020202020",
+        "stage_id": "k3_post",
+        "status": "PASS"
+      },
+      {
+        "event_hash": "481415d8a0d96a6c5c2934ed9a0d05b66ddfc0d82d3984e630a89cce33a682c1",
+        "index": 17,
+        "previous_event_hash": "2195500a5abc838eb7ab3014c49d7c0b3c17f313c39b2db2fe6aef6aeb5e7a99",
+        "receipt_sha256": "3030303030303030303030303030303030303030303030303030303030303030",
+        "stage_id": "terminal",
+        "status": "PASS"
+      }
+    ],
+    "terminal_status": "PASS"
+  },
+  "public_key_hex": "6a8af5aa7112c00a5e255407a9b7e79ead5a3ef4b4e880b43acab6c423d474d3",
+  "schema": "zoran.robot-signed-envelope.v1",
+  "signature_base64": "RwzzAx2Tk/JhA1Wav6ggeIJLFjs2J7uNgXgwL5F3eA9f53Z5Dgdl9EvYysLtcqwMR++XwsX8LC79aYQrOpqICQ=="
+}

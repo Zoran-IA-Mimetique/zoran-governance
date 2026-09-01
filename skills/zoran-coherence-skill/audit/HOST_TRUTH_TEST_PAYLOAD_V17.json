@@ -1,0 +1,33 @@
+{
+  "attestation_id": "host-truth-test-v17",
+  "claim_receipt_sha256": "2cdf3ae20f216af8c41877ee578a38e4679eb5c67f7188828adea47d96c815a3",
+  "controls": {
+    "citation_entailment": "PASS",
+    "contradiction_search_scope": "PASS",
+    "epistemic_status": "PASS",
+    "intrinsic_coherence": "PASS",
+    "phenomenal_measurement_authenticity": "PASS",
+    "semantic_clause_coverage": "PASS",
+    "semantic_roundtrip": "PASS",
+    "source_authenticity": "PASS",
+    "wikimedia_first_pass": "PASS"
+  },
+  "expires_at": "2026-09-01T00:10:00Z",
+  "issued_at": "2026-09-01T00:00:00Z",
+  "mission_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "output_sha256": "7faa681169b11f5df73da518cc6a9711247218cdf36fceaff6174648b7aa5c36",
+  "phenomenal_receipt_sha256": "32080ccb8e1eb433cb7f16fc4999e820b459d1ba4577ebc7707473de9b08820b",
+  "phenomenal_resource_receipt_sha256": "926ea3b409c1c944e9f46285450bd673aa1e2d6c0333831d3031fcca141201b7",
+  "schema": "zoran.truth-attestation.v1",
+  "scope": {
+    "limitations": [
+      "not open-world truth",
+      "not organizationally independent"
+    ],
+    "measurement_domain": "deterministic software fixture",
+    "source_corpus": "closed test fixture"
+  },
+  "semantic_receipt_sha256": "be9196d24a42c93abc266d07dda71b00f0c51f225de01bbb22e01227758acded",
+  "source_authority_receipts_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "source_text_sha256": "2a8630d7f10c7673d1728b1970fcc815d40f0e0cb2e41bf35ede442dda30fbc3"
+}

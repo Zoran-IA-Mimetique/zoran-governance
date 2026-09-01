@@ -1,0 +1,17 @@
+{
+  "schema": "zoran.blind-predictions.v1",
+  "cases": [
+    {"case_id": "BE-001", "decision": "PASS", "output_sha256": "5fa96e5e7db82fcbdae1c624a0d896ae0b7365f0f9b8e12a04c57191543943ad", "trace_sha256": "519925055e0e06e03532ac7f2fa7fc1c092dd2450dd042c3c3d6b197b5ebd63d"},
+    {"case_id": "BE-002", "decision": "RETRY", "output_sha256": "3bf113682a1cf9cce6919b077eef2e11c8c1a9e5e95eda5ff40cde39d351a32c", "trace_sha256": "84dfafe5309a179a7f6964f117a581edd81c8241037a077fd3f21f56c589dbb1"},
+    {"case_id": "BE-003", "decision": "VETO", "output_sha256": "ccd01347ecfae663d2701c1608ae6c0bcfd4896139fd593151963061040cc3f0", "trace_sha256": "580738c9fcdfc79802d61b39204ddc55e6f30576139ed8759816494ff585dd84"},
+    {"case_id": "BE-004", "decision": "RETRY", "output_sha256": "997fcb0ded98513b0af970bb4a5a6e7115cb819f0134084528c0a240bca8ad8e", "trace_sha256": "e95edd0e0ac39aac714e35e2d9b134b1b67507d2047ceaa784c835a51dbf23a9"},
+    {"case_id": "BE-005", "decision": "VETO", "output_sha256": "abc31ff4179ebfb7bd7221c9930c66706a5d750fa06b5aaca7330a8c353b8bdf", "trace_sha256": "d003c6db1e45b3e44cde5139976477e1608a895c4899ff73066303b1a1a12d28"},
+    {"case_id": "BE-006", "decision": "VETO", "output_sha256": "a05326a37cd391ba6ba49b8a42f862f170520687797878c562af47bad1465301", "trace_sha256": "ed6c8f5cf680eb4556084c34875e56f1110531b0da2d2e546b92bbbe25763f31"},
+    {"case_id": "BE-007", "decision": "VETO", "output_sha256": "3b1d4e2bb6fe6ef25c7c312cfffc441eba9ce18f7596b70aff3ce7a2b519205f", "trace_sha256": "0795eb0957f51c060d366cb0f1f862e4a43762e3a5e185543ad2c64db0148181"},
+    {"case_id": "BE-008", "decision": "VETO", "output_sha256": "17b12f5463643583ffb11d42a0f6e631c5914719a022d054b85bcecec633fe79", "trace_sha256": "4c18d6c431a205b96cb1e6c90a8549d21ad94421fea381f9c31f8fb05e9bd8af"},
+    {"case_id": "BE-009", "decision": "VETO", "output_sha256": "675f6d635cd0f46bc2a364a0ad2bde92ca04fd9845df377ab51a86ab5899c253", "trace_sha256": "977db20e8ff2784d6de2081854bd4af4d3fd1714919c032bc72d6a7e692049d4"},
+    {"case_id": "BE-010", "decision": "PASS", "output_sha256": "f12f9cddab68898a0570f43e124083f5ea4f5ba63b0055c1dd7d51b2c3eb7c0f", "trace_sha256": "07e55f075545ed6eba326ff8844a7aa380a04aea6fbd63a9186f24017d7241ce"},
+    {"case_id": "BE-011", "decision": "PASS", "output_sha256": "7e51e4c236e592a9283bf1fefff43cae7fbd1699ac1ebeff7ddc06e2eeaa572d", "trace_sha256": "13d19dd1c971fd8dfb8335f357aaf9f8df97df6d4364d87ffee645fa36c6491d"},
+    {"case_id": "BE-012", "decision": "VETO", "output_sha256": "6d2465e3b07168f77dec2dcd836abf6f516642f391c81488f8aff5659c6dcc5f", "trace_sha256": "400b875d63372b5e537b068d506ca97f01de759c508c067eed20fc8001e183d0"}
+  ]
+}
