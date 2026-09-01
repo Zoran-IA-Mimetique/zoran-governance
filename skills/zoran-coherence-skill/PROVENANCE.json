@@ -1,7 +1,7 @@
 {
   "schema": "zoran.skill-release-provenance.v4",
   "package": "zoran-coherence-skill",
-  "version": "23.0.1",
+  "version": "23.0.2",
   "release_status": "experimental-semantic-speech-terminal-binding-candidate",
   "baseline": {
     "artifact": "ZORAN_COHERENCE_SKILL_v20.0.0_CANDIDATE.zip",
@@ -20,7 +20,7 @@
   },
   "structural_reasoning": {
     "component": "zoran.structural-reasoning-gate",
-    "version": "21.0.0",
+    "version": "21.0.1",
     "input_fields": ["context", "question", "answer"],
     "memory_and_trace_layer": "ZMOS",
     "statistical_override_authority": false
@@ -72,6 +72,7 @@
   },
   "raw_text_model": {
     "schema": "zoran.raw-text-coherence-model.v2",
+    "gate_version": "22.3.1",
     "model_sha256": "d5739a96295b09f0f38965a0fa90ea29c6b002360278cfe5007134722501487a",
     "training_split_sha256": "13a79334f6055f0a1425bbc012bddf0171dc9090c5592c7d80648ac3e2db7d97",
     "training_cases": 48000,

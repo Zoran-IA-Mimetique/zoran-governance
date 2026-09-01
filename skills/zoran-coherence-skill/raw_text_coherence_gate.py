@@ -17,7 +17,7 @@ from tolerance_skill import Decision
 
 
 COMPONENT_ID = "zoran.raw-text-coherence-gate"
-VERSION = "22.3.0"
+VERSION = "22.3.1"
 MODEL_ID = "halueval-context-faithfulness-multiframe-logit-v2"
 MODEL_PATH = Path(__file__).with_name("raw_text_coherence_model.json")
 MODEL_TRAINING_CORPUS_SHA256 = ""
@@ -640,7 +640,7 @@ class RawTextCoherenceGate:
             and features["local_number_coverage"] < 0.999999
         )
         strict_structural_family = structural.family in {
-            "yes_no_polarity", "percent_complement", "comparison", "ranked_event", "temporal_choice", "relation", "exclusive_relation", "local_scalar_relation", "multi_claim", "semantic_alignment", "finance_formula"
+            "yes_no_polarity", "percent_complement", "comparison", "ranked_event", "temporal_choice", "relation", "exclusive_relation", "local_scalar_relation", "factoid_relation", "multi_claim", "semantic_alignment", "finance_formula"
         } or (
             structural.family == "numeric_table"
             and any(term in _norm(request.question) for term in ("fy", "usd", "financial", "balance sheet", "income statement", "margin"))
