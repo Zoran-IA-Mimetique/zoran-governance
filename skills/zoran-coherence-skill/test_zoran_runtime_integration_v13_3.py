@@ -205,7 +205,10 @@ def test_full_runtime_stops_on_raw_text_incoherence_before_downstream_gates():
     )
     r=runtime().evaluate(**kw)
     assert r.decision is Decision.VETO
-    assert r.reasons[:2]==('RAW_TEXT_COHERENCE_BLOCK','LOCAL_NUMBER_BINDING_FAILURE')
+    assert r.reasons[:2]==(
+        'RAW_TEXT_COHERENCE_BLOCK',
+        'STRUCTURAL_PROOF_CONTRADICTION:factoid_relation:FACTOID_RELATION_CONTRADICTION',
+    )
     assert set(r.receipts)=={'semantic_speech','raw_text_coherence'}
 
 

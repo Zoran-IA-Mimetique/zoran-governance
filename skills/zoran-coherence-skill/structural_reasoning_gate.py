@@ -11,7 +11,7 @@ from typing import Iterable
 
 
 COMPONENT_ID = "zoran.structural-reasoning-gate"
-VERSION = "21.0.0"
+VERSION = "21.0.1"
 
 
 class ProofStatus(str, Enum):
@@ -1808,6 +1808,59 @@ def _factoid_relation_proof(context: str, question: str, answer: str) -> Structu
             (f"relation={relation}", f"expected={expected:g}", f"answer_values={','.join(f'{item.value:g}' for item in quantities)}"),
         )
 
+    birth_question = re.fullmatch(r"\s*when\s+was\s+(?P<subject>.+?)\s+born\s*\?\s*", question, flags=re.I)
+    if birth_question:
+        subject = _norm(birth_question.group("subject"))
+        if not subject:
+            return _finish(
+                ProofStatus.UNRESOLVED,
+                "factoid_relation",
+                "BIRTH_DATE_SUBJECT_UNRESOLVED",
+                (),
+                ("relation=birth_date",),
+            )
+        relation_pattern = re.compile(
+            rf"(?:^|\b){re.escape(subject)}\s+was\s+born\s+in\s+(?P<year>(?:1\d{{3}}|20\d{{2}}))\b"
+        )
+        bound_dates = [
+            (int(match.group("year")), sentence)
+            for sentence in sentences
+            if (match := relation_pattern.search(_norm(sentence)))
+        ]
+        if bound_dates:
+            expected_dates = {year for year, _ in bound_dates}
+            if len(expected_dates) != 1:
+                return _finish(
+                    ProofStatus.UNRESOLVED,
+                    "factoid_relation",
+                    "BIRTH_DATE_RELATION_AMBIGUOUS",
+                    tuple(sentence for _, sentence in bound_dates),
+                    (f"relation=birth_date", f"subject={subject}"),
+                )
+            expected = next(iter(expected_dates))
+            answer_relation = re.search(r"\bborn\s+in\s+(?P<year>(?:1\d{3}|20\d{2}))\b", na)
+            answer_dates = {int(item) for item in _HISTORICAL_YEAR_RE.findall(answer)}
+            if answer_relation:
+                observed = int(answer_relation.group("year"))
+            elif len(answer_dates) == 1:
+                observed = next(iter(answer_dates))
+            else:
+                return _finish(
+                    ProofStatus.UNRESOLVED,
+                    "factoid_relation",
+                    "BIRTH_DATE_ANSWER_UNRESOLVED",
+                    (bound_dates[0][1],),
+                    (f"relation=birth_date", f"subject={subject}", f"expected={expected}"),
+                )
+            aligned = observed == expected
+            return _finish(
+                ProofStatus.PROVED if aligned else ProofStatus.DISPROVED,
+                "factoid_relation",
+                "FACTOID_RELATION_PROVED" if aligned else "FACTOID_RELATION_CONTRADICTION",
+                (bound_dates[0][1],),
+                (f"relation=birth_date", f"subject={subject}", f"expected={expected}", f"answer={observed}"),
+            )
+
     if "safety scored on" in nq or "safety scored against" in nq:
         for sentence in sentences:
             match = re.search(r"(?P<beneficiary>[A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+){0,2})\s+received\s+a\s+safety\b", sentence)
@@ -2589,10 +2642,12 @@ def _semantic_alignment_proof(context: str, question: str, answer: str) -> Struc
         )
 
     loose_year = re.compile(r"(?<!\d)((?:19|20)\d{2})(?!\d)")
-    question_years = set(loose_year.findall(question))
-    question_years.update(
-        str(2000 + int(year)) for year in re.findall(r"FY\s*['’]?(\d{2})\b", question, flags=re.I)
-    )
+    birth_question = re.fullmatch(r"\s*when\s+was\s+.+?\s+born\s*\?\s*", question, flags=re.I)
+    question_years = set() if birth_question else set(loose_year.findall(question))
+    if not birth_question:
+        question_years.update(
+            str(2000 + int(year)) for year in re.findall(r"FY\s*['’]?(\d{2})\b", question, flags=re.I)
+        )
     answer_years = set(loose_year.findall(answer))
     if question_years and answer_years and question_years.isdisjoint(answer_years):
         evidence = tuple(

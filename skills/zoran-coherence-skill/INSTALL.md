@@ -1,4 +1,4 @@
-# Installation — Zoran🦋 v23.0.1 expérimental
+# Installation — Zoran🦋 v23.0.2 expérimental
 
 1. Pour toute installation issue d’un dépôt, exécuter d’abord `repository_head_gate.py` sur un clone Git complet de la branche cible et conserver son reçu `PASS`. Un premier échec autorise un seul re-clonage complet; un second échec interdit le livrable.
 2. Vérifier le SHA-256 du ZIP reçu par un canal de confiance.

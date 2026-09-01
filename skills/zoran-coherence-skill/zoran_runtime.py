@@ -51,7 +51,7 @@ from execution_governor import ExecutionGovernor, ExecutionPolicy, ExecutionRequ
 from semantic_speech_gate import SemanticSpeechEvaluation, SemanticSpeechGate
 from components.semantic_color_patterns_v0.discourse_realizer_v1 import SemanticDiscourse
 
-COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.0.1'
+COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.0.2'
 PROMOTION_SCORE_THRESHOLD=Fraction(9)
 
 @dataclass(frozen=True)
