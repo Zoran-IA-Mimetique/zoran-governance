@@ -1,6 +1,6 @@
-# Zoran🦋 Coherence Skill v22.3.0
+# Zoran🦋 Coherence Skill v23.0.0
 
-Statut source : **candidat expérimental v22.3**. Cette édition ajoute les cadres colorés à motifs, un moteur mathématique exact et un profil chimie sécurisé au moteur structurel v21. Elle conserve la coordination ZMOS à Writer unique. Ce statut ne constitue ni une promotion, ni une certification tierce, ni une preuve d’absence universelle d’hallucinations.
+Statut source : **candidat expérimental v23.0**. Cette édition ajoute un passage déterministe entre objet sémantique, formulation naturelle, recompréhension et équivalence exacte. La parole n'est libérée que si acteurs, relations, objets, polarité, modalité, conditions, ordre, références et unités restent identiques. Les règles enseignantes Semora V5 demeurent en quarantaine : elles peuvent proposer, jamais valider ni promouvoir. Le moteur mathématique, le profil chimie, les cadres colorés à motifs et la coordination ZMOS à Writer unique sont conservés. Ce statut ne constitue ni une promotion, ni une certification tierce, ni une preuve d’absence universelle d’hallucinations.
 
 Le HEAD gate exige un clone complet, non superficiel et non partiel, le checkout de la branche cible, l’intégrité des objets Git et l’égalité exacte entre `git rev-parse HEAD` et le SHA distant. Son premier échec autorise un seul re-clonage complet; le second produit `VETO`. Aucun score ni contenu ne compense son absence.
 
@@ -31,7 +31,7 @@ Le vérificateur reconstruit deux ZIP identiques, réalise deux extractions sûr
 ## Construction reproductible
 
 ```bash
-python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v22.3.0_CANDIDATE.zip
+python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v23.0.0_CANDIDATE.zip
 ```
 
 Deux constructions consécutives sur les mêmes octets source doivent produire le même SHA-256.
@@ -44,6 +44,8 @@ Deux constructions consécutives sur les mêmes octets source doivent produire l
 - `exact_math_engine.py` : calcul rationnel exact, unités, équations linéaires et vérification inverse ;
 - `chemistry_profile.py` : masses molaires, équilibrage et niveaux de sécurité ciblés ;
 - `colored_frame_gate.py` : comparaison booléenne des rôles, motifs, intentions et directions ;
+- `semantic_speech_gate.py` : formulation naturelle, recompréhension et équivalence sémantique exacte avant libération de la parole ;
+- `components/semantic_color_patterns_v0/` : réalisateurs V1–V4, ontologie d'écoute, opérateurs d'inversion et enseignant Semora V5 maintenu en quarantaine ;
 - `zmos_writer_coordination.py` : file ZMOS ancrée au HEAD canonique et actions d’intégration/push réservées au Writer ;
 - `zoran_runtime.py` : orchestration ;
 - `execution_governor.py` : budget global persistant, préflight des capacités et états terminaux d’exécution ;

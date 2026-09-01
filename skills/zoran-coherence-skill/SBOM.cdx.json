@@ -6,10 +6,10 @@
   "metadata": {
     "component": {
       "type": "application",
-      "bom-ref": "pkg:generic/zoran-coherence-skill@22.3.0",
+      "bom-ref": "pkg:generic/zoran-coherence-skill@23.0.0",
       "name": "zoran-coherence-skill",
-      "version": "22.3.0",
-      "purl": "pkg:generic/zoran-coherence-skill@22.3.0"
+      "version": "23.0.0",
+      "purl": "pkg:generic/zoran-coherence-skill@23.0.0"
     },
     "properties": [
       {"name": "zoran:sbom-completeness", "value": "certification-host-observed-runtime-plus-declared-optional-tests"},
@@ -28,7 +28,7 @@
     {"type": "library", "bom-ref": "pkg:pypi/scipy@1.17.0", "name": "scipy", "version": "1.17.0", "scope": "optional", "purl": "pkg:pypi/scipy@1.17.0", "properties": [{"name": "zoran:usage", "value": "training-only-not-runtime-inference"}]}
   ],
   "dependencies": [
-    {"ref": "pkg:generic/zoran-coherence-skill@22.3.0", "dependsOn": ["pkg:pypi/cryptography@50.0.0"]},
+    {"ref": "pkg:generic/zoran-coherence-skill@23.0.0", "dependsOn": ["pkg:pypi/cryptography@50.0.0"]},
     {"ref": "pkg:pypi/cryptography@50.0.0", "dependsOn": ["pkg:pypi/cffi@2.1.1"]},
     {"ref": "pkg:pypi/cffi@2.1.1", "dependsOn": ["pkg:pypi/pycparser@3.0"]},
     {"ref": "pkg:pypi/pytest@9.1.1", "dependsOn": []},

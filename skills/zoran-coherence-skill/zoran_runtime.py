@@ -48,8 +48,10 @@ from proposition_coherence_gate import (
 from contrastive_corpus_gate import ContrastiveCorpusGate, ContrastiveCorpusRequest
 from raw_text_coherence_gate import RawTextCoherenceEvaluation, RawTextCoherenceGate, RawTextCoherenceRequest
 from execution_governor import ExecutionGovernor, ExecutionPolicy, ExecutionRequest, ExecutionReceipt
+from semantic_speech_gate import SemanticSpeechEvaluation, SemanticSpeechGate
+from components.semantic_color_patterns_v0.discourse_realizer_v1 import SemanticDiscourse
 
-COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='22.3.0'
+COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.0.0'
 PROMOTION_SCORE_THRESHOLD=Fraction(9)
 
 @dataclass(frozen=True)
@@ -62,7 +64,7 @@ class FullEvaluation:
 
 class ZoranRuntime:
     def __init__(self, *, frame_engine:FrameSearchEngine, proxy_engine:ProxyEngine|None=None, source_engine:SourceCoherenceEngine|None=None, law_engine:LawEngine|None=None, decomposition_engine:DecompositionCalibrationEngine|None=None, execution_state_root:str|Path|None=None, execution_policy:ExecutionPolicy|None=None, execution_clock=None):
-        self.frames=frame_engine; self.proxies=proxy_engine or ProxyEngine(); self.sources=source_engine or SourceCoherenceEngine(); self.laws=law_engine or LawEngine(); self.security=PromptSecurity(); self.prompt_quality=PromptQualityEngine(); self.decomposition=decomposition_engine; self.dynamics=CoherenceDynamics(); self.phenomenal_resources=PhenomenalResourceGate(); self.phenomenal=PhenomenalCoherenceEngine(self.dynamics); self.semantic_non_conflation=SemanticNonConflationEngine(); self.question_reformulation=QuestionReformulationGate(); self.proposition_coherence=PropositionCoherenceGate(); self.contrastive_corpus=ContrastiveCorpusGate(); self.raw_text_coherence=RawTextCoherenceGate(); self.claim_evidence=ClaimEvidenceGate(); self.host_truth=HostTruthGuard(); self.robot_handoff=RobotHandoffGuard(self.semantic_non_conflation); self.host_session=HostSessionGuard(); self.interchat=InterchatGuard(); self.terminal=TerminalController(); self.parallel_context=ParallelContextGuard(); self.family_engine=PolymorphicFamilyEngine(); self.zmos_selector=ZmosCoherenceSelector(); self.read_progress=ReadProgressTracker(); self.recovery_loop=BoundedRecoveryLoop(); self.delivery_reviewer=DeliveryReviewer(); self.execution_governor=ExecutionGovernor(execution_state_root,policy=execution_policy,clock=execution_clock) if execution_state_root is not None else None
+        self.frames=frame_engine; self.proxies=proxy_engine or ProxyEngine(); self.sources=source_engine or SourceCoherenceEngine(); self.laws=law_engine or LawEngine(); self.security=PromptSecurity(); self.prompt_quality=PromptQualityEngine(); self.decomposition=decomposition_engine; self.dynamics=CoherenceDynamics(); self.phenomenal_resources=PhenomenalResourceGate(); self.phenomenal=PhenomenalCoherenceEngine(self.dynamics); self.semantic_non_conflation=SemanticNonConflationEngine(); self.semantic_speech=SemanticSpeechGate(); self.question_reformulation=QuestionReformulationGate(); self.proposition_coherence=PropositionCoherenceGate(); self.contrastive_corpus=ContrastiveCorpusGate(); self.raw_text_coherence=RawTextCoherenceGate(); self.claim_evidence=ClaimEvidenceGate(); self.host_truth=HostTruthGuard(); self.robot_handoff=RobotHandoffGuard(self.semantic_non_conflation); self.host_session=HostSessionGuard(); self.interchat=InterchatGuard(); self.terminal=TerminalController(); self.parallel_context=ParallelContextGuard(); self.family_engine=PolymorphicFamilyEngine(); self.zmos_selector=ZmosCoherenceSelector(); self.read_progress=ReadProgressTracker(); self.recovery_loop=BoundedRecoveryLoop(); self.delivery_reviewer=DeliveryReviewer(); self.execution_governor=ExecutionGovernor(execution_state_root,policy=execution_policy,clock=execution_clock) if execution_state_root is not None else None
 
     def pre_chat(self, *, activation:ActivationEvaluation, prompt:str, recent_turns:Sequence[str], zmos:ZmosMemory|None, zmos_required:bool, zmos_query:str, zmos_budget_chars:int, mirror:GithubMirror|None=None, mirror_required:bool=False, sliding_budget_chars:int=12000, frame_ids:Sequence[str]=(), proxy_ids:Sequence[str]=(), source_ids:Sequence[str]=(), evaluator_criteria:Sequence[EvaluatorCriterion]=(), range_alignments:Sequence[RangeAlignment]=(), prompt_quality_required:bool=False, trusted_activation_receipts:Sequence[str]=())->PreChatResult:
         recent_turns=tuple(recent_turns); frame_ids=tuple(frame_ids); proxy_ids=tuple(proxy_ids); source_ids=tuple(source_ids); evaluator_criteria=tuple(evaluator_criteria); range_alignments=tuple(range_alignments); trusted_activation_receipts=tuple(trusted_activation_receipts)
@@ -283,6 +285,9 @@ class ZoranRuntime:
 
     def evaluate_raw_text_coherence(self, request:RawTextCoherenceRequest|None)->RawTextCoherenceEvaluation:
         return self.raw_text_coherence.evaluate(request)
+
+    def evaluate_semantic_speech(self, discourse:SemanticDiscourse|None)->SemanticSpeechEvaluation:
+        return self.semantic_speech.evaluate(discourse)
 
     def evaluate_robot_handoff(self, request:RobotHandoffRequest|None, *, trust_registry:RobotTrustRegistry|None=None):
         return self.robot_handoff.evaluate(request,trust_registry=trust_registry)

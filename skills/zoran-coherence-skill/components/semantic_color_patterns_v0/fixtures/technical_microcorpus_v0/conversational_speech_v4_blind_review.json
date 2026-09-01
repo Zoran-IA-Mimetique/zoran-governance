@@ -1,0 +1,50 @@
+{
+  "schema": "zoran.conversational-speech-blind-review.v1",
+  "rubric_id": "GRILLE_ZORAN_FR_NAT_AVEUGLE_V1",
+  "review_scope": "structurally separate agent; no implementation or test access",
+  "external_certification": false,
+  "acceptance": {
+    "fidelity_required": true,
+    "naturalness_minimum": 10,
+    "naturalness_maximum": 12,
+    "zero_dimension_forbidden": true
+  },
+  "rounds": [
+    {
+      "attempt": 1,
+      "reviewed": 30,
+      "accepted": 25,
+      "rejected_ids": ["NET-04", "NET-05", "ENE-02", "ENE-04", "ECO-02"]
+    },
+    {
+      "attempt": 2,
+      "reviewed": 5,
+      "accepted": 3,
+      "rejected_ids": ["NET-04", "NET-05"]
+    },
+    {
+      "attempt": 3,
+      "reviewed": 2,
+      "accepted": 2,
+      "rejected_ids": []
+    }
+  ],
+  "final": {
+    "accepted_ids": [
+      "NET-01", "NET-02", "NET-03", "NET-04", "NET-05", "ENE-01",
+      "ENE-02", "ENE-03", "ENE-04", "ENE-05", "STR-01", "STR-02",
+      "STR-03", "STR-04", "STR-05", "ECO-01", "ECO-02", "ECO-03",
+      "ECO-04", "ECO-05", "ACO-01", "ACO-02", "ACO-03", "ACO-04",
+      "ACO-05", "NET-06", "ENE-06", "STR-06", "ECO-06", "ACO-06"
+    ],
+    "accepted_count": 30,
+    "total_count": 30,
+    "acceptance_rate": 1.0,
+    "maximum_attempts_used": 3
+  },
+  "limitations": [
+    "The review is agent-separated but not an organizationally independent external certification.",
+    "The review covers the frozen thirty-discourse technical microcorpus only.",
+    "A provider-backed listener receipt remains distinct from naturalness review."
+  ]
+}
