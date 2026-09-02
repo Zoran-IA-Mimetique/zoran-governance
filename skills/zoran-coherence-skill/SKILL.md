@@ -2,8 +2,8 @@
 name: zoran-coherence-skill
 description: Apply Zoran🦋 phenomenal-coherence governance and deterministic fail-closed gates to source-grounded answers, multi-step projects, memory recalls, code deliveries, and robot promotion handoffs. Use when a response or artifact must improve locally, preserve lower and peer frames, prove causal benefit through temporal and planetary frames, expose contradictions and bounded uncertainty, or produce a non-compensatory PASS/VETO/RETRY receipt.
 metadata:
-  version: "23.0.2"
-  release_status: "experimental-semantic-speech-terminal-binding-candidate"
+  version: "23.1.0"
+  release_status: "experimental-central-engine-modularization-candidate"
   language: "fr"
 ---
 

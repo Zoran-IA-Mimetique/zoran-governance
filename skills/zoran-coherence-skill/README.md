@@ -1,6 +1,6 @@
-# Zoran🦋 Coherence Skill v23.0.2
+# Zoran🦋 Coherence Skill v23.1.0
 
-Statut source : **candidat expérimental v23.0.2**. Cette édition ajoute une liaison structurelle stricte entre une personne nommée et sa date de naissance : un nombre présent dans le nom ne peut plus remplacer la date liée au prédicat « né en ». Le passage déterministe entre objet sémantique, formulation naturelle, recompréhension et équivalence exacte reste obligatoire dans l'évaluation, le contrôleur terminal et la sortie finale. La parole n'est libérée que si acteurs, relations, objets, polarité, modalité, conditions, ordre, références et unités restent identiques. Les règles enseignantes Semora V5 demeurent en quarantaine : elles peuvent proposer, jamais valider ni promouvoir. Le moteur mathématique, le profil chimie, les cadres colorés à motifs et la coordination ZMOS à Writer unique sont conservés. Ce statut ne constitue ni une promotion, ni une certification tierce, ni une preuve d’absence universelle d’hallucinations.
+Statut source : **candidat expérimental v23.1.0**. Cette édition réduit les deux noyaux de maintenance sans changer leurs décisions : le moteur structurel devient une façade reliée à des règles numériques, factuelles et communes séparées ; l'orchestrateur délègue son évaluation à trois étapes bornées. Les reçus du moteur structurel, deux campagnes déterministes et sept parcours complets de l'orchestrateur ont été comparés octet pour octet avant le changement de version. Le moteur mathématique, le profil chimie, les cadres colorés à motifs, la parole sémantique et la coordination ZMOS à Writer unique sont conservés. Ce statut ne constitue ni une promotion, ni une certification tierce, ni une preuve d’absence universelle d’hallucinations.
 
 Le HEAD gate exige un clone complet, non superficiel et non partiel, le checkout de la branche cible, l’intégrité des objets Git et l’égalité exacte entre `git rev-parse HEAD` et le SHA distant. Son premier échec autorise un seul re-clonage complet; le second produit `VETO`. Aucun score ni contenu ne compense son absence.
 
@@ -31,7 +31,7 @@ Le vérificateur reconstruit deux ZIP identiques, réalise deux extractions sûr
 ## Construction reproductible
 
 ```bash
-python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v23.0.2_CANDIDATE.zip
+python scripts/build_release.py --write-manifest --output dist/ZORAN_COHERENCE_SKILL_v23.1.0_CANDIDATE.zip
 ```
 
 Deux constructions consécutives sur les mêmes octets source doivent produire le même SHA-256.
@@ -40,14 +40,16 @@ Deux constructions consécutives sur les mêmes octets source doivent produire l
 
 - `SKILL.md` et `references/` : contrat agent progressif ;
 - `repository_head_gate.py` : ancrage clone complet, branche cible et HEAD distant exact ;
-- `structural_reasoning_gate.py` : preuves structurelles déterministes avant classification ;
+- `structural_reasoning_gate.py` : façade des preuves structurelles déterministes avant classification ;
+- `structural_reasoning_shared.py` : types, normalisation et primitives communes sans dépendance interne ;
+- `structural_numeric_rules.py` et `structural_factoid_rules.py` : règles numériques et factuelles isolées ;
 - `exact_math_engine.py` : calcul rationnel exact, unités, équations linéaires et vérification inverse ;
 - `chemistry_profile.py` : masses molaires, équilibrage et niveaux de sécurité ciblés ;
 - `colored_frame_gate.py` : comparaison booléenne des rôles, motifs, intentions et directions ;
 - `semantic_speech_gate.py` : formulation naturelle, recompréhension et équivalence sémantique exacte avant libération de la parole ;
 - `components/semantic_color_patterns_v0/` : réalisateurs V1–V4, ontologie d'écoute, opérateurs d'inversion et enseignant Semora V5 maintenu en quarantaine ;
 - `zmos_writer_coordination.py` : file ZMOS ancrée au HEAD canonique et actions d’intégration/push réservées au Writer ;
-- `zoran_runtime.py` : orchestration ;
+- `zoran_runtime.py` et `runtime_evaluation.py` : façade d'orchestration et étapes d'évaluation séparées ;
 - `execution_governor.py` : budget global persistant, préflight des capacités et états terminaux d’exécution ;
 - `raw_text_coherence_gate.py` et `raw_text_coherence_model.json` : analyse brute multicadre et modèle scellé ;
 - `phenomenal_coherence.py` : trajectoire six cadres et bénéfice causal obligatoires ;

@@ -50,8 +50,9 @@ from raw_text_coherence_gate import RawTextCoherenceEvaluation, RawTextCoherence
 from execution_governor import ExecutionGovernor, ExecutionPolicy, ExecutionRequest, ExecutionReceipt
 from semantic_speech_gate import SemanticSpeechEvaluation, SemanticSpeechGate
 from components.semantic_color_patterns_v0.discourse_realizer_v1 import SemanticDiscourse
+from runtime_evaluation import RuntimeEvaluationMixin
 
-COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.0.2'
+COMPONENT_ID='ZORAN_COHERENCE_SKILL'; VERSION='23.1.0'
 PROMOTION_SCORE_THRESHOLD=Fraction(9)
 
 @dataclass(frozen=True)
@@ -66,7 +67,7 @@ class FullEvaluation:
 class FinalOutputEvaluation:
     decision:Decision; state:str; speech:str|None; semantic_speech_receipt_sha256:str|None; host_session_receipt_sha256:str|None; reasons:tuple[str,...]; receipt_sha256:str
 
-class ZoranRuntime:
+class ZoranRuntime(RuntimeEvaluationMixin):
     def __init__(self, *, frame_engine:FrameSearchEngine, proxy_engine:ProxyEngine|None=None, source_engine:SourceCoherenceEngine|None=None, law_engine:LawEngine|None=None, decomposition_engine:DecompositionCalibrationEngine|None=None, execution_state_root:str|Path|None=None, execution_policy:ExecutionPolicy|None=None, execution_clock=None):
         self.frames=frame_engine; self.proxies=proxy_engine or ProxyEngine(); self.sources=source_engine or SourceCoherenceEngine(); self.laws=law_engine or LawEngine(); self.security=PromptSecurity(); self.prompt_quality=PromptQualityEngine(); self.decomposition=decomposition_engine; self.dynamics=CoherenceDynamics(); self.phenomenal_resources=PhenomenalResourceGate(); self.phenomenal=PhenomenalCoherenceEngine(self.dynamics); self.semantic_non_conflation=SemanticNonConflationEngine(); self.semantic_speech=SemanticSpeechGate(); self.question_reformulation=QuestionReformulationGate(); self.proposition_coherence=PropositionCoherenceGate(); self.contrastive_corpus=ContrastiveCorpusGate(); self.raw_text_coherence=RawTextCoherenceGate(); self.claim_evidence=ClaimEvidenceGate(); self.host_truth=HostTruthGuard(); self.robot_handoff=RobotHandoffGuard(self.semantic_non_conflation); self.host_session=HostSessionGuard(); self.interchat=InterchatGuard(); self.terminal=TerminalController(); self.parallel_context=ParallelContextGuard(); self.family_engine=PolymorphicFamilyEngine(); self.zmos_selector=ZmosCoherenceSelector(); self.read_progress=ReadProgressTracker(); self.recovery_loop=BoundedRecoveryLoop(); self.delivery_reviewer=DeliveryReviewer(); self.execution_governor=ExecutionGovernor(execution_state_root,policy=execution_policy,clock=execution_clock) if execution_state_root is not None else None
 
@@ -98,141 +99,6 @@ class ZoranRuntime:
             mir=mirror.verify(required=True)
             if mir.decision is not Decision.PASS:return finish(mir.decision,slide,recall,mir,None if pq is None else pq.receipt_sha256,('MIRROR_BLOCK',)+mir.reasons)
         return finish(Decision.PASS,slide,recall,mir,None if pq is None else pq.receipt_sha256,('PRE_CHAT_READY',))
-
-    def evaluate(self, *, text:str, evidence_terms:Sequence[str], proxy_measurements:dict[str,ProxyMeasurement], source_claims:Sequence[SourceClaim], hard_laws:Sequence[HardLaw], tolerance_skill:MulticriteriaToleranceSkill, tolerance_observations:Sequence[Observation], scope:EvaluationScope, progress_guard:ProgressGuard, progress_attempt:ProgressAttempt, raw_text_coherence_request:RawTextCoherenceRequest|None=None, semantic_request:SemanticNonConflationRequest|None=None, semantic_speech_request:SemanticDiscourse|None=None, question_reformulation_request:QuestionReformulationRequest|None=None, proposition_coherence_request:PropositionCoherenceRequest|None=None, claim_evidence_request:ClaimEvidenceRequest|None=None, phenomenal_resources_request:PhenomenalResourceRequest|None=None, phenomenal_request:PhenomenalCoherenceRequest|None=None, host_truth_request:HostTruthRequest|None=None, robot_handoff_request:RobotHandoffRequest|None=None, robot_trust_registry:RobotTrustRegistry|None=None, progress_history:Sequence[ProgressHistoryEntry]=(), dynamics_history:Sequence[CoherencePoint]=(), dynamics_required:bool=False, previous_s:float|None=None,current_s:float|None=None, previous_frames:tuple[str,...]=(),current_frames:tuple[str,...]=(),previous_proxies:tuple[str,...]=(),current_proxies:tuple[str,...]=(), amygdala_ping:AmygdalaPing|None=None, decomposition_required:bool=False, domain_id:str|None=None, observed_parts:Sequence[str]=(), terminal_controls:Sequence[ControlEvidence]=(), terminal_required:bool=True, terminal_receipt_registry:Mapping[str,str]|None=None, bounded_truth_claim:str|None=None, bounded_truth_evidence:Sequence[BoundedSourceEvidence]=(), bounded_truth_required:bool=False, bounded_truth_time_sensitive:bool=False)->FullEvaluation:
-        receipts={}
-        if not isinstance(semantic_speech_request,SemanticDiscourse):
-            return self._full(Decision.RETRY,('SEMANTIC_SPEECH_REQUEST_MISSING',),None,receipts)
-        speech=self.semantic_speech.evaluate(semantic_speech_request); receipts['semantic_speech']=speech.receipt_sha256
-        if speech.decision is not Decision.PASS:
-            return self._full(speech.decision,('SEMANTIC_SPEECH_BLOCK',)+speech.reasons,None,receipts)
-        if speech.speech!=text:
-            return self._full(Decision.VETO,('SEMANTIC_SPEECH_OUTPUT_IDENTITY_MISMATCH',),None,receipts)
-        raw_evaluation=None
-        if raw_text_coherence_request is not None:
-            raw_evaluation=self.raw_text_coherence.evaluate(raw_text_coherence_request); receipts['raw_text_coherence']=raw_evaluation.receipt_sha256
-            if raw_evaluation.decision is not Decision.PASS:return self._full(raw_evaluation.decision,('RAW_TEXT_COHERENCE_BLOCK',)+raw_evaluation.reasons,None,receipts)
-        if question_reformulation_request is not None or proposition_coherence_request is not None:
-            qr=self.question_reformulation.evaluate(question_reformulation_request); receipts['question_reformulation']=qr.receipt_sha256
-            if qr.decision is not Decision.PASS:return self._full(qr.decision,('QUESTION_REFORMULATION_BLOCK',)+qr.reasons,None,receipts)
-            pc=self.proposition_coherence.evaluate(proposition_coherence_request); receipts['proposition_coherence']=pc.receipt_sha256
-            if pc.decision is not Decision.PASS:return self._full(pc.decision,('PROPOSITION_COHERENCE_BLOCK',)+pc.reasons,None,receipts)
-            if not isinstance(proposition_coherence_request,PropositionCoherenceRequest) or proposition_coherence_request.question_receipt_sha256!=qr.receipt_sha256:
-                return self._full(Decision.VETO,('PROPOSITION_QUESTION_RECEIPT_MISMATCH',),None,receipts)
-        ce=self.claim_evidence.evaluate(claim_evidence_request); receipts['claim_evidence']=ce.receipt_sha256
-        if ce.decision is not Decision.PASS:return self._full(ce.decision,('CLAIM_EVIDENCE_BLOCK',)+ce.reasons,None,receipts)
-        if question_reformulation_request is not None or proposition_coherence_request is not None:
-            if not isinstance(claim_evidence_request,ClaimEvidenceRequest):
-                return self._full(Decision.RETRY,('CLAIM_EVIDENCE_REQUEST_MISSING_AFTER_PROPOSITION_GATE',),None,receipts)
-            if claim_evidence_request.question_reformulation_receipt_sha256!=receipts['question_reformulation']:
-                return self._full(Decision.VETO,('CLAIM_QUESTION_RECEIPT_MISMATCH',),None,receipts)
-            if claim_evidence_request.proposition_coherence_receipt_sha256!=receipts['proposition_coherence']:
-                return self._full(Decision.VETO,('CLAIM_PROPOSITION_RECEIPT_MISMATCH',),None,receipts)
-            proposition_ids={item.claim_id for item in proposition_coherence_request.claims}
-            factual_ids={item.claim_id for item in claim_evidence_request.units if item.kind.value=='FACTUAL'}
-            if proposition_ids!=factual_ids:
-                return self._full(Decision.VETO,('PROPOSITION_CLAIM_IDENTITY_MISMATCH',),None,receipts)
-            public_person_claims=tuple(item for item in proposition_coherence_request.claims if item.public_person_fact)
-            if public_person_claims and not qr.internet_verification_required:
-                return self._full(Decision.VETO,('PUBLIC_PERSON_RETRIEVAL_NOT_TRIGGERED_BY_QUESTION_GATE',),None,receipts)
-        snc=self.semantic_non_conflation.evaluate(semantic_request); receipts['semantic_non_conflation']=snc.receipt_sha256
-        if snc.decision is not Decision.PASS:return self._full(snc.decision,('SEMANTIC_NON_CONFLATION_BLOCK',)+snc.reasons,None,receipts)
-        if isinstance(claim_evidence_request,ClaimEvidenceRequest):
-            if claim_evidence_request.semantic_receipt_sha256!=snc.receipt_sha256:
-                return self._full(Decision.VETO,('CLAIM_EVIDENCE_SEMANTIC_RECEIPT_MISMATCH',),None,receipts)
-            if claim_evidence_request.output_text!=text or ce.output_sha256!=hashlib.sha256(text.encode('utf-8')).hexdigest():
-                return self._full(Decision.VETO,('CLAIM_EVIDENCE_OUTPUT_IDENTITY_MISMATCH',),None,receipts)
-        if decomposition_required:
-            if self.decomposition is None or not domain_id:
-                return self._full(Decision.RETRY,('DECOMPOSITION_CALIBRATION_REQUIRED_UNAVAILABLE',),None,receipts)
-            dc=self.decomposition.evaluate(domain_id,observed_parts=observed_parts); receipts['decomposition_calibration']=dc.receipt_sha256
-            if dc.decision is not Decision.PASS:return self._full(dc.decision,('DECOMPOSITION_CALIBRATION_BLOCK',)+dc.reasons,None,receipts)
-        fs=self.frames.search(text,evidence_terms=evidence_terms); receipts['frames']=fs.receipt_sha256
-        if fs.decision is not Decision.PASS:return self._full(fs.decision,('FRAME_GATE_BLOCK',)+fs.reasons,None,receipts)
-        pe=self.proxies.evaluate(proxy_measurements); receipts['proxies']=pe.receipt_sha256
-        if pe.decision is not Decision.PASS:return self._full(pe.decision,('PROXY_GATE_BLOCK',)+pe.reasons,None,receipts)
-        try:score_q=Fraction(pe.score_s)
-        except Exception:return self._full(Decision.RETRY,('SCORE_PROMOTION_BOUND_TRACE_PENDING',),pe.score_s,receipts)
-        if score_q<=PROMOTION_SCORE_THRESHOLD:return self._full(Decision.VETO,('SCORE_PROMOTION_THRESHOLD_NOT_MET:S_MUST_BE_STRICTLY_GREATER_THAN_9',),pe.score_s,receipts)
-        se=self.sources.evaluate(source_claims); receipts['sources']=se.receipt_sha256
-        if se.decision is not Decision.PASS:return self._full(se.decision,('SOURCE_GATE_BLOCK',)+se.reasons,pe.score_s,receipts)
-        pr=self.phenomenal_resources.evaluate(phenomenal_resources_request); receipts['phenomenal_resources']=pr.receipt_sha256
-        if pr.decision is not Decision.PASS:
-            return self._full(pr.decision,('PHENOMENAL_RESOURCE_BLOCK',)+pr.reasons,pe.score_s,receipts)
-        if not isinstance(phenomenal_request,PhenomenalCoherenceRequest) or phenomenal_request.resource_gate_receipt_sha256!=pr.receipt_sha256:
-            return self._full(Decision.VETO,('PHENOMENAL_RESOURCE_RECEIPT_MISMATCH',),pe.score_s,receipts)
-        ph=self.phenomenal.evaluate(phenomenal_request); receipts['phenomenal_coherence']=ph.receipt_sha256
-        if ph.decision is not Decision.PASS:
-            return self._full(ph.decision,('PHENOMENAL_COHERENCE_BLOCK',)+ph.reasons,pe.score_s,receipts)
-        if not isinstance(host_truth_request,HostTruthRequest):
-            return self._full(Decision.RETRY,('HOST_TRUTH_ATTESTATION_MISSING',),pe.score_s,receipts)
-        expected_truth=(
-            semantic_request.mission_sha256 if isinstance(semantic_request,SemanticNonConflationRequest) else None,
-            semantic_request.source_text if isinstance(semantic_request,SemanticNonConflationRequest) else None,
-            text,
-            ce.receipt_sha256,snc.receipt_sha256,pr.receipt_sha256,ph.receipt_sha256,
-            source_authority_receipts_sha256(claim_evidence_request),
-        )
-        actual_truth=(host_truth_request.mission_sha256,host_truth_request.source_text,host_truth_request.output_text,host_truth_request.claim_receipt_sha256,host_truth_request.semantic_receipt_sha256,host_truth_request.phenomenal_resource_receipt_sha256,host_truth_request.phenomenal_receipt_sha256,host_truth_request.source_authority_receipts_sha256)
-        if actual_truth!=expected_truth:
-            return self._full(Decision.VETO,('HOST_TRUTH_REQUEST_IDENTITY_MISMATCH',),pe.score_s,receipts)
-        ht=self.host_truth.evaluate(host_truth_request); receipts['host_truth']=ht.receipt_sha256
-        if ht.decision is not Decision.PASS:
-            return self._full(ht.decision,('HOST_TRUTH_BLOCK',)+ht.reasons,pe.score_s,receipts)
-        if bounded_truth_required or bounded_truth_claim is not None:
-            if not bounded_truth_claim:
-                return self._full(Decision.RETRY,('BOUNDED_TRUTH_CLAIM_MISSING',),pe.score_s,receipts)
-            bt=self.verify_bounded_truth(bounded_truth_claim,bounded_truth_evidence,time_sensitive=bounded_truth_time_sensitive); receipts['bounded_truth']=bt.receipt_sha256
-            if bt.status not in {BoundedTruthStatus.STRONGLY_SUPPORTED,BoundedTruthStatus.SUPPORTED}:
-                return self._full(Decision.RETRY,('BOUNDED_TRUTH_REFORMULATION_REQUIRED',bt.status.value,bt.code)+bt.limitations,pe.score_s,receipts)
-        le=self.laws.evaluate(hard_laws); receipts['laws']=le.receipt_sha256
-        if le.decision is not Decision.PASS:return self._full(le.decision,('LAW_GATE_BLOCK',)+le.reasons,pe.score_s,receipts)
-        if dynamics_required:
-            de=self.dynamics.evaluate(dynamics_history); receipts['dynamics']=de.receipt_sha256
-            if de.decision is not Decision.PASS:return self._full(de.decision,('DYNAMICS_GATE_BLOCK',)+de.reasons,pe.score_s,receipts)
-        ag=MulticriteriaActionGate(tolerance_skill,progress_guard).evaluate(tolerance_observations,scope=scope,progress_attempt=progress_attempt,progress_history=progress_history); receipts['action']=ag.receipt_sha256
-        if ag.decision is not Decision.PASS:return self._full(ag.decision,('ACTION_GATE_BLOCK',)+ag.reasons,pe.score_s,receipts)
-        if previous_s is not None or current_s is not None:
-            ie=self.interchat.evaluate(previous_s,current_s,previous_frames=previous_frames,current_frames=current_frames,previous_proxies=previous_proxies,current_proxies=current_proxies,ping=amygdala_ping); receipts['interchat']=ie.receipt_sha256
-            if ie.decision is not Decision.PASS:return self._full(ie.decision,('INTERCHAT_GATE_BLOCK',)+ie.reasons,pe.score_s,receipts)
-        rh=self.robot_handoff.evaluate(robot_handoff_request,trust_registry=robot_trust_registry); receipts['robot_handoff']=rh.receipt_sha256
-        if rh.decision is not Decision.PASS:return self._full(rh.decision,('ROBOT_HANDOFF_BLOCK',)+rh.reasons,pe.score_s,receipts)
-        if terminal_required:
-            controls=tuple(terminal_controls)
-            internal_controls={
-                'semantic_non_conflation_gate':snc.receipt_sha256,
-                'semantic_speech_gate':speech.receipt_sha256,
-                'claim_evidence_gate':ce.receipt_sha256,
-                'phenomenal_resource_gate':pr.receipt_sha256,
-                'phenomenal_coherence_gate':ph.receipt_sha256,
-                'host_truth_gate':ht.receipt_sha256,
-                'robot_handoff_gate':rh.receipt_sha256,
-            }
-            if question_reformulation_request is not None or proposition_coherence_request is not None:
-                internal_controls['question_reformulation_gate']=receipts['question_reformulation']
-                internal_controls['proposition_coherence_gate']=receipts['proposition_coherence']
-            if isinstance(raw_evaluation,RawTextCoherenceEvaluation):
-                internal_controls['raw_text_coherence_gate']=raw_evaluation.receipt_sha256
-            for control_id,receipt_sha256 in internal_controls.items():
-                matching=tuple(x for x in controls if x.control_id==control_id)
-                if len(matching)>1:
-                    return self._full(Decision.VETO,(f'INTERNAL_TERMINAL_CONTROL_DUPLICATE:{control_id}',),pe.score_s,receipts)
-                if matching and (matching[0].receipt_sha256!=receipt_sha256 or matching[0].status!=TERMINAL_PASS):
-                    return self._full(Decision.VETO,(f'INTERNAL_TERMINAL_RECEIPT_MISMATCH:{control_id}',),pe.score_s,receipts)
-                if control_id=='raw_text_coherence_gate' and not matching:
-                    controls=controls+(ControlEvidence(control_id,True,True,TERMINAL_PASS,receipt_sha256,'candidate-owned raw text coherence receipt'),)
-            registry=dict(terminal_receipt_registry or {})
-            for control_id,receipt_sha256 in internal_controls.items():
-                if registry.get(control_id) not in {None,receipt_sha256}:
-                    return self._full(Decision.VETO,(f'INTERNAL_TERMINAL_REGISTRY_CONFLICT:{control_id}',),pe.score_s,receipts)
-                registry[control_id]=receipt_sha256
-            tv=self.terminal.evaluate(controls,trusted_receipts=registry); receipts['terminal']=tv.receipt_sha256
-            if tv.status!=TERMINAL_PASS:
-                decision=Decision.VETO if tv.status=='FAIL' else Decision.RETRY
-                return self._full(decision,('TERMINAL_CONTROLLER_BLOCK',)+tv.reasons,pe.score_s,receipts)
-            return self._full(Decision.PASS,('ZORAN_TERMINAL_VALIDATED',),pe.score_s,receipts)
-        return self._full(Decision.RETRY,('ZORAN_ADMISSIBLE_PENDING_TERMINAL',),pe.score_s,receipts)
-
 
     def select_polymorphic_families(self, context:SelectionContext):
         return self.family_engine.select(context)
